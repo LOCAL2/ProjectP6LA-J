@@ -13,6 +13,185 @@ body {
     min-height: 100vh;
 }
 
+/* ==================== Custom Modal System ==================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+
+.modal-overlay.show {
+    opacity: 1;
+}
+
+.modal-box {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    width: 90%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transform: scale(0.9);
+    transition: transform 0.2s ease;
+}
+
+.modal-overlay.show .modal-box {
+    transform: scale(1);
+}
+
+.modal-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+}
+
+.modal-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.modal-message {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.modal-html {
+    margin-bottom: 20px;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Mitr', sans-serif;
+    margin-bottom: 20px;
+    transition: border-color 0.2s;
+}
+
+.modal-input:focus {
+    outline: none;
+    border-color: #7aa449;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.modal-btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Mitr', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    min-width: 100px;
+}
+
+.modal-btn-confirm {
+    background: #7aa449;
+    color: white;
+}
+
+.modal-btn-confirm:hover {
+    background: #5c8035;
+}
+
+.modal-btn-cancel {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.modal-btn-cancel:hover {
+    background: #e5e7eb;
+}
+
+.modal-loading {
+    padding: 32px;
+}
+
+.modal-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #7aa449;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Toast Notification */
+.toast-notification {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: white;
+    padding: 14px 24px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    color: #1f2937;
+    z-index: 10000;
+    transition: transform 0.3s ease;
+    border-left: 4px solid #10B981;
+}
+
+.toast-notification.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Preset buttons in modal */
+.preset-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Mitr', sans-serif;
+    transition: all 0.2s;
+}
+
+.preset-btn:hover {
+    background: #7aa449;
+    color: white;
+    border-color: #7aa449;
+}
+
+/* ==================== End Modal System ==================== */
+
 .landing-page {
     min-height: 100vh;
     display: flex;
@@ -320,11 +499,14 @@ body {
     font-size: 22px;
 }
 
-/* Record Tab - Clean Design */
 .record-card {
     max-width: 100%;
     margin: 0 auto;
-    padding: 30px !important;
+    padding: 40px 30px !important;
+    min-height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .record-header {
@@ -358,9 +540,182 @@ body {
     margin-top: 30px;
 }
 
-.btn-start:hover {
+.btn-start:hover:not(:disabled) {
     background: #7aa449;
     color: white;
+}
+
+.btn-start.btn-completed {
+    background: #f0fdf4;
+    border-color: #22c55e;
+    color: #22c55e;
+    cursor: not-allowed;
+    padding: 16px 50px;
+}
+
+.btn-start.btn-completed::before {
+    content: '✓ ';
+    font-weight: bold;
+}
+
+.dev-badge {
+    display: inline-flex;
+    align-items: center;
+    background: red;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-left: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.dev-badge::after {
+    content: 'DEV';
+}
+
+/* Dev Skip Button Container */
+.dev-skip-container {
+    display: block;
+    margin-top: 12px;
+    text-align: center;
+}
+
+/* Dev Skip Button - Simple Design */
+.btn-dev-skip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Mitr', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.btn-dev-skip:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+.btn-dev-skip:active {
+    transform: scale(0.98);
+}
+
+.dev-skip-icon {
+    font-size: 14px;
+}
+
+/* Calendar Badge for completed days */
+.calendar-day.has-entry {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.calendar-day.has-entry:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(122, 164, 73, 0.3);
+}
+
+.calendar-day .mood-badge {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
+}
+
+.mood-badge.mood-blue { background: #3B82F6; }
+.mood-badge.mood-green { background: #10B981; }
+.mood-badge.mood-yellow { background: #F59E0B; }
+.mood-badge.mood-orange { background: #F97316; }
+.mood-badge.mood-red { background: #EF4444; }
+
+/* Calendar Today Highlight */
+.calendar-day.today {
+    border: 2px solid #7aa449 !important;
+    font-weight: 700;
+    position: relative;
+    background: rgba(122, 164, 73, 0.08) !important;
+}
+
+/* Missed Day - Red Strikethrough */
+.calendar-day.missed-day {
+    position: relative;
+    background: #fef2f2 !important;
+    color: #9ca3af;
+}
+
+.calendar-day.missed-day::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: #ef4444;
+    transform: rotate(-45deg);
+}
+
+.calendar-day.missed-day .day-number {
+    color: #9ca3af;
+}
+
+/* Dev Edit Score Button - Clean Design */
+.dev-edit-score-btn {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #6b7280;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Mitr', sans-serif;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.dev-edit-score-btn:hover {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* Dev Score Preset Buttons in Modal */
+.dev-preset-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Mitr', sans-serif;
+    transition: all 0.2s ease;
+    min-width: 50px;
+}
+
+.dev-preset-btn:hover {
+    background: #7aa449;
+    color: white;
+    border-color: #7aa449;
 }
 
 .mood-selector {
@@ -577,13 +932,13 @@ transform: scale(1) rotate(45deg);
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
+    gap: 8px;
     margin-top: 20px;
 }
 
 .calendar-day {
     aspect-ratio: 1;
-    border-radius: 8px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -592,36 +947,68 @@ transform: scale(1) rotate(45deg);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    background: #f3f4f6;
+    background: #f8fafc;
     position: relative;
+    border: 2px solid transparent;
 }
 
 .calendar-day:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    border-color: #7aa449;
 }
 
 .calendar-day.has-entry {
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.calendar-day.has-entry::after {
+    content: '✓';
+    position: absolute;
+    bottom: 2px;
+    right: 4px;
+    font-size: 10px;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 .calendar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f5f9;
 }
 
 .calendar-header button {
     background: #7aa449;
     color: white;
     border: none;
-    padding: 8px 15px;
-    border-radius: 6px;
+    padding: 10px 20px;
+    border-radius: 25px;
     cursor: pointer;
+    font-family: 'Mitr', sans-serif;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.calendar-header button:hover {
+    background: #5c8035;
+    transform: translateY(-2px);
 }
 
 .calendar-header h3 {
     color: #1f2937;
+    font-size: 20px;
+}
+
+.calendar-hint {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 13px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #e5e7eb;
 }
 
 .stats-grid {
@@ -968,11 +1355,18 @@ transform: scale(1) rotate(45deg);
 .week-labels {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 10px;
     font-weight: 600;
-    color: #4b5563;
+    color: #6b7280;
     text-align: center;
+    font-size: 13px;
+}
+
+.week-labels div {
+    padding: 8px 0;
+    background: #f8fafc;
+    border-radius: 8px;
 }
 
 
@@ -2927,8 +3321,6 @@ transform: scale(1) rotate(45deg);
     }
 }
 
-
-/* Notice Title */
 .notice-title {
     color: #1f2937;
     font-size: 28px;
@@ -2939,8 +3331,6 @@ transform: scale(1) rotate(45deg);
     text-underline-offset: 6px;
 }
 
-
-/* About You Card */
 .about-you-card {
     position: relative;
     text-align: center;
@@ -2991,16 +3381,12 @@ transform: scale(1) rotate(45deg);
     color: #1f2937;
 }
 
-
-/* Radar Chart Container */
 .radar-chart-container {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
 }
 
-
-/* Radar Chart with Legend */
 .radar-chart-wrapper {
     display: flex;
     align-items: center;
@@ -3055,8 +3441,6 @@ transform: scale(1) rotate(45deg);
     }
 }
 
-
-/* Greeting Text */
 .greeting-text {
     color: #4b5563;
     font-size: 16px;
@@ -3068,8 +3452,6 @@ transform: scale(1) rotate(45deg);
     font-weight: 600;
 }
 
-
-/* BMI Section - Professional Display */
 .bmi-section {
     margin: 20px 0;
     padding: 25px;
@@ -3213,4 +3595,439 @@ transform: scale(1) rotate(45deg);
     max-width: 320px;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* ==================== Daily Health Check Modal - World-Class Design ==================== */
+.daily-modal-overlay {
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.daily-modal-container {
+    background: #ffffff;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 480px;
+    padding: 0;
+    position: relative;
+    box-shadow: 
+        0 0 0 1px rgba(0, 0, 0, 0.03),
+        0 2px 4px rgba(0, 0, 0, 0.05),
+        0 12px 24px rgba(0, 0, 0, 0.09),
+        0 32px 64px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    animation: modalEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalEnter {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.daily-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    transition: all 0.2s ease;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.daily-close-btn:hover {
+    background: #ffffff;
+    color: #1e293b;
+    transform: scale(1.05);
+}
+
+.daily-modal-header {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    padding: 32px 32px 40px;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.daily-modal-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.daily-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.daily-icon-wrapper svg {
+    stroke: white;
+    width: 32px;
+    height: 32px;
+}
+
+.daily-modal-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 6px;
+    letter-spacing: -0.02em;
+}
+
+.daily-subtitle {
+    font-size: 14px;
+    opacity: 0.9;
+    margin: 0;
+    font-weight: 400;
+}
+
+.daily-progress-bar {
+    position: relative;
+    height: 3px;
+    background: #f1f5f9;
+    margin: 0;
+    overflow: visible;
+}
+
+.daily-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #059669, #10b981);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0 2px 2px 0;
+}
+
+.daily-progress-text {
+    position: absolute;
+    right: 24px;
+    top: 20px;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 600;
+    background: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.daily-modal-content {
+    padding: 28px;
+    background: #f8fafc;
+}
+
+.daily-question-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.04),
+        0 4px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.question-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.daily-question-text {
+    font-size: 17px;
+    color: #1e293b;
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.daily-choices-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.daily-choice-btn {
+    padding: 16px 20px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    font-size: 15px;
+    font-family: 'Mitr', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    color: #334155;
+    position: relative;
+    overflow: hidden;
+}
+
+.daily-choice-btn::before {
+    display: none;
+}
+
+.daily-choice-btn::after {
+    content: '';
+    position: absolute;
+    right: 16px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cbd5e1;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.daily-choice-btn:hover {
+    border-color: #059669;
+    background: #f0fdf4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+}
+
+.daily-choice-btn:hover::after {
+    border-color: #059669;
+}
+
+.daily-choice-btn.selected {
+    border-color: #059669;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(5, 150, 105, 0.35);
+}
+
+.daily-choice-btn.selected::after {
+    background: white;
+    border-color: white;
+    box-shadow: inset 0 0 0 3px #059669;
+}
+
+.choice-icon {
+    width: 40px;
+    height: 40px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.daily-choice-btn:hover .choice-icon {
+    background: #dcfce7;
+    transform: scale(1.05);
+}
+
+.daily-choice-btn.selected .choice-icon {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.daily-modal-footer {
+    padding: 0 28px 28px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.daily-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+    background: #059669;
+    transform: scale(1.2);
+}
+
+.progress-dot.completed {
+    background: #10b981;
+}
+
+.daily-next-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Mitr', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.daily-next-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
+}
+
+.daily-next-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.daily-next-btn:disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+@media (max-width: 480px) {
+    .daily-modal-container {
+        margin: 12px;
+        max-width: calc(100% - 24px);
+        border-radius: 20px;
+    }
+    
+    .daily-modal-header {
+        padding: 24px 24px 32px;
+    }
+    
+    .daily-modal-header h2 {
+        font-size: 20px;
+    }
+    
+    .daily-modal-content {
+        padding: 20px;
+    }
+    
+    .daily-question-card {
+        padding: 20px;
+    }
+    
+    .daily-question-text {
+        font-size: 16px;
+    }
+    
+    .daily-choice-btn {
+        padding: 14px 16px;
+        font-size: 14px;
+    }
+    
+    .choice-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+    
+    .daily-modal-footer {
+        padding: 0 20px 24px;
+    }
+}
+    transition: all 0.2s;
+}
+
+.progress-dot.active {
+    background: #7aa449;
+    transform: scale(1.3);
+}
+
+.progress-dot.completed {
+    background: #7aa449;
+}
+
+.btn-start.btn-health-green {
+    color: #22c55e;
+    border-color: #22c55e;
+}
+
+.btn-start.btn-health-green:hover:not(:disabled) {
+    background: #22c55e;
+    color: white;
+}
+
+.btn-start.btn-health-yellow {
+    color: #eab308;
+    border-color: #eab308;
+}
+
+.btn-start.btn-health-yellow:hover:not(:disabled) {
+    background: #eab308;
+    color: white;
+}
+
+.btn-start.btn-health-orange {
+    color: #f97316;
+    border-color: #f97316;
+}
+
+.btn-start.btn-health-orange:hover:not(:disabled) {
+    background: #f97316;
+    color: white;
+}
+
+.btn-start.btn-health-red {
+    color: #ef4444;
+    border-color: #ef4444;
+}
+
+.btn-start.btn-health-red:hover:not(:disabled) {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-start.btn-health-gray {
+    color: #9ca3af;
+    border-color: #9ca3af;
+}
+
+.btn-start.btn-health-gray:hover:not(:disabled) {
+    background: #9ca3af;
+    color: white;
 }

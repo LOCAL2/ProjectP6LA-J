@@ -140,3 +140,39 @@ CREATE TRIGGER on_auth_user_created
 -- รันคำสั่งนี้ถ้าต้องการเพิ่ม column ใน table ที่มีอยู่แล้ว
 -- ALTER TABLE public.users ADD COLUMN IF NOT EXISTS weight DECIMAL(5,2);
 -- ALTER TABLE public.users ADD COLUMN IF NOT EXISTS height INTEGER;
+
+
+-- =============================================
+-- 6. DAILY_CHECKS TABLE - เช็คสุขภาพประจำวัน
+-- =============================================
+CREATE TABLE IF NOT EXISTS public.daily_checks (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    date DATE NOT NULL,
+    answers JSONB,
+    score INTEGER,
+    percentage INTEGER,
+    mood TEXT,
+    mood_name TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(user_id, date)
+);
+
+-- Enable RLS
+ALTER TABLE public.daily_checks ENABLE ROW LEVEL SECURITY;
+
+-- DAILY_CHECKS POLICIES
+CREATE POLICY "Users can view own daily checks" 
+    ON public.daily_checks FOR SELECT 
+    TO authenticated
+    USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own daily checks" 
+    ON public.daily_checks FOR INSERT 
+    TO authenticated
+    WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own daily checks" 
+    ON public.daily_checks FOR UPDATE 
+    TO authenticated
+    USING (auth.uid() = user_id);

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบสอบถาม - Mood Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="register-page">
+        <header class="landing-header">
+            <a href="index.html" class="landing-logo">
+                <img src="images/logo.png" alt="Logo" class="logo-img">
+                <div class="logo-text">
+                    <span>Healthy By Yourself</span>
+                </div>
+            </a>
+            <nav class="landing-nav">
+                <a href="about.html" class="nav-link">About us</a>
+            </nav>
+        </header>
+
+        <div class="progress-section-top">
+            <div class="progress-text">
+                <span id="progressPercent">38%</span>
+                <span id="stepText">step 3 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 38%"></div>
+            </div>
+        </div>
+
+        <main class="register-content question-content">
+            <div class="question-single">
+                <h2 class="question-title" id="questionTitle">1. โดยปกติคุณกินอาหารครบ วันละ 3 มื้อ หรือไม่</h2>
+                
+                <div class="question-choices" id="questionChoices">
+                </div>
+            </div>
+
+            <div class="question-btn-wrapper">
+                <button type="button" class="btn-next" id="nextBtn" onclick="goToNext()" disabled>ข้อถัดไป</button>
+            </div>
+        </main>
+
+        <div class="chatbot-btn">
+            <img src="images/iconchat.png" alt="Chat" class="chatbot-icon">
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+</html>

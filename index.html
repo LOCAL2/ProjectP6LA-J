@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บันทึกอารมณ์รายวัน - Mood Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <script src="config.js"></script>
+    <div id="landingPage" class="landing-page" style="display: none;">
+        <header class="landing-header">
+            <div class="landing-logo">
+                <img src="images/logo.png" alt="Logo" class="logo-img">
+                <div class="logo-text">
+                    <span>Healthy By Yourself</span>
+                </div>
+            </div>
+            <nav class="landing-nav">
+                <a href="about.html" class="nav-link">About us</a>
+            </nav>
+        </header>
+
+        <main class="landing-content">
+            <a href="register.html" class="btn-register">
+                ลงทะเบียนและเริ่มแบบสอบถาม
+            </a>
+            <a href="login.html" class="login-link">เข้าสู่ระบบ?</a>
+        </main>
+
+        <div class="chatbot-btn">
+            <img src="images/iconchat.png" alt="Chat" class="chatbot-icon">
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('loginModal')">&times;</span>
+            <h2>เข้าสู่ระบบ</h2>
+            <input type="email" id="loginEmail" placeholder="อีเมล">
+            <input type="password" id="loginPassword" placeholder="รหัสผ่าน">
+            <button class="btn btn-primary" style="width: 100%;" onclick="login()">เข้าสู่ระบบ</button>
+            <p class="modal-switch">ยังไม่มีบัญชี? <a href="#" onclick="switchToRegister()">ลงทะเบียน</a></p>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('registerModal')">&times;</span>
+            <h2>ลงทะเบียน</h2>
+            <input type="text" id="registerName" placeholder="ชื่อผู้ใช้">
+            <input type="email" id="registerEmail" placeholder="อีเมล">
+            <input type="password" id="registerPassword" placeholder="รหัสผ่าน">
+            <input type="password" id="registerConfirmPassword" placeholder="ยืนยันรหัสผ่าน">
+            <button class="btn btn-primary" style="width: 100%;" onclick="register()">ลงทะเบียน</button>
+            <p class="modal-switch">มีบัญชีแล้ว? <a href="#" onclick="switchToLogin()">เข้าสู่ระบบ</a></p>
+        </div>
+    </div>
+
+    <div id="mainApp" style="display: none;">
+        <div class="container">
+            <div class="header">
+                <div>
+                    <div class="header-title">
+                        <img src="images/logo.png" alt="Logo" class="header-logo">
+                        <h1 id="text-header">บันทึกอารมณ์รายวัน</h1>
+                    </div>
+                    <p class="greeting-text">ยินดีต้อนรับ, <span id="currentUser" class="user-name"></span></p>
+                </div>
+                <div class="user-info">
+                    <button class="btn btn-secondary" onclick="logout()">ออกจากระบบ</button>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('record')">📝 บันทึกวันนี้</button>
+                <button class="tab" onclick="switchTab('stats')">📊 สถิติ</button>
+                <button class="tab" onclick="switchTab('history')">🧑 เกี่ยวกับคุณ</button>
+            </div>
+
+            <div id="recordTab" class="tab-content active">
+                <div class="card record-card">
+                    <div class="record-header">
+                        <h2>บันทึกสุขภาพวันนี้</h2>
+                        <p class="record-date">วันที่ <span id="todayDate"></span></p>
+                        <br>
+                        <p>คำแนะนำสำหรับคุณ<br>
+                            ข้อมูลแนะนำนำมาจากการวิเคราะการตอบ</p>
+                        
+                        <button class="btn-start" onclick="showRecordForm()">เริ่ม!</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="statsTab" class="tab-content">
+                <div class="card">
+                    <h2 class="stats-title">สถิติของคุณ</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <p>จำนวนการบันทึก</p>
+                            <h3 id="totalEntries">0</h3>
+                        </div>
+                        <div class="stat-card">
+                            <p>คะแนนสุขภาพของคุณ</p>
+                            <h3 id="healthScore">100</h3>
+                            <span class="info-icon has-tooltip">ⓘ
+                                <div class="tooltip-content">
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-dot green"></span>
+                                        <div class="tooltip-text">
+                                            <strong>ดีมาก / สุขภาพดี</strong>
+                                            <span>80 – 100 คะแนน</span>
+                                            <small>ร่างกายโอเค พฤติกรรมดีต่อเนื่อง ผ่านสบาย</small>
+                                        </div>
+                                    </div>
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-dot yellow"></span>
+                                        <div class="tooltip-text">
+                                            <strong>ปานกลาง / พอใช้</strong>
+                                            <span>60 – 79 คะแนน</span>
+                                            <small>ยังโอเค แต่มีจุดที่ควรปรับนิดหน่อย</small>
+                                        </div>
+                                    </div>
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-dot orange"></span>
+                                        <div class="tooltip-text">
+                                            <strong>ควรปรับปรุง</strong>
+                                            <span>40 – 59 คะแนน</span>
+                                            <small>เริ่มเสี่ยง ควรเปลี่ยนพฤติกรรมบางอย่าง</small>
+                                        </div>
+                                    </div>
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-dot red"></span>
+                                        <div class="tooltip-text">
+                                            <strong>เสี่ยงสูง / สุขภาพไม่ดี</strong>
+                                            <span>0 – 39 คะแนน</span>
+                                            <small>เสี่ยงชัด ควรดูแลจริงจัง</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="stat-card" id="healthLevelCard">
+                            <p>สุขภาพของคุณอยู่ในระดับสี</p>
+                            <h3 id="healthLevelText">ไม่มีข้อมูล</h3>
+                            <span class="info-icon has-tooltip">ⓘ
+                                <div class="tooltip-content">
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-dot green"></span>
+                                        <div class="tooltip-text">
+                                            <strong>สุขภาพดีมาก / ปกติ</strong>
+                                            <small>ความหมาย: แข็งแรง สมดุล ผ่านสบาย</small>
+                                        </div>
+                                    </div>
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-dot yellow"></span>
+                                        <div class="tooltip-text">
+                                            <strong>สุขภาพปานกลาง / ต้องปรับนิดหน่อย</strong>
+                                            <small>ความหมาย: เริ่มมีความเสี่ยง แต่ยังโอเค</small>
+                                        </div>
+                                    </div>
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-dot orange"></span>
+                                        <div class="tooltip-text">
+                                            <strong>สุขภาพเริ่มเสี่ยง</strong>
+                                            <small>ความหมาย: ควรระวัง ปรับพฤติกรรมด่วน</small>
+                                        </div>
+                                    </div>
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-dot red"></span>
+                                        <div class="tooltip-text">
+                                            <strong>สุขภาพไม่ดี / เสี่ยงสูง</strong>
+                                            <small>ความหมาย: อันตราย ควรดูแลจริงจัง</small>
+                                        </div>
+                                    </div>
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-dot white"></span>
+                                        <div class="tooltip-text">
+                                            <strong>ไม่มีข้อมูล / ยังไม่ประเมิน</strong>
+                                            <small>ความหมาย: ยังไม่ตอบ / ไม่ครบ</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>กราฟแสดงสุขภาพ 7 วันล่าสุด <span
+                            style="font-size: 12px; color: #888;">(จากคะแนนและการตอบ)</span></h2>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="legend-dot legend-red"></span> แดง</span>
+                        <span class="legend-item"><span class="legend-dot legend-green"></span> เขียว</span>
+                        <span class="legend-item"><span class="legend-dot legend-yellow"></span> เหลือง</span>
+                    </div>
+                    <canvas id="healthChart"></canvas>
+                </div>
+                <div class="card">
+                    <h2>กราฟแสดงสุขภาพ 30 วันล่าสุด</h2>
+                    <div class="radar-chart-wrapper">
+                        <div class="radar-chart-container">
+                            <canvas id="healthRadarChart"></canvas>
+                        </div>
+                        <div class="health-color-legend">
+                            <div class="color-legend-item">
+                                <span class="color-dot color-green"></span>
+                                <span>สีเขียว 80 – 100 คะแนน สุขภาพดีมาก</span>
+                            </div>
+                            <div class="color-legend-item">
+                                <span class="color-dot color-yellow"></span>
+                                <span>สีเหลือง 60 – 79 คะแนน สุขภาพปานกลาง</span>
+                            </div>
+                            <div class="color-legend-item">
+                                <span class="color-dot color-orange"></span>
+                                <span>สีส้ม 40 – 59 คะแนน สุขภาพเริ่มเสี่ยง</span>
+                            </div>
+                            <div class="color-legend-item">
+                                <span class="color-dot color-red"></span>
+                                <span>สีแดง 0 – 39 คะแนน สุขภาพไม่ดี</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="historyTab" class="tab-content">
+                <div class="card about-you-card">
+                    <div class="about-you-score">คะแนนสุขภาพของคุณ : <span id="aboutHealthScore">100</span></div>
+                    <div class="about-you-content">
+                        <h2 id="aboutName">name</h2>
+                        <p id="aboutEmail">email</p>
+                        <p id="aboutBirthdate">วันเกิด</p>
+                        <div class="about-you-stats">
+                            <span id="aboutWeight">น้ำหนัก</span>
+                            <span>+</span>
+                            <span id="aboutHeight">ส่วนสูง</span>
+                        </div>
+                        <div class="bmi-section">
+                            <p id="aboutBMI">BMI ของคุณ</p>
+                            <p id="bmiCategory" class="bmi-category"></p>
+                            <p id="bmiDescription" class="bmi-description"></p>
+                        </div>
+                        <button class="btn btn-primary" style="margin-top: 20px;"
+                            onclick="showEditProfileModal()">แก้ไขข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Profile Modal -->
+        <div id="editProfileModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeEditProfileModal()">&times;</span>
+                <h2>แก้ไขข้อมูลส่วนตัว</h2>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">น้ำหนัก (กก.)</label>
+                    <input type="number" id="editWeight" placeholder="กรอกน้ำหนัก" min="1" max="300" step="0.1"
+                        style="width: 100%; max-width: 100%; padding: 12px; border: 2px solid #2563eb; border-radius: 25px; font-size: 14px; box-sizing: border-box;">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">ส่วนสูง (ซม.)</label>
+                    <input type="number" id="editHeight" placeholder="กรอกส่วนสูง" min="50" max="250"
+                        style="width: 100%; max-width: 100%; padding: 12px; border: 2px solid #2563eb; border-radius: 25px; font-size: 14px; box-sizing: border-box;">
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="saveProfile()">บันทึก</button>
+            </div>
+        </div>
+
+        <div class="chatbot-btn">
+            <img src="images/iconchat.png" alt="Chat" class="chatbot-icon">
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

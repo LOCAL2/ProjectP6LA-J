@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำแนะนำ - Mood Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="register-page">
+        <header class="landing-header">
+            <a href="index.html" class="landing-logo">
+                <img src="images/logo.png" alt="Logo" class="logo-img">
+                <div class="logo-text">
+                    <span>Healthy By Yourself</span>
+                </div>
+            </a>
+            <nav class="landing-nav">
+                <a href="about.html" class="nav-link">About us</a>
+            </nav>
+        </header>
+
+        <div class="progress-section-top">
+            <div class="progress-text">
+                <span id="progressPercent">25%</span>
+                <span id="stepText">step 2 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 25%"></div>
+            </div>
+        </div>
+
+        <main class="register-content">
+            <div class="notice-card">
+                <h2 class="notice-title">โปรดอ่าน</h2>
+                <p class="notice-text">เมื่อกดเข้าใจแล้วจะไม่สามารถย้อนกลับมาแก้ไขได้<br>กรุณาอ่านคำถามให้ละเอียดและตอบตามความเป็นจริง<br>เพื่อผลการประมวลผลที่แม่นยำ</p>
+                <a href="questions.html" class="btn-understand">เข้าใจแล้ว</a>
+            </div>
+        </main>
+
+        <div class="chatbot-btn">
+            <img src="images/iconchat.png" alt="Chat" class="chatbot-icon">
+        </div>
+    </div>
+
+    <script src="chatbot.js"></script>
+</body>
+</html>

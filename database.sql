@@ -176,3 +176,4 @@ CREATE POLICY "Users can update own daily checks"
     ON public.daily_checks FOR UPDATE 
     TO authenticated
     USING (auth.uid() = user_id);
+ 

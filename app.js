@@ -1223,26 +1223,15 @@ async function generateAIQuestions() {
 ตอบ JSON เท่านั้น:
 [{"id":1,"text":"วันนี้คุณดื่มน้ำครบ 8 แก้วหรือไม่?","choices":["ใช่","ไม่"],"scores":[10,0]}]`;
 
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${GROQ_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: 'llama-3.1-8b-instant',
-                messages: [
-                    { role: 'system', content: 'ตอบเฉพาะ JSON array เท่านั้น ไม่มีข้อความอื่น ภาษาไทย' },
-                    { role: 'user', content: prompt }
-                ],
-                max_tokens: 600,
-                temperature: 0.8
-            })
+        const data = await GroqAPI.call({
+            model: 'llama-3.1-8b-instant',
+            messages: [
+                { role: 'system', content: 'ตอบเฉพาะ JSON array เท่านั้น ไม่มีข้อความอื่น ภาษาไทย' },
+                { role: 'user', content: prompt }
+            ],
+            max_tokens: 600,
+            temperature: 0.8
         });
-        
-        if (!response.ok) throw new Error('API Error');
-        
-        const data = await response.json();
         let content = data.choices[0].message.content;
         console.log('AI Response:', content); // Debug log
         
@@ -1543,26 +1532,16 @@ ${answerDetails}
 2. จุดที่ทำได้ดี - ระบุพฤติกรรมดีพร้อมคำชมสั้นๆ
 3. ควรปรับปรุง - คำแนะนำเฉพาะเจาะจงที่ปฏิบัติได้`;
 
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${GROQ_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: 'llama-3.1-8b-instant',
-                messages: [
-                    { role: 'system', content: 'ผู้เชี่ยวชาญสุขภาพ ตอบภาษาไทย กระชับ ตรงประเด็น ไม่ต้องขึ้นต้นด้วย "สรุป" หรือหัวข้อซ้ำ' },
-                    { role: 'user', content: prompt }
-                ],
-                max_tokens: 300,
-                temperature: 0.4
-            })
+        const data = await GroqAPI.call({
+            model: 'llama-3.1-8b-instant',
+            messages: [
+                { role: 'system', content: 'ผู้เชี่ยวชาญสุขภาพ ตอบภาษาไทย กระชับ ตรงประเด็น ไม่ต้องขึ้นต้นด้วย "สรุป" หรือหัวข้อซ้ำ' },
+                { role: 'user', content: prompt }
+            ],
+            max_tokens: 300,
+            temperature: 0.4
         });
         
-        if (!response.ok) throw new Error('API Error');
-        
-        const data = await response.json();
         let content = data.choices[0].message.content;
         // Convert markdown to HTML
         content = content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');

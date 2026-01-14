@@ -460,11 +460,18 @@ function resetForm() {
     selectedMood = null;
     selectedMoodName = '';
     document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById('smokingCheck').checked = false;
-    document.getElementById('drinkingCheck').checked = false;
-    document.getElementById('noteText').value = '';
-    document.getElementById('imageUpload').value = '';
-    document.getElementById('imagePreview').innerHTML = '';
+    
+    const smokingCheck = document.getElementById('smokingCheck');
+    const drinkingCheck = document.getElementById('drinkingCheck');
+    const noteText = document.getElementById('noteText');
+    const imageUpload = document.getElementById('imageUpload');
+    const imagePreview = document.getElementById('imagePreview');
+    
+    if (smokingCheck) smokingCheck.checked = false;
+    if (drinkingCheck) drinkingCheck.checked = false;
+    if (noteText) noteText.value = '';
+    if (imageUpload) imageUpload.value = '';
+    if (imagePreview) imagePreview.innerHTML = '';
     imageData = null;
 }
 

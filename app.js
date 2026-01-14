@@ -5,6 +5,7 @@ let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 let imageData = null;
 let isDevMode = false;
+let isGuestMode = false;
 
 // Dev accounts
 const DEV_EMAILS = ['time27535@gmail.com'];

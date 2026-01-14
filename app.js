@@ -9,6 +9,8 @@ let isDevMode = false;
 // Dev accounts
 const DEV_EMAILS = ['time27535@gmail.com'];
 
+const GUEST_STORAGE_KEY = 'guest_user_data';
+
 // Daily Health Check Variables
 let dailyQuestions = [];
 let currentDailyQuestion = 0;
@@ -129,6 +131,83 @@ const Modal = {
     }
 };
 
+// ==================== Typing Effect Function ====================
+async function typeText(containerId, html, speed = 20) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    // Parse HTML and extract text with tags
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    
+    container.innerHTML = '<span class="typing-cursor">|</span>';
+    
+    // Function to type content recursively
+    async function typeNode(node, targetContainer) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            const text = node.textContent;
+            for (let i = 0; i < text.length; i++) {
+                // Remove cursor, add char, add cursor back
+                const cursor = targetContainer.querySelector('.typing-cursor');
+                if (cursor) cursor.remove();
+                
+                targetContainer.insertAdjacentText('beforeend', text[i]);
+                targetContainer.insertAdjacentHTML('beforeend', '<span class="typing-cursor">|</span>');
+                
+                // Variable speed - faster for spaces, slower for punctuation
+                let delay = speed;
+                if (text[i] === ' ') delay = speed / 2;
+                else if ('.!?'.includes(text[i])) delay = speed * 3;
+                else if (',;:'.includes(text[i])) delay = speed * 2;
+                
+                await new Promise(r => setTimeout(r, delay));
+            }
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+            // Handle <br> tags
+            if (node.tagName === 'BR') {
+                const cursor = targetContainer.querySelector('.typing-cursor');
+                if (cursor) cursor.remove();
+                targetContainer.insertAdjacentHTML('beforeend', '<br><span class="typing-cursor">|</span>');
+                await new Promise(r => setTimeout(r, speed));
+                return;
+            }
+            
+            // Create element and append to container
+            const cursor = targetContainer.querySelector('.typing-cursor');
+            if (cursor) cursor.remove();
+            
+            const newElement = document.createElement(node.tagName);
+            // Copy attributes
+            for (const attr of node.attributes) {
+                newElement.setAttribute(attr.name, attr.value);
+            }
+            newElement.innerHTML = '<span class="typing-cursor">|</span>';
+            targetContainer.appendChild(newElement);
+            
+            // Type children into new element
+            for (const child of node.childNodes) {
+                await typeNode(child, newElement);
+            }
+            
+            // Move cursor back to parent
+            const innerCursor = newElement.querySelector('.typing-cursor');
+            if (innerCursor) innerCursor.remove();
+            targetContainer.insertAdjacentHTML('beforeend', '<span class="typing-cursor">|</span>');
+        }
+    }
+    
+    // Type all nodes
+    for (const child of tempDiv.childNodes) {
+        await typeNode(child, container);
+    }
+    
+    // Remove final cursor after a delay
+    setTimeout(() => {
+        const cursor = container.querySelector('.typing-cursor');
+        if (cursor) cursor.remove();
+    }, 500);
+}
+
 const allHealthQuestions = [
     // 🥗 โภชนาการ
     { id: 1, text: "วันนี้คุณกินผักหรือผลไม้หรือไม่?", choices: ["ใช่", "ไม่"], scores: [10, 0] },
@@ -184,6 +263,30 @@ function showRegister() {
     window.location.href = 'register.html';
 }
 
+function loginAsGuest() {
+    const guestId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    const guestData = {
+        id: guestId,
+        nickname: 'ผู้ใช้ชั่วคราว',
+        health_score: 100,
+        created_at: new Date().toISOString,
+        mood_entries: [],
+        daily_checks: []
+    };
+
+    localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
+
+    currentUser = {
+        id: guestId,
+        email: null,
+        isGuest: true
+    };
+    isGuestMode = true;
+
+    Modal.toast("เข้าสู้ระบบแบบชั่วคราวสำเร็จ", "success");
+    showMainApp();
+}
+
 async function logout() {
     await supabase.auth.signOut();
     currentUser = null;
@@ -237,14 +340,24 @@ async function loadHealthScoreInstant() {
 }
 
 async function loadProfile() {
-    // Load user data for header greeting
-    const { data: userData } = await supabase
-        .from('users')
-        .select('nickname, username')
-        .eq('id', currentUser.id)
-        .single();
+    let displayName = 'ผู้ใช้';
     
-    const displayName = userData?.nickname || userData?.username || currentUser.email?.split('@')[0] || 'ผู้ใช้';
+    if (isGuestMode) {
+        const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+        displayName = guestData.nickname || 'ผู้ใช้ชั่วคราว';
+        if (!guestData.nickname) {
+            guestData.nickname = 'ผู้ใช้ชั่วคราว';
+            localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
+        }
+    } else {
+        const { data: userData } = await supabase
+            .from('users')
+            .select('nickname, username')
+            .eq('id', currentUser.id)
+            .single();
+        displayName = userData?.nickname || userData?.username || currentUser.email?.split('@')[0] || 'ผู้ใช้';
+    }
+    
     document.getElementById('currentUser').textContent = displayName;
 }
 
@@ -292,11 +405,23 @@ async function saveEntry() {
         image: imageData
     };
 
-    const { error } = await supabase.from('mood_entries').upsert(entry, { onConflict: 'user_id,date' });
-    
-    if (error) {
-        Modal.show({ type: 'error', title: 'เกิดข้อผิดพลาด', message: error.message });
-        return;
+    if (isGuestMode) {
+        const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+        if (!guestData.mood_entries) guestData.mood_entries = [];
+        const existingIndex = guestData.mood_entries.findIndex(e => e.date === dateKey);
+        if (existingIndex >= 0) {
+            guestData.mood_entries[existingIndex] = entry;
+        } else {
+            guestData.mood_entries.push(entry);
+        }
+        localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
+    } else {
+        const { error } = await supabase.from('mood_entries').upsert(entry, { onConflict: 'user_id,date' });
+        
+        if (error) {
+            Modal.show({ type: 'error', title: 'เกิดข้อผิดพลาด', message: error.message });
+            return;
+        }
     }
 
     Modal.toast('บันทึกอารมณ์เรียบร้อยแล้ว', 'success');
@@ -484,13 +609,11 @@ function showFutureDayMessage(dateKey) {
     });
 }
 
-// Show day details with AI recommendation
 async function showDayDetails(dateKey, entry) {
     const dateParts = dateKey.split('-');
     const displayDate = `${parseInt(dateParts[2])} ${monthNames[parseInt(dateParts[1]) - 1]} ${parseInt(dateParts[0]) + 543}`;
     const moodColorMap = { blue: '#3B82F6', green: '#10B981', yellow: '#F59E0B', orange: '#F97316', red: '#EF4444' };
     
-    // Show modal immediately with loading state
     Modal.show({
         type: '',
         title: `${displayDate}`,
@@ -508,7 +631,6 @@ async function showDayDetails(dateKey, entry) {
         width: '400px'
     });
     
-    // Load AI summary in background
     const { data: checkData } = await supabase
         .from('daily_checks')
         .select('*')
@@ -540,9 +662,12 @@ async function showDayDetails(dateKey, entry) {
             
             summaryContainer.innerHTML = `
                 <div style="background: #f9fafb; padding: 12px; border-radius: 8px; text-align: left;">
-                    <div style="font-size: 13px; line-height: 1.6;">${aiSummary}</div>
+                    <div id="daySummaryTyping" style="font-size: 13px; line-height: 1.6;"><span class="typing-cursor">|</span></div>
                 </div>
             `;
+            
+            // Type out the summary
+            await typeText('daySummaryTyping', aiSummary, 12);
         } else {
             summaryContainer.innerHTML = '<p style="color: #9ca3af; font-size: 13px;">ไม่มีคำแนะนำ</p>';
         }
@@ -764,12 +889,32 @@ function updateHealthLevelCard(score) {
 }
 
 async function loadHistory() {
-    // Load user data for "About You" page from users table
-    const { data: userData } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', currentUser.id)
-        .single();
+    let userData = null;
+
+    if(isGuestMode) {
+        const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+        if (!guestData.nickname) {
+            guestData.nickname = 'ผู้ใช้ชั่วคราว';
+            localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
+        }
+
+        userData = {
+            nickname: guestData.nickname,
+            username: guestData.nickname,
+            email: 'ผู้ใช้ชั่วคราว (ไม่มีอีเมล)',
+            birthdate: guestData.birthdate || null,
+            weight: guestData.weight || null,
+            height: guestData.height || null,
+            health_score: guestData.health_score ?? 100
+        };
+    } else{
+        const { data } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', currentUser.id)
+            .single();
+        userData = data;
+    };
 
     if (userData) {
         document.getElementById('aboutName').textContent = userData.nickname || userData.username || 'ไม่ระบุชื่อ';
@@ -921,23 +1066,35 @@ async function saveProfile() {
     
     Modal.loading('กำลังบันทึก...');
     
-    const { error } = await supabase
-        .from('users')
-        .update({ 
-            weight: parseFloat(weight), 
-            height: parseInt(height) 
-        })
-        .eq('id', currentUser.id);
-    
-    if (error) {
-        Modal.show({ type: 'error', title: 'เกิดข้อผิดพลาด', message: error.message });
-        return;
+    if (isGuestMode) {
+        const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+        guestData.weight = parseFloat(weight);
+        guestData.height = parseInt(height);
+        localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
+        
+        closeEditProfileModal();
+        Modal.close();
+        Modal.toast('อัพเดทข้อมูลเรียบร้อยแล้ว', 'success');
+        loadHistory();
+    } else {
+        const { error } = await supabase
+            .from('users')
+            .update({ 
+                weight: parseFloat(weight), 
+                height: parseInt(height) 
+            })
+            .eq('id', currentUser.id);
+        
+        if (error) {
+            Modal.show({ type: 'error', title: 'เกิดข้อผิดพลาด', message: error.message });
+            return;
+        }
+        
+        closeEditProfileModal();
+        Modal.close();
+        Modal.toast('อัพเดทข้อมูลเรียบร้อยแล้ว', 'success');
+        loadHistory();
     }
-    
-    closeEditProfileModal();
-    Modal.close();
-    Modal.toast('อัพเดทข้อมูลเรียบร้อยแล้ว', 'success');
-    loadHistory();
 }
 
 // ==================== Daily Health Check Functions ====================
@@ -1482,10 +1639,7 @@ async function completeDailyCheck() {
     
     closeDailyCheckModal();
     
-    Modal.loading('กำลังวิเคราะห์ผลลัพธ์...');
-    
-    const aiSummary = await getAIHealthSummary(dailyAnswers, percentage, moodName);
-    
+    // Show modal with typing placeholder first
     const resultType = percentage >= 60 ? 'success' : percentage >= 40 ? 'warning' : 'error';
     Modal.show({
         type: resultType,
@@ -1497,11 +1651,15 @@ async function completeDailyCheck() {
             </div>
             <div style="background: #f9fafb; padding: 12px; border-radius: 8px; text-align: left; font-size: 13px; line-height: 1.5;">
                 <p style="font-weight: 600; margin-bottom: 8px; color: #7aa449;">💡 สรุป</p>
-                <div>${aiSummary}</div>
+                <div id="aiTypingContainer"><span class="typing-cursor">|</span></div>
             </div>
         `,
         width: '420px'
     });
+    
+    // Get AI summary and type it out
+    const aiSummary = await getAIHealthSummary(dailyAnswers, percentage, moodName);
+    await typeText('aiTypingContainer', aiSummary, 15);
     
     todayCompleted = true;
     updateStartButton(true);

@@ -34,6 +34,9 @@
                 ลงทะเบียนและเริ่มแบบสอบถาม
             </a>
             <a href="login.html" class="login-link">เข้าสู่ระบบ?</a>
+            <button class="btn-guest" onclick="loginAsGuest()">
+                ใช้งานแบบไม่ลงทะเบียน
+            </button>
         </main>
 
         <div class="chatbot-btn">
@@ -76,6 +79,7 @@
                     <p class="greeting-text">ยินดีต้อนรับ, <span id="currentUser" class="user-name"></span></p>
                 </div>
                 <div class="user-info">
+                    <span id="guestBadge" class="guest-badge" style="display: none;">ผู้ใช้ชั่วคราว</span>
                     <button class="btn btn-secondary" onclick="logout()">ออกจากระบบ</button>
                 </div>
             </div>

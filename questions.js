@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Load saved answers if any
     const savedAnswers = localStorage.getItem('questionAnswers');
     if (savedAnswers) {
         answers = JSON.parse(savedAnswers);
@@ -100,11 +99,8 @@ function renderQuestion() {
     document.getElementById('stepText').textContent = `step ${currentStep} of ${totalSteps}`;
     document.getElementById('progressFill').style.width = percent + '%';
     document.getElementById('questionTitle').textContent = question.text;
-
-    // Reset selected value
     selectedValue = null;
 
-    // Render choices
     const choicesContainer = document.getElementById('questionChoices');
     choicesContainer.innerHTML = '';
 
@@ -119,21 +115,15 @@ function renderQuestion() {
         choicesContainer.appendChild(choiceBtn);
     });
 
-    // Update next button text
     const isLastQuestion = currentQuestion === questions.length - 1;
     document.getElementById('nextBtn').textContent = isLastQuestion ? 'เสร็จสิ้น' : 'ข้อถัดไป';
     document.getElementById('nextBtn').disabled = true;
 }
 
 function selectAnswer(value, btn) {
-    // Remove selected from all buttons
     document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
-    
-    // Add selected to clicked button
     btn.classList.add('selected');
     selectedValue = value;
-
-    // Enable next button
     document.getElementById('nextBtn').disabled = false;
 }
 
@@ -146,7 +136,6 @@ function goToNext() {
     const question = questions[currentQuestion];
     answers[`q${question.id}`] = selectedValue;
 
-    // Save progress
     localStorage.setItem('questionAnswers', JSON.stringify(answers));
     localStorage.setItem('currentQuestion', currentQuestion + 1);
 
@@ -182,7 +171,6 @@ function finishQuestions() {
         healthStatus
     }));
 
-    // Clear temp data
     localStorage.removeItem('questionAnswers');
     localStorage.removeItem('currentQuestion');
 

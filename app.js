@@ -283,6 +283,15 @@ function loginAsGuest() {
         isGuest: true
     };
     isGuestMode = true;
+    isDevMode = false;
+    
+    // Remove dev badge if exists (from previous dev login)
+    const devBadge = document.querySelector('.dev-badge');
+    if (devBadge) devBadge.remove();
+    const devSkipContainer = document.querySelector('.dev-skip-container');
+    if (devSkipContainer) devSkipContainer.remove();
+    const devEditBtn = document.querySelector('.dev-edit-score-btn');
+    if (devEditBtn) devEditBtn.remove();
 
     Modal.toast("เข้าสู้ระบบแบบชั่วคราวสำเร็จ", "success");
     showMainApp();
@@ -291,6 +300,21 @@ function loginAsGuest() {
 async function logout() {
     await supabase.auth.signOut();
     currentUser = null;
+    isDevMode = false;
+    isGuestMode = false;
+    
+    // Remove dev badge if exists
+    const devBadge = document.querySelector('.dev-badge');
+    if (devBadge) devBadge.remove();
+    
+    // Remove dev skip button if exists
+    const devSkipContainer = document.querySelector('.dev-skip-container');
+    if (devSkipContainer) devSkipContainer.remove();
+    
+    // Remove dev edit score button if exists
+    const devEditBtn = document.querySelector('.dev-edit-score-btn');
+    if (devEditBtn) devEditBtn.remove();
+    
     document.getElementById('mainApp').style.display = 'none';
     document.getElementById('landingPage').style.display = 'flex';
     resetForm();

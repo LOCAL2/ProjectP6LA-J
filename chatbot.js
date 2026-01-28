@@ -1,5 +1,4 @@
-const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-
+// Chatbot configuration
 const WEBSITE_INFO = `
 คุณเป็นผู้ช่วยด้านสุขภาพชื่อ "Healthy Assistant" ของเว็บไซต์ "Healthy By Yourself"
 
@@ -144,38 +143,27 @@ function getCurrentDateInfo() {
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
     
-    return `วันนี้คือวัน${dayName}ที่ ${date} ${month} พ.ศ. ${year} เวลา ${hours}:${minutes} น.`;
+    return `สัปดาห์นี้คือวัน${dayName}ที่ ${date} ${month} พ.ศ. ${year} เวลา ${hours}:${minutes} น.`;
 }
 
 async function callGroqAPI(userMessage) {
     chatHistory.push({ role: 'user', content: userMessage });
     
-    const systemPrompt = WEBSITE_INFO + `\n\nข้อมูลวันที่และเวลาปัจจุบัน: ${getCurrentDateInfo()}\nถ้าผู้ใช้ถามเรื่องวันที่ เวลา หรือวันนี้วันอะไร ให้ตอบจากข้อมูลนี้`;
+    const systemPrompt = WEBSITE_INFO + `\n\nข้อมูลวันที่และเวลาปัจจุบัน: ${getCurrentDateInfo()}\nถ้าผู้ใช้ถามเรื่องวันที่ เวลา หรือสัปดาห์นี้วันอะไร ให้ตอบจากข้อมูลนี้`;
     
     const messages = [
         { role: 'system', content: systemPrompt },
         ...chatHistory.slice(-10)
     ];
     
-    const response = await fetch(GROQ_API_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${GROQ_API_KEY}`
-        },
-        body: JSON.stringify({
-            model: 'llama-3.3-70b-versatile',
-            messages: messages,
-            max_tokens: 500,
-            temperature: 0.5
-        })
+    // ใช้ GroqAPI system ใหม่ที่รองรับ fallback และ demo mode
+    const data = await GroqAPI.call({
+        model: 'llama-3.3-70b-versatile',
+        messages: messages,
+        max_tokens: 500,
+        temperature: 0.5
     });
     
-    if (!response.ok) {
-        throw new Error('API Error');
-    }
-    
-    const data = await response.json();
     const botMessage = data.choices[0].message.content;
     
     chatHistory.push({ role: 'assistant', content: botMessage });

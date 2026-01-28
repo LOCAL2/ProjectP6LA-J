@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>บันทึกอารมณ์รายวัน - Mood Tracker</title>
+    <title>บันทึกอารมณ์รายสัปดาห์ - Mood Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -16,12 +16,10 @@
 
 <body>
     <script>
-        // ตรวจสอบว่า config.js โหลดสำเร็จหรือไม่
         window.configLoaded = false;
         window.addEventListener('error', function(e) {
             if (e.filename && e.filename.includes('config.js')) {
                 console.error('Config.js failed to load. Using fallback configuration.');
-                // สร้าง fallback config
                 window.SUPABASE_URL = 'https://ekbmxftmujfzkobyiyvk.supabase.co';
                 window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrYm14ZnRtdWpmemtvYnlpeXZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDY4MjQsImV4cCI6MjA4MTgyMjgyNH0.NZaOQQCo270sDkatM8sY_BZQOnUrIan6gAsnRVQog6I';
                 window.GROQ_API_KEYS = ['demo_mode'];
@@ -104,7 +102,7 @@
                 <div>
                     <div class="header-title">
                         <img src="images/logo.png" alt="Logo" class="header-logo">
-                        <h1 id="text-header">บันทึกอารมณ์รายวัน</h1>
+                        <h1 id="text-header">บันทึกอารมณ์รายสัปดาห์</h1>
                     </div>
                     <p class="greeting-text">ยินดีต้อนรับ, <span id="currentUser" class="user-name"></span></p>
                 </div>
@@ -115,57 +113,59 @@
             </div>
 
             <div class="tabs">
-                <button class="tab active" onclick="switchTab('record')">📝 บันทึกวันนี้</button>
-                <button class="tab" onclick="switchTab('calendar')">📅 ปฏิทิน</button>
-                <button class="tab" onclick="switchTab('stats')">📊 สถิติ</button>
-                <button class="tab" onclick="switchTab('history')">🧑 เกี่ยวกับคุณ</button>
+                <button class="tab active">📝 บันทึก</button>
+                <button class="tab">📅 ปฏิทิน</button>
+                <button class="tab">📊 สถิติ</button>
+                <button class="tab">🧑 โปรไฟล์</button>
             </div>
 
-            <div id="recordTab" class="tab-content active">
-                <div class="card record-card">
-                    <div class="record-header">
-                        <h2>บันทึกสุขภาพวันนี้</h2>
-                        <p class="record-date">วันที่ <span id="todayDate"></span></p>
-                        <br>
-                        <p>คำแนะนำสำหรับคุณ<br>
-                            ข้อมูลแนะนำนำมาจากการวิเคราะการตอบ</p>
-                        
-                        <button class="btn-start" onclick="startDailyCheck()" disabled>กำลังโหลด...</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="calendarTab" class="tab-content">
-                <div class="card">
-                    <div class="calendar-header">
-                        <button onclick="previousMonth()">← ก่อนหน้า</button>
-                        <h3 id="calendarMonth"></h3>
-                        <button onclick="nextMonth()">ถัดไป →</button>
-                    </div>
-                    <div class="week-labels">
-                        <div>อา</div>
-                        <div>จ</div>
-                        <div>อ</div>
-                        <div>พ</div>
-                        <div>พฤ</div>
-                        <div>ศ</div>
-                        <div>ส</div>
-                    </div>
-                    <div class="calendar-grid" id="calendarGrid"></div>
-                    <p class="calendar-hint">💡 แตะวันที่มีสีเพื่อดูรายละเอียด</p>
-                </div>
-            </div>
-
-            <div id="statsTab" class="tab-content">
-                <div class="card">
-                    <h2 class="stats-title">สถิติของคุณ</h2>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <p>จำนวนการบันทึก</p>
-                            <h3 id="totalEntries">0</h3>
+            <div class="tab-wrapper">
+                <div class="tab-container" id="tabContainer">
+                    <div id="recordTab" class="tab-content active">
+                        <div class="card record-card">
+                            <div class="record-header">
+                                <h2>บันทึกสุขภาพสัปดาห์นี้</h2>
+                                <p class="record-date">วันที่ <span id="todayDate"></span></p>
+                                <br>
+                                <p>คำแนะนำสำหรับคุณ<br>
+                                    ข้อมูลแนะนำจะมาจากการวิเคราะห์การตอบ</p>
+                                
+                                <button class="btn-start" onclick="startWeeklyCheck()" disabled>กำลังโหลด...</button>
+                            </div>
                         </div>
-                        <div class="stat-card">
-                            <p>คะแนนสุขภาพของคุณ</p>
+                    </div>
+
+                    <div id="calendarTab" class="tab-content">
+                        <div class="card">
+                            <div class="calendar-header">
+                                <button onclick="previousMonth()">← ก่อนหน้า</button>
+                                <h3 id="calendarMonth"></h3>
+                                <button onclick="nextMonth()">ถัดไป →</button>
+                            </div>
+                            <div class="week-labels">
+                                <div>อา</div>
+                                <div>จ</div>
+                                <div>อ</div>
+                                <div>พ</div>
+                                <div>พฤ</div>
+                                <div>ศ</div>
+                                <div>ส</div>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid"></div>
+                            <p class="calendar-hint">💡 แตะสัปดาห์ที่มีข้อมูลเพื่อดูรายละเอียด</p>
+                        </div>
+                    </div>
+
+                    <div id="statsTab" class="tab-content">
+                        <div class="card">
+                            <h2 class="stats-title">สถิติของคุณ</h2>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <p>จำนวนการบันทึก</p>
+                                    <h3 id="totalEntries">0</h3>
+                                </div>
+                                <div class="stat-card">
+                                    <p>คะแนนสุขภาพของคุณ</p>
                             <h3 id="healthScore">100</h3>
                             <span class="info-icon has-tooltip">ⓘ
                                 <div class="tooltip-content">
@@ -278,15 +278,10 @@
                                 <span class="color-dot color-orange"></span>
                                 <span>สีส้ม 40 – 59 คะแนน สุขภาพเริ่มเสี่ยง</span>
                             </div>
-                            <div class="color-legend-item">
-                                <span class="color-dot color-red"></span>
-                                <span>สีแดง 0 – 39 คะแนน สุขภาพไม่ดี</span>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div id="historyTab" class="tab-content">
                 <div class="card about-you-card">
                     <div class="about-you-score">คะแนนสุขภาพของคุณ : <span id="aboutHealthScore">100</span></div>
@@ -310,16 +305,22 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="editProfileModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeEditProfileModal()">&times;</span>
-                <h2>แก้ไขข้อมูลส่วนตัว</h2>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">น้ำหนัก (กก.)</label>
-                    <input type="number" id="editWeight" placeholder="กรอกน้ำหนัก" min="1" max="300" step="0.1"
-                        style="width: 100%; max-width: 100%; padding: 12px; border: 2px solid #7aa449; border-radius: 25px; font-size: 14px; box-sizing: border-box;">
-                </div>
+    <div id="editProfileModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditProfileModal()">&times;</span>
+            <h2>แก้ไขข้อมูลส่วนตัว</h2>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600;">วันเกิด</label>
+                <input type="date" id="editBirthdate" placeholder="เลือกวันเกิด"
+                    style="width: 100%; max-width: 100%; padding: 12px; border: 2px solid #7aa449; border-radius: 25px; font-size: 14px; box-sizing: border-box;">
+            </div>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600;">น้ำหนัก (กก.)</label>
+                <input type="number" id="editWeight" placeholder="กรอกน้ำหนัก" min="1" max="300" step="0.1"
+                    style="width: 100%; max-width: 100%; padding: 12px; border: 2px solid #7aa449; border-radius: 25px; font-size: 14px; box-sizing: border-box;">
+            </div>
                 <div class="form-group" style="margin-bottom: 15px;">
                     <label style="display: block; margin-bottom: 5px; font-weight: 600;">ส่วนสูง (ซม.)</label>
                     <input type="number" id="editHeight" placeholder="กรอกส่วนสูง" min="50" max="250"
@@ -329,43 +330,43 @@
             </div>
         </div>
 
-        <!-- Daily Health Check Modal - Premium Design -->
-        <div id="dailyCheckModal" class="modal daily-modal-overlay" style="display: none;">
-            <div class="daily-modal-container">
-                <button class="daily-close-btn" onclick="closeDailyCheckModal()">
+        <!-- Weekly Health Check Modal - Premium Design -->
+        <div id="weeklyCheckModal" class="modal weekly-modal-overlay" style="display: none;">
+            <div class="weekly-modal-container">
+                <button class="weekly-close-btn" onclick="closeWeeklyCheckModal()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
                 </button>
                 
-                <div class="daily-modal-header">
-                    <div class="daily-icon-wrapper">
+                <div class="weekly-modal-header">
+                    <div class="weekly-icon-wrapper">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                         </svg>
                     </div>
-                    <h2>เช็คสุขภาพประจำวัน</h2>
-                    <p class="daily-subtitle">ตอบคำถาม 5 ข้อเพื่อประเมินสุขภาพของคุณ</p>
+                    <h2>เช็คสุขภาพประจำสัปดาห์</h2>
+                    <p class="weekly-subtitle">ตอบคำถาม 20 ข้อเพื่อประเมินสุขภาพของคุณ</p>
                 </div>
 
-                <div class="daily-progress-bar">
-                    <div class="daily-progress-fill" id="dailyProgressFill" style="width: 20%"></div>
-                    <span class="daily-progress-text"><span id="currentQuestionNum">1</span> / 5</span>
+                <div class="weekly-progress-bar">
+                    <div class="weekly-progress-fill" id="weeklyProgressFill" style="width: 5%"></div>
+                    <span class="weekly-progress-text"><span id="currentQuestionNum">1</span> / <span id="totalQuestionNum">20</span></span>
                 </div>
 
-                <div class="daily-modal-content">
-                    <div class="daily-question-card">
+                <div class="weekly-modal-content">
+                    <div class="weekly-question-card">
                         <span class="question-badge">คำถามที่ <span id="questionBadgeNum">1</span></span>
-                        <p id="dailyQuestion" class="daily-question-text"></p>
+                        <p id="weeklyQuestion" class="weekly-question-text"></p>
                     </div>
                     
-                    <div id="dailyChoices" class="daily-choices-grid"></div>
+                    <div id="weeklyChoices" class="weekly-choices-grid"></div>
                 </div>
 
-                <div class="daily-modal-footer">
-                    <div class="daily-dots" id="progressDots"></div>
-                    <button class="daily-next-btn" id="dailyNextBtn" onclick="goToNextQuestion()" disabled>ถัดไป</button>
+                <div class="weekly-modal-footer">
+                    <div class="weekly-dots" id="progressDots"></div>
+                    <button class="weekly-next-btn" id="weeklyNextBtn" onclick="goToNextQuestion()" disabled>ถัดไป</button>
                 </div>
             </div>
         </div>

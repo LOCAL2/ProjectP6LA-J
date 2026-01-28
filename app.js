@@ -7,16 +7,51 @@ let imageData = null;
 let isDevMode = false;
 let isGuestMode = false;
 
+// Global function declarations to ensure they're available everywhere
+// These will be assigned the actual function values later
+window.startWeeklyCheck = null;
+window.goToNextQuestion = null;
+window.closeWeeklyCheckModal = null;
+
+// Wait for supabase to be initialized from config.js
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing app...');
+    
+    // Wait for supabase to be ready
+    const waitForSupabase = () => {
+        if (typeof supabase !== 'undefined' && supabase) {
+            console.log('Supabase ready, checking auth...');
+            checkAuth();
+        } else {
+            console.log('Waiting for supabase...');
+            setTimeout(waitForSupabase, 100);
+        }
+    };
+    waitForSupabase();
+});
+
+// Dev date offset for testing (load from localStorage)
+let devDateOffset = parseInt(localStorage.getItem('devDateOffset') || '0');
+
+// Get current date (with dev offset)
+function getCurrentDate() {
+    const date = new Date();
+    if (isDevMode && devDateOffset > 0) {
+        date.setDate(date.getDate() + devDateOffset);
+    }
+    return date;
+}
+
 // Dev accounts
 const DEV_EMAILS = ['time27535@gmail.com'];
 
 const GUEST_STORAGE_KEY = 'guest_user_data';
 
-// Daily Health Check Variables
-let dailyQuestions = [];
-let currentDailyQuestion = 0;
-let dailyAnswers = [];
-let todayCompleted = false;
+// Weekly Health Check Variables
+let weeklyQuestions = [];
+let currentWeeklyQuestion = 0;
+let weeklyAnswers = [];
+let thisWeekCompleted = false;
 
 // ==================== Custom Modal System ====================
 const Modal = {
@@ -210,30 +245,33 @@ async function typeText(containerId, html, speed = 20) {
 }
 
 const allHealthQuestions = [
+    // 🧠 สุขภาพจิตและการนอนหลับ
+    { id: 1, text: "สัปดาห์นี้คุณรู้สึกมีความสุขเป็นส่วนใหญ่หรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 2, text: "สัปดาห์นี้คุณนอนหลับพักผ่อนเพียงพอ (7-8 ชั่วโมงต่อคืน) สม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 3, text: "สัปดาห์นี้ส่วนใหญ่คุณตื่นมาแล้วรู้สึกสดชื่นหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 4, text: "สัปดาห์นี้คุณมีเรื่องเครียดหรือวิตกกังวลมากเกินไปหรือไม่?", choices: ["ไม่", "บางครั้ง", "ใช่"], scores: [10, 5, 0] },
+    { id: 5, text: "สัปดาห์นี้คุณสามารถงดเล่นมือถือหรือดูจอก่อนเข้านอนอย่างน้อย 30 นาทีได้เป็นส่วนใหญ่หรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    
     // 🥗 โภชนาการ
-    { id: 1, text: "วันนี้คุณกินผักหรือผลไม้หรือไม่?", choices: ["ใช่", "ไม่"], scores: [10, 0] },
-    { id: 2, text: "วันนี้คุณกินอาหารครบ 3 มื้อหรือไม่?", choices: ["ครบ", "ไม่ครบ"], scores: [10, 0] },
-    { id: 3, text: "วันนี้คุณกินอาหารเช้าหรือไม่?", choices: ["ใช่", "ไม่"], scores: [10, 0] },
-    { id: 4, text: "วันนี้คุณควบคุมน้ำตาลและไขมันหรือไม่?", choices: ["ใช่", "ไม่"], scores: [10, 0] },
-    // 🚬 พฤติกรรมเสี่ยง
-    { id: 5, text: "วันนี้คุณสูบบุหรี่หรือไม่?", choices: ["ไม่สูบ", "สูบ"], scores: [10, 0] },
-    { id: 6, text: "วันนี้คุณดื่มแอลกอฮอล์หรือไม่?", choices: ["ไม่ดื่ม", "ดื่ม"], scores: [10, 0] },
-    { id: 7, text: "วันนี้คุณดื่มคาเฟอีนมากเกินไปหรือไม่?", choices: ["ไม่", "ใช่"], scores: [10, 0] },
-    // 🏃 การออกกำลังกาย
-    { id: 8, text: "วันนี้คุณออกกำลังกายหรือไม่?", choices: ["ใช่", "ไม่"], scores: [10, 0] },
-    { id: 9, text: "วันนี้คุณยืดเหยียดร่างกายหรือไม่?", choices: ["ใช่", "ไม่"], scores: [10, 0] },
-    { id: 10, text: "วันนี้คุณเดินหรือใช้บันไดแทนลิฟต์หรือไม่?", choices: ["ใช่", "ไม่"], scores: [10, 0] },
-    // 💧 ดูแลร่างกาย
-    { id: 11, text: "วันนี้คุณดื่มน้ำครบ 8 แก้วหรือไม่?", choices: ["ใช่", "ไม่"], scores: [10, 0] },
-    { id: 12, text: "วันนี้คุณนอนหลับเพียงพอหรือไม่? (7-8 ชม.)", choices: ["ใช่", "ไม่"], scores: [10, 0] },
-    { id: 13, text: "วันนี้คุณล้างมือก่อนกินอาหารหรือไม่?", choices: ["ใช่", "ไม่"], scores: [10, 0] },
-    // 🦷 สุขภาพช่องปาก
-    { id: 14, text: "วันนี้คุณแปรงฟันครบ 2 ครั้งหรือไม่?", choices: ["ครบ", "ไม่ครบ"], scores: [10, 0] },
-    { id: 15, text: "วันนี้คุณใช้ไหมขัดฟันหรือไม่?", choices: ["ใช่", "ไม่"], scores: [10, 0] },
-    // 🧠 สุขภาพจิต
-    { id: 16, text: "วันนี้คุณรู้สึกเครียดหรือไม่?", choices: ["ไม่เครียด", "เครียดเล็กน้อย", "เครียดมาก"], scores: [10, 5, 0] },
-    { id: 17, text: "วันนี้คุณมีเวลาผ่อนคลายหรือไม่?", choices: ["ใช่", "ไม่"], scores: [10, 0] },
-    { id: 18, text: "วันนี้คุณรู้สึกมีความสุขหรือไม่?", choices: ["มีความสุข", "เฉยๆ", "ไม่มีความสุข"], scores: [10, 5, 0] }
+    { id: 6, text: "สัปดาห์นี้คุณกินผักหรือผลไม้เป็นประจำทุกวันหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 7, text: "สัปดาห์นี้คุณกินอาหารครบ 3 มื้อในแต่ละวันหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 8, text: "สัปดาห์นี้คุณดื่มน้ำเปล่าเพียงพอ (ประมาณ 2 ลิตรต่อวัน) สม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 9, text: "สัปดาห์นี้คุณทานของหวานหรือเครื่องดื่มที่มีน้ำตาลสูงบ่อยแค่ไหน? (หรือสามารถเลี่ยงได้หรือไม่?)", choices: ["เลี่ยงได้", "บางครั้ง", "บ่อย"], scores: [10, 5, 0] },
+    { id: 10, text: "สัปดาห์นี้คุณดื่มเครื่องดื่มแอลกอฮอล์หรือไม่?", choices: ["ไม่ดื่ม", "บางครั้ง", "ดื่มบ่อย"], scores: [10, 5, 0] },
+    
+    // 🏃 การออกกำลังกายและกิจกรรม
+    { id: 11, text: "สัปดาห์นี้คุณมีการเดินหรือใช้บันไดแทนลิฟต์บ้างหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 12, text: "สัปดาห์นี้คุณได้ออกกำลังกายติดต่อกันอย่างน้อย 30 นาที (อย่างน้อย 3-5 วัน) หรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 13, text: "สัปดาห์นี้คุณมีการยืดเหยียดกล้ามเนื้อ (Stretching) ระหว่างสัปดาห์บ้างหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 14, text: "สัปดาห์นี้คุณนั่งทำงานติดต่อกันนานเกิน 2 ชั่วโมงโดยไม่ลุกเดินบ่อยหรือไม่?", choices: ["ไม่บ่อย", "บางครั้ง", "บ่อย"], scores: [10, 5, 0] },
+    { id: 15, text: "สัปดาห์นี้คุณได้รับแสงแดดอ่อนๆ หรือได้ออกไปสูดอากาศข้างนอกบ้างหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    
+    // 🚬 พฤติกรรมเสี่ยงและสุขภาพทั่วไป
+    { id: 16, text: "สัปดาห์นี้คุณสูบบุหรี่หรือไม่?", choices: ["ไม่สูบ", "บางครั้ง", "สูบ"], scores: [10, 5, 0] },
+    { id: 17, text: "สัปดาห์นี้ระบบขับถ่ายของคุณเป็นปกติสม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 18, text: "สัปดาห์นี้คุณมีการพักสายตาจากหน้าจอระหว่างวันสม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 19, text: "สัปดาห์นี้คุณทานยาหรือวิตามินตามที่กำหนดครบถ้วนหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 20, text: "สัปดาห์นี้คุณได้พูดคุยหรือทำกิจกรรมร่วมกับคนในครอบครัวหรือเพื่อนบ้างหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] }
 ];
 
 const moodColors = { blue: '#60A5FA', green: '#34D399', yellow: '#FBBF24', orange: '#FB923C', red: '#F87171' };
@@ -357,11 +395,19 @@ function showMainApp() {
     
     updateTodayDate();
     
+    // Setup tab event listeners
+    setupTabListeners();
+    
+    // Force reset to first tab
+    currentTabIndex = 0;
+    switchTab('record');
+    console.log('Switched to record tab');
+    
     // Load health score first for instant color display
     loadHealthScoreInstant();
     
     loadProfile();
-    checkTodayCompletion();
+    checkThisWeekCompletion();
 }
 
 // Load health score instantly without waiting for other data
@@ -494,118 +540,199 @@ function resetForm() {
     imageData = null;
 }
 
+// Tab switching with sliding animation
+let currentTabIndex = 0;
+const tabNames = ['record', 'calendar', 'stats', 'history'];
+
+function setupTabListeners() {
+    const tabs = document.querySelectorAll('.tab');
+    const tabNames = ['record', 'calendar', 'stats', 'history'];
+    
+    tabs.forEach((tab, index) => {
+        // Remove existing listeners
+        tab.removeEventListener('click', handleTabClick);
+        
+        // Add new listener
+        tab.addEventListener('click', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const tabName = tabNames[index];
+            switchTab(tabName);
+            
+            return false;
+        });
+    });
+}
+
+function handleTabClick(event) {
+    // This is just a placeholder for removeEventListener
+}
+
 function switchTab(tabName) {
-    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    event.target.classList.add('active');
-    document.getElementById(tabName + 'Tab').classList.add('active');
-    if (tabName === 'calendar') loadCalendar();
-    else if (tabName === 'stats') loadStats();
-    else if (tabName === 'history') loadHistory();
+    const newIndex = tabNames.indexOf(tabName);
+    if (newIndex === -1) return;
+    
+    const oldIndex = currentTabIndex;
+    if (oldIndex === newIndex) return;
+    
+    currentTabIndex = newIndex;
+    
+    // Update tab buttons
+    const tabButtons = document.querySelectorAll('.tab');
+    tabButtons.forEach((tab, i) => {
+        tab.classList.toggle('active', i === newIndex);
+    });
+    
+    // Hide all tabs
+    const allTabIds = ['recordTab', 'calendarTab', 'statsTab', 'historyTab'];
+    allTabIds.forEach((tabId) => {
+        const element = document.getElementById(tabId);
+        if (element) {
+            element.classList.remove('active');
+            element.style.display = 'none';
+        }
+    });
+    
+    // Show selected tab
+    const activeTabId = allTabIds[newIndex];
+    const activeElement = document.getElementById(activeTabId);
+    if (activeElement) {
+        activeElement.style.display = 'block';
+        activeElement.classList.add('active');
+    }
+    
+    // Load content
+    if (tabName === 'calendar') {
+        loadCalendar();
+    } else if (tabName === 'stats') {
+        loadStats();
+    } else if (tabName === 'history') {
+        loadHistory();
+    }
 }
 
 async function loadCalendar() {
-    const firstDay = new Date(currentYear, currentMonth, 1);
-    const lastDay = new Date(currentYear, currentMonth + 1, 0);
-    const startDay = firstDay.getDay();
-    
-    // Get today's date for highlighting
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const todayDay = today.getDate();
-    const todayMonth = today.getMonth();
-    const todayYear = today.getFullYear();
-    
-    // Get user registration date to know when they started
-    const { data: userData } = await supabase
-        .from('users')
-        .select('created_at')
-        .eq('id', currentUser.id)
-        .single();
-    
-    const userCreatedDate = userData?.created_at ? new Date(userData.created_at) : null;
-    if (userCreatedDate) userCreatedDate.setHours(0, 0, 0, 0);
-    
-    document.getElementById('calendarMonth').textContent = `${monthNames[currentMonth]} ${currentYear + 543}`;
-    const grid = document.getElementById('calendarGrid');
-    grid.innerHTML = '';
-
-    for (let i = 0; i < startDay; i++) {
-        const emptyDiv = document.createElement('div');
-        emptyDiv.className = 'calendar-day';
-        emptyDiv.style.opacity = '0.3';
-        grid.appendChild(emptyDiv);
-    }
-
-    const startDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-01`;
-    const endDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${lastDay.getDate()}`;
-    
-    const { data: entries } = await supabase
-        .from('mood_entries')
-        .select('date, mood, mood_name, note')
-        .eq('user_id', currentUser.id)
-        .gte('date', startDate)
-        .lte('date', endDate);
-
-    const entryMap = {};
-    entries?.forEach(e => entryMap[e.date] = e);
-
-    // Mood labels for badge
-    const moodLabels = { blue: 'ดีมาก', green: 'ดี', yellow: 'ปกติ', orange: 'เหนื่อย', red: 'แย่' };
-
-    for (let day = 1; day <= lastDay.getDate(); day++) {
-        const dayDiv = document.createElement('div');
-        dayDiv.className = 'calendar-day';
-        dayDiv.style.position = 'relative';
+    try {
+        const firstDay = new Date(currentYear, currentMonth, 1);
+        const lastDay = new Date(currentYear, currentMonth + 1, 0);
         
-        const thisDate = new Date(currentYear, currentMonth, day);
-        thisDate.setHours(0, 0, 0, 0);
+        // Get today's date for highlighting
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
         
-        const dayNum = document.createElement('span');
-        dayNum.className = 'day-number';
-        dayNum.textContent = day;
-        dayDiv.appendChild(dayNum);
+        // Get user registration date and weekly checks
+        let userCreatedDate = null;
+        let weeklyChecks = [];
         
-        const isToday = day === todayDay && currentMonth === todayMonth && currentYear === todayYear;
-        if (isToday) {
-            dayDiv.classList.add('today');
-        }
-        
-        const dateKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const isFutureDay = thisDate > today;
-        
-        if (entryMap[dateKey]) {
-            dayDiv.classList.add('has-entry');
-
-            const badge = document.createElement('span');
-            badge.className = `mood-badge mood-${entryMap[dateKey].mood}`;
-            badge.textContent = moodLabels[entryMap[dateKey].mood] || '✓';
-            dayDiv.appendChild(badge);
-            
-            dayDiv.onclick = () => showDayDetails(dateKey, entryMap[dateKey]);
+        if (isGuestMode) {
+            const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+            userCreatedDate = guestData.created_at ? new Date(guestData.created_at) : new Date();
+            weeklyChecks = guestData.weekly_checks || [];
         } else {
-            const isPastDay = thisDate < today;
-            const isAfterRegistration = !userCreatedDate || thisDate >= userCreatedDate;
-            
-            if (isPastDay && isAfterRegistration && !isToday) {
-                dayDiv.classList.add('missed-day');
-                dayDiv.title = 'ไม่ได้ทำแบบทดสอบ';
+            try {
+                const { data: userData } = await supabase
+                    .from('users')
+                    .select('created_at')
+                    .eq('id', currentUser.id)
+                    .single();
                 
-                // Add click handler to show missed day message
-                const missedDateKey = dateKey;
-                dayDiv.onclick = () => showMissedDayMessage(missedDateKey);
-            } else if (isToday) {
-                // Today but not completed yet
-                dayDiv.style.cursor = 'pointer';
-                dayDiv.onclick = () => showTodayNotCompletedMessage();
-            } else if (isFutureDay) {
-                // Future day
-                const futureDateKey = dateKey;
-                dayDiv.style.cursor = 'pointer';
-                dayDiv.onclick = () => showFutureDayMessage(futureDateKey);
+                userCreatedDate = userData?.created_at ? new Date(userData.created_at) : new Date();
+                
+                // Try to get weekly checks data
+                const { data: weeklyChecksData } = await supabase
+                    .from('weekly_checks')
+                    .select('week_key, health_score, completed_at')
+                    .eq('user_id', currentUser.id);
+                
+                weeklyChecks = weeklyChecksData || [];
+            } catch (error) {
+                userCreatedDate = new Date();
+                weeklyChecks = [];
             }
         }
-        grid.appendChild(dayDiv);
+        
+        if (userCreatedDate) userCreatedDate.setHours(0, 0, 0, 0);
+        
+        // Update calendar header
+        document.getElementById('calendarMonth').textContent = `${monthNames[currentMonth]} ${currentYear + 543}`;
+        const grid = document.getElementById('calendarGrid');
+        if (!grid) {
+            return;
+        }
+        
+        grid.innerHTML = '';
+        
+        // Create simple day-based calendar for now
+        const daysInMonth = lastDay.getDate();
+        const firstDayOfWeek = firstDay.getDay();
+        
+        // Add empty cells for days before month starts
+        for (let i = 0; i < firstDayOfWeek; i++) {
+            const emptyDay = document.createElement('div');
+            emptyDay.className = 'calendar-day empty';
+            emptyDay.style.cssText = 'opacity: 0.3; background: #f9fafb;';
+            grid.appendChild(emptyDay);
+        }
+        
+        // Add days of the month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayDate = new Date(currentYear, currentMonth, day);
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'calendar-day';
+            
+            // Check if today
+            const isToday = dayDate.toDateString() === today.toDateString();
+            if (isToday) {
+                dayDiv.classList.add('today');
+            }
+            
+            // Day number
+            const dayNum = document.createElement('div');
+            dayNum.className = 'day-number';
+            dayNum.textContent = day;
+            dayDiv.appendChild(dayNum);
+            
+            // Check if this day has any weekly check data
+            const hasData = weeklyChecks.some(check => {
+                const checkDate = new Date(check.completed_at);
+                return checkDate.getDate() === day && 
+                       checkDate.getMonth() === currentMonth && 
+                       checkDate.getFullYear() === currentYear;
+            });
+            
+            if (hasData) {
+                dayDiv.classList.add('has-entry');
+                const badge = document.createElement('div');
+                badge.className = 'entry-badge';
+                badge.textContent = '✓';
+                badge.style.cssText = `
+                    position: absolute;
+                    bottom: 2px;
+                    right: 2px;
+                    background: #22c55e;
+                    color: white;
+                    border-radius: 50%;
+                    width: 16px;
+                    height: 16px;
+                    font-size: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                `;
+                dayDiv.appendChild(badge);
+            }
+            
+            grid.appendChild(dayDiv);
+        }
+        
+    } catch (error) {
+        // Fallback: Show basic calendar
+        document.getElementById('calendarMonth').textContent = `${monthNames[currentMonth]} ${currentYear + 543}`;
+        const grid = document.getElementById('calendarGrid');
+        if (grid) {
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 20px; color: #6b7280;">ปฏิทินพร้อมใช้งาน</div>';
+        }
     }
 }
 
@@ -631,8 +758,8 @@ function showMissedDayMessage(dateKey) {
 function showTodayNotCompletedMessage() {
     Modal.show({
         type: 'info',
-        title: 'วันนี้',
-        message: 'คุณยังไม่ได้ทำแบบประเมินสุขภาพวันนี้',
+        title: 'สัปดาห์นี้',
+        message: 'คุณยังไม่ได้ทำแบบประเมินสุขภาพสัปดาห์นี้',
         html: `
             <div style="text-align: center; margin-top: 10px;">
                 <p style="color: #6b7280; font-size: 13px;">กดปุ่ม "เริ่ม!" เพื่อทำแบบประเมินสุขภาพประจำวันได้เลย</p>
@@ -650,7 +777,7 @@ function showFutureDayMessage(dateKey) {
     Modal.show({
         type: 'info',
         title: `${displayDate}`,
-        message: 'วันนี้ยังมาไม่ถึง',
+        message: 'สัปดาห์นี้ยังมาไม่ถึง',
         html: `
             <div style="text-align: center; margin-top: 10px;">
                 <p style="color: #6b7280; font-size: 13px;">กลับมาทำแบบประเมินสุขภาพในวันนั้นนะ!</p>
@@ -660,71 +787,45 @@ function showFutureDayMessage(dateKey) {
     });
 }
 
-async function showDayDetails(dateKey, entry) {
-    const dateParts = dateKey.split('-');
-    const displayDate = `${parseInt(dateParts[2])} ${monthNames[parseInt(dateParts[1]) - 1]} ${parseInt(dateParts[0]) + 543}`;
-    const moodColorMap = { blue: '#3B82F6', green: '#10B981', yellow: '#F59E0B', orange: '#F97316', red: '#EF4444' };
+async function showWeekDetails(weekKey, weekData) {
+    const weekStart = weekData.weekStart;
+    const weekEnd = weekData.weekEnd;
+    const healthScore = weekData.health_score;
+    
+    const formatDate = (date) => {
+        return `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear() + 543}`;
+    };
+    
+    const displayPeriod = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
     
     Modal.show({
         type: '',
-        title: `${displayDate}`,
+        title: `รายสัปดาห์: ${displayPeriod}`,
         html: `
             <div style="text-align: center;">
-                <div style="display: inline-block; padding: 6px 16px; border-radius: 16px; background: ${moodColorMap[entry.mood]}; color: white; font-weight: 600; font-size: 14px;">
-                    ${entry.mood_name}
+                <div style="display: inline-block; padding: 8px 20px; border-radius: 20px; background: ${getHealthColor(healthScore)}; color: white; font-weight: 600; font-size: 16px; margin-bottom: 15px;">
+                    คะแนนสุขภาพ: ${healthScore} คะแนน
                 </div>
-                ${entry.note ? `<p style="color: #6b7280; font-size: 13px; margin-top: 10px;">${entry.note}</p>` : ''}
-                <div id="summaryContainer" style="margin-top: 12px;">
-                    <p style="color: #9ca3af; font-size: 13px;">กำลังโหลดคำแนะนำ...</p>
+                <div style="background: #f9fafb; padding: 15px; border-radius: 8px; text-align: left; margin-top: 10px;">
+                    <h4 style="margin-bottom: 10px; color: #374151;">📊 ข้อมูลสัปดาห์นี้</h4>
+                    <p style="font-size: 13px; color: #6b7280; margin: 5px 0;">
+                        <strong>วันที่ทำ:</strong> ${new Date(weekData.completed_at).toLocaleDateString('th-TH')}
+                    </p>
+                    <p style="font-size: 13px; color: #6b7280; margin: 5px 0;">
+                        <strong>สถานะ:</strong> ${healthScore >= 80 ? 'สุขภาพดีมาก' : healthScore >= 60 ? 'สุขภาพดี' : healthScore >= 40 ? 'สุขภาพปานกลาง' : 'สุขภาพต้องการการดูแล'}
+                    </p>
                 </div>
             </div>
         `,
-        width: '400px'
+        width: '450px'
     });
-    
-    const { data: checkData } = await supabase
-        .from('daily_checks')
-        .select('*')
-        .eq('user_id', currentUser.id)
-        .eq('date', dateKey)
-        .single();
-    
-    const summaryContainer = document.getElementById('summaryContainer');
-    if (!summaryContainer) return;
-    
-    if (checkData) {
-        const cacheKey = `ai_summary_${dateKey}`;
-        let aiSummary = localStorage.getItem(cacheKey);
-        
-        if (!aiSummary && checkData.answers) {
-            try {
-                const answers = JSON.parse(checkData.answers);
-                aiSummary = await getAIHealthSummary(answers, checkData.percentage, entry.mood_name);
-                localStorage.setItem(cacheKey, aiSummary);
-            } catch (e) {
-                aiSummary = 'ไม่สามารถโหลดคำแนะนำได้';
-            }
-        }
-        
-        if (aiSummary) {
-            // Clean up AI response
-            aiSummary = aiSummary.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            aiSummary = aiSummary.replace(/^(สรุปผลสุขภาพ|สรุป)(วันนี้)?:?\s*/i, '');
-            
-            summaryContainer.innerHTML = `
-                <div style="background: #f9fafb; padding: 12px; border-radius: 8px; text-align: left;">
-                    <div id="daySummaryTyping" style="font-size: 13px; line-height: 1.6;"><span class="typing-cursor">|</span></div>
-                </div>
-            `;
-            
-            // Type out the summary
-            await typeText('daySummaryTyping', aiSummary, 12);
-        } else {
-            summaryContainer.innerHTML = '<p style="color: #9ca3af; font-size: 13px;">ไม่มีคำแนะนำ</p>';
-        }
-    } else {
-        summaryContainer.innerHTML = '<p style="color: #9ca3af; font-size: 13px;">ไม่มีข้อมูลการเช็คสุขภาพ</p>';
-    }
+}
+
+function getHealthColor(score) {
+    if (score >= 80) return '#22c55e';
+    if (score >= 60) return '#eab308';
+    if (score >= 40) return '#f97316';
+    return '#ef4444';
 }
 
 function previousMonth() {
@@ -740,32 +841,45 @@ function nextMonth() {
 }
 
 async function loadStats() {
-    const { data: entries } = await supabase
-        .from('mood_entries')
-        .select('*')
-        .eq('user_id', currentUser.id)
-        .order('date', { ascending: true });
-
-    // Get health score from users table
+    let entries = [];
     let healthScore = 100;
-    const { data: userData } = await supabase
-        .from('users')
-        .select('health_score')
-        .eq('id', currentUser.id)
-        .single();
     
-    if (userData && userData.health_score !== null) {
-        healthScore = userData.health_score;
+    if (isGuestMode) {
+        const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+        entries = guestData.mood_entries || [];
+        healthScore = guestData.health_score || 100;
+    } else {
+        const { data: entriesData } = await supabase
+            .from('mood_entries')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .order('date', { ascending: true });
+        
+        entries = entriesData || [];
+
+        // Get health score from users table
+        const { data: userData } = await supabase
+            .from('users')
+            .select('health_score')
+            .eq('id', currentUser.id)
+            .single();
+        
+        if (userData && userData.health_score !== null) {
+            healthScore = userData.health_score;
+        }
     }
 
-    document.getElementById('totalEntries').textContent = entries ? entries.length : 0;
+    document.getElementById('totalEntries').textContent = entries.length;
     document.getElementById('healthScore').textContent = healthScore;
     
     // Update health level card
     updateHealthLevelCard(healthScore);
     
     // Add Dev edit button for health score
-    addDevHealthScoreButton();
+    // TODO: Implement addDevHealthScoreButton function
+    // if (isDevMode) {
+    //     addDevHealthScoreButton();
+    // }
 
     // Get recent entries
     const recent7 = entries ? entries.slice(-7) : [];
@@ -1088,15 +1202,23 @@ function getBMICategory(bmi) {
 // Edit Profile Functions
 async function showEditProfileModal() {
     // Load current data
-    const { data: userData } = await supabase
-        .from('users')
-        .select('weight, height')
-        .eq('id', currentUser.id)
-        .single();
-    
-    if (userData) {
-        document.getElementById('editWeight').value = userData.weight || '';
-        document.getElementById('editHeight').value = userData.height || '';
+    if (isGuestMode) {
+        const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+        document.getElementById('editBirthdate').value = guestData.birthdate || '';
+        document.getElementById('editWeight').value = guestData.weight || '';
+        document.getElementById('editHeight').value = guestData.height || '';
+    } else {
+        const { data: userData } = await supabase
+            .from('users')
+            .select('weight, height, birthdate')
+            .eq('id', currentUser.id)
+            .single();
+        
+        if (userData) {
+            document.getElementById('editBirthdate').value = userData.birthdate || '';
+            document.getElementById('editWeight').value = userData.weight || '';
+            document.getElementById('editHeight').value = userData.height || '';
+        }
     }
     
     document.getElementById('editProfileModal').style.display = 'flex';
@@ -1107,6 +1229,7 @@ function closeEditProfileModal() {
 }
 
 async function saveProfile() {
+    const birthdate = document.getElementById('editBirthdate').value;
     const weight = document.getElementById('editWeight').value;
     const height = document.getElementById('editHeight').value;
     
@@ -1119,6 +1242,7 @@ async function saveProfile() {
     
     if (isGuestMode) {
         const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+        guestData.birthdate = birthdate || null;
         guestData.weight = parseFloat(weight);
         guestData.height = parseInt(height);
         localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
@@ -1131,6 +1255,7 @@ async function saveProfile() {
         const { error } = await supabase
             .from('users')
             .update({ 
+                birthdate: birthdate || null,
                 weight: parseFloat(weight), 
                 height: parseInt(height) 
             })
@@ -1148,37 +1273,96 @@ async function saveProfile() {
     }
 }
 
-// ==================== Daily Health Check Functions ====================
+// ==================== Weekly Health Check Functions ====================
 
-async function checkTodayCompletion() {
-    const today = getCurrentDate();
-    const dateKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+// Get the start of current week (Monday)
+function getWeekStart(date = new Date()) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+    return new Date(d.setDate(diff));
+}
+
+// Get the end of current week (Sunday 23:59:59)
+function getWeekEnd(date = new Date()) {
+    const weekStart = getWeekStart(date);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+    weekEnd.setHours(23, 59, 59, 999);
+    return weekEnd;
+}
+
+// Get week key for database (YYYY-WW format)
+function getWeekKey(date = new Date()) {
+    const weekStart = getWeekStart(date);
+    const year = weekStart.getFullYear();
+    const weekNum = getWeekNumber(weekStart);
+    return `${year}-W${String(weekNum).padStart(2, '0')}`;
+}
+
+// Get ISO week number
+function getWeekNumber(date) {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+}
+
+async function checkThisWeekCompletion() {
+    const weekKey = getWeekKey();
     
     // Get health score from users table
     let healthScore = null;
-    const { data: userData } = await supabase
-        .from('users')
-        .select('health_score')
-        .eq('id', currentUser.id)
-        .single();
     
-    if (userData && userData.health_score !== null) {
-        healthScore = userData.health_score;
-    }
-    
-    const { data } = await supabase
-        .from('daily_checks')
-        .select('*')
-        .eq('user_id', currentUser.id)
-        .eq('date', dateKey)
-        .single();
-    
-    if (data) {
-        todayCompleted = true;
-        updateStartButton(true, healthScore);
+    if (isGuestMode) {
+        const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+        healthScore = guestData.health_score || 100;
+        
+        // Check if this week's assessment is completed
+        const weeklyChecks = guestData.weekly_checks || [];
+        const thisWeekCheck = weeklyChecks.find(check => check.week_key === weekKey);
+        
+        if (thisWeekCheck) {
+            thisWeekCompleted = true;
+            updateStartButton(true, healthScore);
+        } else {
+            thisWeekCompleted = false;
+            updateStartButton(false, healthScore);
+        }
     } else {
-        todayCompleted = false;
-        updateStartButton(false, healthScore);
+        const { data: userData } = await supabase
+            .from('users')
+            .select('health_score')
+            .eq('id', currentUser.id)
+            .single();
+        
+        if (userData && userData.health_score !== null) {
+            healthScore = userData.health_score;
+        }
+        
+        // Try to get weekly check data (table might not exist yet)
+        let data = null;
+        try {
+            const result = await supabase
+                .from('weekly_checks')
+                .select('*')
+                .eq('user_id', currentUser.id)
+                .eq('week_key', weekKey)
+                .single();
+            data = result.data;
+        } catch (error) {
+            console.log('Weekly checks table not available yet');
+            data = null;
+        }
+        
+        if (data) {
+            thisWeekCompleted = true;
+            updateStartButton(true, healthScore);
+        } else {
+            thisWeekCompleted = false;
+            updateStartButton(false, healthScore);
+        }
     }
 }
 
@@ -1189,7 +1373,7 @@ function updateStartButton(completed, healthScore = null) {
         btn.classList.remove('btn-completed', 'btn-health-green', 'btn-health-yellow', 'btn-health-orange', 'btn-health-red', 'btn-health-gray');
         
         if (completed) {
-            btn.textContent = 'ทำแล้ววันนี้';
+            btn.textContent = 'ทำแล้วสัปดาห์นี้';
             btn.disabled = true;
             btn.classList.add('btn-completed');
         } else {
@@ -1239,14 +1423,72 @@ function updateDevSkipButton(completed) {
             const container = document.createElement('div');
             container.className = 'dev-skip-container';
             
-            const skipBtn = document.createElement('button');
-            skipBtn.className = 'btn-dev-skip';
-            skipBtn.innerHTML = '<span class="dev-skip-icon"><span>ข้ามวัน</span>';
-            skipBtn.onclick = devSkipToNextDay;
-            
-            container.appendChild(skipBtn);
-            btn.parentNode.appendChild(container);
+        // Add skip button for Dev users (always show, not just when completed)
+        if (isDevMode) {
+            const btn = document.querySelector('.btn-start');
+            if (btn && btn.parentNode) {
+                const container = document.createElement('div');
+                container.className = 'dev-skip-container';
+                
+                const skipBtn = document.createElement('button');
+                skipBtn.className = 'dev-skip-btn';
+                skipBtn.textContent = completed ? 'ทำใหม่ (Dev)' : 'ข้าม (Dev)';
+                skipBtn.onclick = () => devSkipWeeklyCheck();
+                
+                container.appendChild(skipBtn);
+                btn.parentNode.insertBefore(container, btn.nextSibling);
+            }
         }
+    }
+    
+    async function devSkipWeeklyCheck() {
+        if (!isDevMode) return;
+        
+        const weekKey = getWeekKey();
+        
+        // Generate random answers for all 20 questions
+        const answers = allHealthQuestions.map(q => {
+            const randomChoiceIndex = Math.floor(Math.random() * q.choices.length);
+            return {
+                questionId: q.id,
+                questionText: q.text,
+                choice: randomChoiceIndex,
+                choiceText: q.choices[randomChoiceIndex],
+                score: q.scores[randomChoiceIndex]
+            };
+        });
+        
+        const totalScore = answers.reduce((sum, answer) => sum + answer.score, 0);
+        const healthScore = Math.round((totalScore / 200) * 100); // 200 is max possible score (20 questions * 10 points)
+        
+        const weeklyCheckData = {
+            user_id: currentUser.id,
+            week_key: weekKey,
+            answers: answers,
+            total_score: totalScore,
+            health_score: healthScore,
+            completed_at: new Date().toISOString()
+        };
+        
+        if (isGuestMode) {
+            const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+            if (!guestData.weekly_checks) guestData.weekly_checks = [];
+            
+            // Remove existing entry for this week if any
+            guestData.weekly_checks = guestData.weekly_checks.filter(check => check.week_key !== weekKey);
+            guestData.weekly_checks.push(weeklyCheckData);
+            guestData.health_score = healthScore;
+            
+            localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
+        } else {
+            // Save to database
+            await supabase.from('weekly_checks').upsert(weeklyCheckData, { onConflict: 'user_id,week_key' });
+            await supabase.from('users').update({ health_score: healthScore }).eq('id', currentUser.id);
+        }
+        
+        Modal.toast(`Dev: ข้ามแบบทดสอบสำเร็จ (คะแนน: ${healthScore})`, 'success');
+        await checkThisWeekCompletion();
+        loadStats();
     }
 }
 
@@ -1254,14 +1496,6 @@ function updateDevSkipButton(completed) {
 let devDateOffset = parseInt(localStorage.getItem('devDateOffset') || '0');
 
 // Get current date (with dev offset)
-function getCurrentDate() {
-    const date = new Date();
-    if (isDevMode && devDateOffset > 0) {
-        date.setDate(date.getDate() + devDateOffset);
-    }
-    return date;
-}
-
 async function devSkipToNextDay() {
     if (!isDevMode) return;
     
@@ -1283,7 +1517,7 @@ async function devSkipToNextDay() {
         localStorage.removeItem(`ai_questions_${todayKey}`);
         
         // Re-check completion for new "day"
-        await checkTodayCompletion();
+        await checkThisWeekCompletion();
         updateTodayDate();
         loadCalendar();
         
@@ -1300,7 +1534,7 @@ async function devSkipToNextDay() {
             }
         });
         
-        await checkTodayCompletion();
+        await checkThisWeekCompletion();
         updateTodayDate();
         loadCalendar();
         
@@ -1418,7 +1652,7 @@ async function generateAIQuestions() {
     }
     
     try {
-        const prompt = `สร้าง 5 คำถามพฤติกรรมสุขภาพประจำวัน ขึ้นต้นด้วย "วันนี้คุณ" ลงท้าย "หรือไม่?"
+        const prompt = `สร้าง 5 คำถามพฤติกรรมสุขภาพประจำสัปดาห์ ขึ้นต้นด้วย "สัปดาห์นี้คุณ" ลงท้าย "หรือไม่?"
 
 สุ่มจากหัวข้อ:
 🥗 โภชนาการ: กินอาหารครบ 5 หมู่, กินผักผลไม้, ควบคุมน้ำตาล/ไขมัน, ไม่ข้ามมื้อเช้า
@@ -1429,7 +1663,7 @@ async function generateAIQuestions() {
 🧠 สุขภาพจิต: จัดการความเครียด, ผ่อนคลาย, มองโลกในแง่บวก
 
 ตอบ JSON เท่านั้น:
-[{"id":1,"text":"วันนี้คุณดื่มน้ำครบ 8 แก้วหรือไม่?","choices":["ใช่","ไม่"],"scores":[10,0]}]`;
+[{"id":1,"text":"สัปดาห์นี้คุณดื่มน้ำครบ 8 แก้วหรือไม่?","choices":["ใช่","ไม่"],"scores":[10,0]}]`;
 
         const data = await GroqAPI.call({
             model: 'llama-3.1-8b-instant',
@@ -1493,67 +1727,72 @@ async function generateAIQuestions() {
     }
 }
 
-async function startDailyCheck() {
-    if (todayCompleted) {
-        Modal.show({ type: 'info', title: 'ทำแล้ววันนี้', message: 'คุณได้ทำแบบประเมินสุขภาพวันนี้แล้ว กลับมาใหม่พรุ่งนี้นะ!' });
+async function startWeeklyCheck() {
+    if (thisWeekCompleted) {
+        Modal.show({ type: 'info', title: 'ทำแล้วสัปดาห์นี้', message: 'คุณได้ทำแบบประเมินสุขภาพสัปดาห์นี้แล้ว กลับมาใหม่สัปดาห์หน้านะ!' });
         return;
     }
     
     Modal.loading('กำลังเตรียมคำถาม...');
     
-    const aiQuestions = await generateAIQuestions();
-    dailyQuestions = aiQuestions || getFallbackQuestions();
+    // Use all 20 health questions for weekly assessment
+    weeklyQuestions = [...allHealthQuestions];
     
     Modal.close();
     
-    currentDailyQuestion = 0;
-    dailyAnswers = [];
+    currentWeeklyQuestion = 0;
+    weeklyAnswers = [];
     
     renderProgressDots();
-    renderDailyQuestion();
-    document.getElementById('dailyCheckModal').style.display = 'flex';
+    renderWeeklyQuestion();
+    document.getElementById('weeklyCheckModal').style.display = 'flex';
 }
+
+// Ensure function is globally accessible
+window.startWeeklyCheck = startWeeklyCheck;
 
 function renderProgressDots() {
     const container = document.getElementById('progressDots');
     container.innerHTML = '';
-    for (let i = 0; i < 5; i++) {
+    // Show 20 dots for 20 questions, but make them smaller
+    for (let i = 0; i < 20; i++) {
         const dot = document.createElement('span');
-        dot.className = 'progress-dot' + (i < currentDailyQuestion ? ' completed' : '') + (i === currentDailyQuestion ? ' active' : '');
+        dot.className = 'progress-dot-small' + (i < currentWeeklyQuestion ? ' completed' : '') + (i === currentWeeklyQuestion ? ' active' : '');
         container.appendChild(dot);
     }
 }
 
-function renderDailyQuestion() {
-    const question = dailyQuestions[currentDailyQuestion];
-    const questionNum = currentDailyQuestion + 1;
+function renderWeeklyQuestion() {
+    const question = weeklyQuestions[currentWeeklyQuestion];
+    const questionNum = currentWeeklyQuestion + 1;
     
     // Update all question number displays
     document.getElementById('currentQuestionNum').textContent = questionNum;
+    document.getElementById('totalQuestionNum').textContent = '20';
     const badgeNum = document.getElementById('questionBadgeNum');
     if (badgeNum) badgeNum.textContent = questionNum;
     
     // Update progress bar
-    const progressFill = document.getElementById('dailyProgressFill');
-    if (progressFill) progressFill.style.width = (questionNum * 20) + '%';
+    const progressFill = document.getElementById('weeklyProgressFill');
+    if (progressFill) progressFill.style.width = (questionNum / 20 * 100) + '%';
     
     // Update question text
-    document.getElementById('dailyQuestion').textContent = question.text;
+    document.getElementById('weeklyQuestion').textContent = question.text;
     
     // Update next button text
-    const nextBtn = document.getElementById('dailyNextBtn');
-    nextBtn.textContent = questionNum === 5 ? 'เสร็จสิ้น' : 'ถัดไป';
+    const nextBtn = document.getElementById('weeklyNextBtn');
+    nextBtn.textContent = questionNum === 20 ? 'เสร็จสิ้น' : 'ถัดไป';
     nextBtn.disabled = true;
     
     // Render choices
-    const choicesContainer = document.getElementById('dailyChoices');
+    const choicesContainer = document.getElementById('weeklyChoices');
     choicesContainer.innerHTML = '';
     
     question.choices.forEach((choice, index) => {
         const btn = document.createElement('button');
-        btn.className = 'daily-choice-btn';
+        btn.className = 'weekly-choice-btn';
         btn.innerHTML = `<span class="choice-icon">${getChoiceIcon(choice)}</span><span>${choice}</span>`;
-        btn.onclick = () => selectDailyAnswer(index, question.scores[index]);
+        btn.onclick = () => selectWeeklyAnswer(index, question.scores[index]);
         choicesContainer.appendChild(btn);
     });
     
@@ -1584,138 +1823,156 @@ function getChoiceIcon(choice) {
     return icons[choice] || '•';
 }
 
-let selectedDailyChoice = null;
-let selectedDailyScore = null;
+let selectedWeeklyChoice = null;
+let selectedWeeklyScore = null;
 
-function selectDailyAnswer(choiceIndex, score) {
+function selectWeeklyAnswer(choiceIndex, score) {
     // Remove previous selection
-    const btns = document.querySelectorAll('.daily-choice-btn');
+    const btns = document.querySelectorAll('.weekly-choice-btn');
     btns.forEach(btn => btn.classList.remove('selected'));
     
     // Add selection to clicked button
     btns[choiceIndex].classList.add('selected');
     
     // Store selection
-    selectedDailyChoice = choiceIndex;
-    selectedDailyScore = score;
+    selectedWeeklyChoice = choiceIndex;
+    selectedWeeklyScore = score;
     
     // Enable next button
-    document.getElementById('dailyNextBtn').disabled = false;
+    document.getElementById('weeklyNextBtn').disabled = false;
 }
 
 async function goToNextQuestion() {
-    if (selectedDailyChoice === null) return;
+    if (selectedWeeklyChoice === null) return;
     
     // Save answer with full question and choice text
-    const currentQuestion = dailyQuestions[currentDailyQuestion];
-    dailyAnswers.push({
+    const currentQuestion = weeklyQuestions[currentWeeklyQuestion];
+    weeklyAnswers.push({
         questionId: currentQuestion.id,
         questionText: currentQuestion.text,
-        choiceText: currentQuestion.choices[selectedDailyChoice],
-        choice: selectedDailyChoice,
-        score: selectedDailyScore
+        choiceText: currentQuestion.choices[selectedWeeklyChoice],
+        choice: selectedWeeklyChoice,
+        score: selectedWeeklyScore
     });
     
     // Reset selection
-    selectedDailyChoice = null;
-    selectedDailyScore = null;
+    selectedWeeklyChoice = null;
+    selectedWeeklyScore = null;
     
-    if (currentDailyQuestion < 4) {
-        currentDailyQuestion++;
-        renderDailyQuestion();
-        document.getElementById('dailyNextBtn').disabled = true;
-        document.getElementById('dailyNextBtn').textContent = currentDailyQuestion === 4 ? 'เสร็จสิ้น' : 'ถัดไป';
+    if (currentWeeklyQuestion < 19) { // 0-19 = 20 questions
+        currentWeeklyQuestion++;
+        renderWeeklyQuestion();
+        document.getElementById('weeklyNextBtn').disabled = true;
+        document.getElementById('weeklyNextBtn').textContent = currentWeeklyQuestion === 19 ? 'เสร็จสิ้น' : 'ถัดไป';
+        renderProgressDots();
     } else {
-        await completeDailyCheck();
+        await completeWeeklyCheck();
     }
 }
 
-async function completeDailyCheck() {
-    const totalScore = dailyAnswers.reduce((sum, a) => sum + a.score, 0);
-    const maxScore = 50;
-    const percentage = Math.round((totalScore / maxScore) * 100);
+// Ensure function is globally accessible
+window.goToNextQuestion = goToNextQuestion;
+
+async function completeWeeklyCheck() {
+    const totalScore = weeklyAnswers.reduce((sum, a) => sum + a.score, 0);
+    const maxScore = 200; // 20 questions * 10 points each
+    const healthScore = Math.round((totalScore / maxScore) * 100);
     
-    const today = getCurrentDate();
-    const dateKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const weekKey = getWeekKey();
     
     // Determine mood based on score
     let mood, moodName;
-    if (percentage >= 80) { mood = 'blue'; moodName = 'สุขมาก'; }
-    else if (percentage >= 60) { mood = 'green'; moodName = 'ดี'; }
-    else if (percentage >= 40) { mood = 'yellow'; moodName = 'ปกติ'; }
-    else if (percentage >= 20) { mood = 'orange'; moodName = 'เหนื่อย'; }
+    if (healthScore >= 80) { mood = 'blue'; moodName = 'สุขมาก'; }
+    else if (healthScore >= 60) { mood = 'green'; moodName = 'ดี'; }
+    else if (healthScore >= 40) { mood = 'yellow'; moodName = 'ปกติ'; }
+    else if (healthScore >= 20) { mood = 'orange'; moodName = 'เหนื่อย'; }
     else { mood = 'red'; moodName = 'เครียด'; }
     
-    // Save to daily_checks table
-    await supabase.from('daily_checks').upsert({
+    const weeklyCheckData = {
         user_id: currentUser.id,
-        date: dateKey,
-        answers: JSON.stringify(dailyAnswers),
-        score: totalScore,
-        percentage: percentage,
-        mood: mood,
-        mood_name: moodName
-    }, { onConflict: 'user_id,date' });
-    
-    // Also save to mood_entries for calendar
-    await supabase.from('mood_entries').upsert({
-        user_id: currentUser.id,
-        date: dateKey,
+        week_key: weekKey,
+        answers: weeklyAnswers,
+        total_score: totalScore,
+        health_score: healthScore,
         mood: mood,
         mood_name: moodName,
-        note: `เช็คสุขภาพประจำวัน: ${percentage}%`
-    }, { onConflict: 'user_id,date' });
+        completed_at: new Date().toISOString()
+    };
     
-    // Calculate average health score from all daily checks
-    const { data: allChecks } = await supabase
-        .from('daily_checks')
-        .select('percentage')
-        .eq('user_id', currentUser.id);
-    
-    let avgScore = percentage;
-    if (allChecks && allChecks.length > 0) {
-        const total = allChecks.reduce((sum, check) => sum + check.percentage, 0);
-        avgScore = Math.round(total / allChecks.length);
+    if (isGuestMode) {
+        const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+        if (!guestData.weekly_checks) guestData.weekly_checks = [];
+        
+        // Remove existing entry for this week if any
+        guestData.weekly_checks = guestData.weekly_checks.filter(check => check.week_key !== weekKey);
+        guestData.weekly_checks.push(weeklyCheckData);
+        guestData.health_score = healthScore;
+        
+        localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
+    } else {
+        // Save to weekly_checks table
+        await supabase.from('weekly_checks').upsert(weeklyCheckData, { onConflict: 'user_id,week_key' });
+        
+        // Update user's health score
+        await supabase.from('users').update({ health_score: healthScore }).eq('id', currentUser.id);
+        
+        // Also save to mood_entries for calendar (use Monday of the week)
+        const weekStart = getWeekStart();
+        const dateKey = `${weekStart.getFullYear()}-${String(weekStart.getMonth() + 1).padStart(2, '0')}-${String(weekStart.getDate()).padStart(2, '0')}`;
+        
+        await supabase.from('mood_entries').upsert({
+            user_id: currentUser.id,
+            date: dateKey,
+            mood: mood,
+            mood_name: moodName,
+            note: `เช็คสุขภาพประจำสัปดาห์: ${healthScore}%`
+        }, { onConflict: 'user_id,date' });
     }
     
-    // Update health_score in users table with average
-    await supabase.from('users').update({
-        health_score: avgScore
-    }).eq('id', currentUser.id);
-    
     // Update UI immediately
-    document.getElementById('healthScore').textContent = avgScore;
-    document.getElementById('aboutHealthScore').textContent = avgScore;
-    updateHealthLevelCard(avgScore);
+    document.getElementById('healthScore').textContent = healthScore;
+    document.getElementById('aboutHealthScore').textContent = healthScore;
+    updateHealthLevelCard(healthScore);
     
-    closeDailyCheckModal();
+    closeWeeklyCheckModal();
     
-    // Show modal with typing placeholder first
-    const resultType = percentage >= 60 ? 'success' : percentage >= 40 ? 'warning' : 'error';
+    // Show result modal
+    const resultType = healthScore >= 60 ? 'success' : healthScore >= 40 ? 'warning' : 'error';
     Modal.show({
         type: resultType,
-        title: `คะแนนวันนี้ ${percentage}%`,
+        title: `คะแนนสัปดาห์นี้ ${healthScore}%`,
         html: `
             <div style="text-align: center; margin-bottom: 12px;">
                 <span style="font-weight: 600;">${moodName}</span>
                 <span style="color: #6b7280;"> (${totalScore}/${maxScore})</span>
             </div>
             <div style="background: #f9fafb; padding: 12px; border-radius: 8px; text-align: left; font-size: 13px; line-height: 1.5;">
-                <p style="font-weight: 600; margin-bottom: 8px; color: #7aa449;">💡 สรุป</p>
+                <p style="font-weight: 600; margin-bottom: 8px; color: #7aa449;">💡 สรุปสัปดาห์นี้</p>
                 <div id="aiTypingContainer"><span class="typing-cursor">|</span></div>
             </div>
         `,
         width: '420px'
     });
     
-    // Get AI summary and type it out
-    const aiSummary = await getAIHealthSummary(dailyAnswers, percentage, moodName);
-    await typeText('aiTypingContainer', aiSummary, 15);
+    // Generate AI summary
+    generateAISummary(weeklyAnswers, healthScore);
     
-    todayCompleted = true;
-    updateStartButton(true);
-    loadCalendar();
+    // Refresh data
+    await checkThisWeekCompletion();
     loadStats();
+    loadCalendar();
+    loadHistory();
+}
+
+function closeWeeklyCheckModal() {
+    document.getElementById('weeklyCheckModal').style.display = 'none';
+    
+    // Reset variables
+    currentWeeklyQuestion = 0;
+    weeklyAnswers = [];
+    weeklyQuestions = [];
+    selectedWeeklyChoice = null;
+    selectedWeeklyScore = null;
 }
 
 // AI Health Summary Function
@@ -1737,7 +1994,7 @@ async function getAIHealthSummary(answers, percentage, moodName) {
 ${answerDetails}
 
 ตอบใน 3 ส่วน (ไม่ต้องมีหัวข้อ "สรุป" เพราะมีอยู่แล้ว):
-1. สถานะวันนี้ - อธิบายภาพรวม 1-2 ประโยค
+1. สถานะสัปดาห์นี้ - อธิบายภาพรวม 1-2 ประโยค
 2. จุดที่ทำได้ดี - ระบุพฤติกรรมดีพร้อมคำชมสั้นๆ
 3. ควรปรับปรุง - คำแนะนำเฉพาะเจาะจงที่ปฏิบัติได้`;
 
@@ -1775,7 +2032,7 @@ function generateFallbackSummary(answers, percentage, moodName) {
             goodAnswers.push(choiceText);
         } else {
             // Extract topic from question
-            const topic = questionText.replace('วันนี้คุณ', '').replace('หรือไม่?', '').replace('หรือไม่', '');
+            const topic = questionText.replace('สัปดาห์นี้คุณ', '').replace('หรือไม่?', '').replace('หรือไม่', '');
             badAnswers.push(topic || choiceText);
         }
     });
@@ -1784,13 +2041,13 @@ function generateFallbackSummary(answers, percentage, moodName) {
     
     // Overall status
     if (percentage >= 80) {
-        summary += '🎉 <strong>ยอดเยี่ยม!</strong> วันนี้คุณดูแลสุขภาพได้ดีมาก<br><br>';
+        summary += '🎉 <strong>ยอดเยี่ยม!</strong> สัปดาห์นี้คุณดูแลสุขภาพได้ดีมาก<br><br>';
     } else if (percentage >= 60) {
-        summary += '😊 <strong>ดีครับ!</strong> วันนี้สุขภาพโดยรวมอยู่ในเกณฑ์ดี<br><br>';
+        summary += '😊 <strong>ดีครับ!</strong> สัปดาห์นี้สุขภาพโดยรวมอยู่ในเกณฑ์ดี<br><br>';
     } else if (percentage >= 40) {
         summary += '😐 <strong>พอใช้ครับ</strong> มีบางจุดที่ควรปรับปรุง<br><br>';
     } else {
-        summary += '😟 <strong>ควรปรับปรุง</strong> วันนี้มีหลายจุดที่ต้องดูแลเพิ่ม<br><br>';
+        summary += '😟 <strong>ควรปรับปรุง</strong> สัปดาห์นี้มีหลายจุดที่ต้องดูแลเพิ่ม<br><br>';
     }
     
     // Good points
@@ -1826,13 +2083,200 @@ function generateFallbackSummary(answers, percentage, moodName) {
         }
     } else {
         summary += '💪 รักษาพฤติกรรมดีๆ แบบนี้ต่อไปนะครับ!';
+}
+
+// Update UI immediately
+document.getElementById('healthScore').textContent = healthScore;
+document.getElementById('aboutHealthScore').textContent = healthScore;
+updateHealthLevelCard(healthScore);
+
+closeWeeklyCheckModal();
+
+// Show result modal
+const resultType = healthScore >= 60 ? 'success' : healthScore >= 40 ? 'warning' : 'error';
+Modal.show({
+    type: resultType,
+    title: `คะแนนสัปดาห์นี้ ${healthScore}%`,
+    html: `
+        <div style="text-align: center; margin-bottom: 12px;">
+            <span style="font-weight: 600;">${moodName}</span>
+            <span style="color: #6b7280;"> (${totalScore}/${maxScore})</span>
+        </div>
+        <div style="background: #f9fafb; padding: 12px; border-radius: 8px; text-align: left; font-size: 13px; line-height: 1.5;">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #7aa449;">สรุปสัปดาห์นี้</p>
+            <div id="aiTypingContainer"><span class="typing-cursor">|</span></div>
+        </div>
+    `,
+    width: '420px'
+});
+        
+// Generate AI summary
+generateAISummary(weeklyAnswers, healthScore);
+        
+// Refresh data
+checkThisWeekCompletion();
+loadStats();
+loadCalendar();
+loadHistory();
+}
+
+function closeWeeklyCheckModal() {
+    document.getElementById('weeklyCheckModal').style.display = 'none';
+    
+    // Reset variables
+    currentWeeklyQuestion = 0;
+    weeklyAnswers = [];
+    weeklyQuestions = [];
+    selectedWeeklyChoice = null;
+    selectedWeeklyScore = null;
+}
+
+// AI Health Summary Function
+async function getAIHealthSummary(answers, percentage, moodName) {
+    try {
+        // Build answer summary for AI using stored question/choice text
+        const answerDetails = answers.map(a => {
+            const questionText = a.questionText || 'คำถาม';
+            const choiceText = a.choiceText || 'ไม่ระบุ';
+            const isGood = a.score >= 5;
+            return `- ${questionText}: ${choiceText} (${isGood ? 'ดี' : 'ควรปรับปรุง'})`;
+        }).join('\n');
+        
+        const prompt = `วิเคราะห์ผลสุขภาพประจำวัน:
+คะแนน: ${percentage}%
+อารมณ์: ${moodName}
+
+ผลการตอบ:
+${answerDetails}
+
+ตอบใน 3 ส่วน (ไม่ต้องมีหัวข้อ "สรุป" เพราะมีอยู่แล้ว):
+1. สถานะสัปดาห์นี้ - อธิบายภาพรวม 1-2 ประโยค
+2. จุดที่ทำได้ดี - ระบุพฤติกรรมดีพร้อมคำชมสั้นๆ
+3. ควรปรับปรุง - คำแนะนำเฉพาะเจาะจงที่ปฏิบัติได้`;
+
+        const data = await GroqAPI.call({
+            model: 'llama-3.1-8b-instant',
+            messages: [
+                { role: 'system', content: 'ผู้เชี่ยวชาญสุขภาพ ตอบภาษาไทย กระชับ ตรงประเด็น ไม่ต้องขึ้นต้นด้วย "สรุป" หรือหัวข้อซ้ำ' },
+                { role: 'user', content: prompt }
+            ],
+            max_tokens: 300,
+            temperature: 0.4
+        });
+        
+        let content = data.choices[0].message.content;
+        // Convert markdown to HTML
+        content = content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        content = content.replace(/\n/g, '<br>');
+        return content;
+    } catch (error) {
+        console.error('AI Summary Error:', error);
+        return generateFallbackSummary(answers, percentage, moodName);
+    }
+}
+
+// Fallback summary when AI is unavailable
+function generateFallbackSummary(answers, percentage, moodName) {
+    const goodAnswers = [];
+    const badAnswers = [];
+    
+    answers.forEach(a => {
+        const choiceText = a.choiceText || 'ไม่ระบุ';
+        const questionText = a.questionText || '';
+        
+        if (a.score >= 5) {
+            goodAnswers.push(choiceText);
+        } else {
+            // Extract topic from question
+            const topic = questionText.replace('สัปดาห์นี้คุณ', '').replace('หรือไม่?', '').replace('หรือไม่', '');
+            badAnswers.push(topic || choiceText);
+        }
+    });
+    
+    let summary = '';
+    
+    // Overall status
+    if (percentage >= 80) {
+        summary += 'ยอดเยี่ยม! สัปดาห์นี้คุณดูแลสุขภาพได้ดีมาก<br><br>';
+    } else if (percentage >= 60) {
+        summary += 'ดีครับ! สัปดาห์นี้สุขภาพโดยรวมอยู่ในเกณฑ์ดี<br><br>';
+    } else if (percentage >= 40) {
+        summary += 'พอใช้ครับ มีบางจุดที่ควรปรับปรุง<br><br>';
+    } else {
+        summary += 'ควรปรับปรุง สัปดาห์นี้มีหลายจุดที่ต้องดูแลเพิ่ม<br><br>';
     }
     
+    // Good points
+    if (goodAnswers.length > 0) {
+        summary += 'ทำได้ดี ' + goodAnswers.slice(0, 2).join(', ') + '<br>';
+    }
+    
+    // Bad points
+    if (badAnswers.length > 0) {
+        summary += 'ควรปรับปรุง ' + badAnswers.slice(0, 2).join(', ') + '<br><br>';
+    }
+    
+    // Tips based on issues
+    const tips = {
+        'ดื่มน้ำเปล่าอย่างน้อย 8 แก้ว': 'พยายามดื่มน้ำให้ครบ 8 แก้วนะครับ',
+        'กินผักหรือผลไม้': 'เพิ่มผักผลไม้ในมื้ออาหารนะครับ',
+        'ออกกำลังกาย': 'ลองเดินเล่น 15-30 นาทีนะครับ',
+        'นอนหลับเพียงพอ': 'พยายามนอนให้ครบ 7-8 ชั่วโมงนะครับ',
+        'รู้สึกเครียด': 'ลองหาเวลาพักผ่อนหรือทำสมาธินะครับ',
+        'สูบบุหรี่': 'ลองลดการสูบบุหรี่ทีละน้อยนะครับ',
+        'ดื่มแอลกอฮอล์': 'ลดการดื่มแอลกอฮอล์จะดีต่อสุขภาพครับ'
+    };
+    
+    if (badAnswers.length > 0) {
+        for (const bad of badAnswers) {
+            for (const [key, tip] of Object.entries(tips)) {
+                if (bad.includes(key.substring(0, 10))) {
+                    summary += tip;
+                    break;
+                }
+            }
+            break; // Show only 1 tip
+        }
+    } else {
+        summary += 'รักษาพฤติกรรมดีๆ แบบนี้ต่อไปนะครับ!';
+    }
+
     return summary;
+
+}
+}
+// Ensure all weekly check functions are globally accessible
+window.startWeeklyCheck = startWeeklyCheck;
+window.goToNextQuestion = goToNextQuestion;
+window.closeWeeklyCheckModal = function() {
+    const modal = document.getElementById('weeklyCheckModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+    
+    // Reset variables
+    currentWeeklyQuestion = 0;
+    weeklyAnswers = [];
+    weeklyQuestions = [];
+    if (typeof selectedWeeklyChoice !== 'undefined') {
+        selectedWeeklyChoice = null;
+    }
+    if (typeof selectedWeeklyScore !== 'undefined') {
+        selectedWeeklyScore = null;
+    }
+};
+
+// Also add direct function for backup
+function closeWeeklyCheckModal() {
+    const modal = document.getElementById('weeklyCheckModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+    
+    // Reset variables
+    currentWeeklyQuestion = 0;
+    weeklyAnswers = [];
+    weeklyQuestions = [];
 }
 
-function closeDailyCheckModal() {
-    document.getElementById('dailyCheckModal').style.display = 'none';
-}
-
-checkAuth();
+// End of file

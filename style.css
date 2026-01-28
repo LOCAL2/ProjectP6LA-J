@@ -9,8 +9,38 @@
 body {
     font-family: 'Mitr', sans-serif;
     font-weight: 300;
-    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    background: white;
     min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==================== Tab System - Simple Show/Hide ==================== */
+.tab-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.tab-container {
+    width: 100%;
+    position: relative;
+}
+
+.tab-content {
+    display: none;
+    width: 100%;
+    padding: 0;
+}
+
+.tab-content.active {
+    display: block !important;
+}
+
+/* Initial state - show first tab */
+#recordTab {
+    display: block;
 }
 
 /* ==================== Custom Modal System ==================== */
@@ -41,9 +71,12 @@ body {
     width: 90%;
     max-width: 380px;
     text-align: center;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.05),
+        0 20px 40px rgba(0, 0, 0, 0.1);
     transform: scale(0.9);
     transition: transform 0.2s ease;
+    border: 1px solid #e5e7eb;
 }
 
 .modal-overlay.show .modal-box {
@@ -457,23 +490,29 @@ body {
 
 #mainApp {
     padding: 20px;
+    min-height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 .header {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 20px 30px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 100%);
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    flex-shrink: 0;
 }
 
 .header-logo {
@@ -530,12 +569,25 @@ body {
 
 .card {
     background: white;
-    border-radius: 15px;
-    padding: 25px;
-    margin-bottom: 20px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
     border-radius: 16px;
+    padding: 30px;
+    margin: 10px;
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.1),
+        0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+    width: calc(100% - 20px);
+    height: fit-content;
+}
 
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(122, 164, 73, 0.1), transparent);
 }
 
 .card h2 {
@@ -548,7 +600,7 @@ body {
     max-width: 100%;
     margin: 0 auto;
     padding: 40px 30px !important;
-    min-height: 550px;
+    min-height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1313,37 +1365,38 @@ transform: scale(1) rotate(45deg);
     border-bottom: 2px solid #e5e7eb;
     padding-bottom: 10px;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .tab {
-    padding: 10px 16px;
+    padding: 16px 24px;
     cursor: pointer;
     border: none;
     background: none;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     color: #474747;
     border-bottom: 3px solid transparent;
     transition: all 0.3s;
     white-space: nowrap;
+    min-width: 120px;
+    border-radius: 12px;
+    text-align: center;
 }
 
 .tab.active {
     color: #ffffff;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     background-color: #7aa449;
 }
 
-.tab-content {
-    display: none;
+.tab:hover:not(.active) {
+    background-color: #f3f4f6;
+    color: #7aa449;
 }
 
-.tab-content.active {
-    display: block;
-}
 
 .image-preview {
     margin-top: 10px;
@@ -2724,7 +2777,10 @@ transform: scale(1) rotate(45deg);
     padding: 16px;
     border-radius: 16px;
     margin-bottom: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.05),
+        0 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e5e7eb;
 }
 
 .chat-welcome p {
@@ -2749,6 +2805,7 @@ transform: scale(1) rotate(45deg);
     cursor: pointer;
     transition: all 0.2s;
     font-family: 'Mitr', sans-serif;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .suggest-btn:hover {
@@ -2788,7 +2845,10 @@ transform: scale(1) rotate(45deg);
     background: white;
     color: #374151;
     border-bottom-left-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.05),
+        0 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e5e7eb;
 }
 
 .message-bubble.typing {
@@ -2985,7 +3045,7 @@ transform: scale(1) rotate(45deg);
     }
     
     .tabs {
-        gap: 6px;
+        gap: 1px;
         padding: 6px;
         background: #f3f4f6;
         border-radius: 12px;
@@ -2993,12 +3053,16 @@ transform: scale(1) rotate(45deg);
     }
     
     .tab {
-        padding: 10px 14px;
-        font-size: 13px;
+        padding: 10px 4px;
+        font-size: 11px;
         border-radius: 8px;
         border-bottom: none;
         flex: 1;
         text-align: center;
+        min-width: 0;
+        overflow: visible;
+        white-space: nowrap;
+        max-width: none;
     }
     
     .tab.active {
@@ -3057,13 +3121,16 @@ transform: scale(1) rotate(45deg);
     }
     
     .tab {
-        padding: 8px 12px;
-        font-size: 11px;
+        padding: 8px 3px;
+        font-size: 10px;
         border-radius: 8px;
         border-bottom: none;
         flex: 1;
         text-align: center;
         min-width: 0;
+        overflow: visible;
+        white-space: nowrap;
+        max-width: none;
     }
     
     .tab.active {
@@ -3405,8 +3472,13 @@ transform: scale(1) rotate(45deg);
     }
     
     .tab {
-        padding: 6px 10px;
-        font-size: 11px;
+        padding: 6px 2px;
+        font-size: 9px;
+        min-width: 0;
+        overflow: visible;
+        white-space: nowrap;
+        max-width: none;
+        flex: 1;
     }
 }
 
@@ -3837,9 +3909,9 @@ transform: scale(1) rotate(45deg);
     padding: 24px;
     margin-bottom: 24px;
     box-shadow: 
-        0 1px 2px rgba(0, 0, 0, 0.04),
-        0 4px 12px rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.04);
+        0 1px 3px rgba(0, 0, 0, 0.05),
+        0 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e5e7eb;
 }
 
 .question-badge {
@@ -4117,4 +4189,373 @@ transform: scale(1) rotate(45deg);
 .btn-start.btn-health-gray:hover:not(:disabled) {
     background: #9ca3af;
     color: white;
+}
+
+/* ==================== Weekly Health Check Modal - World-Class Design ==================== */
+.weekly-modal-overlay {
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+}
+
+.weekly-modal-container {
+    background: #ffffff;
+    border-radius: 24px;
+    width: 90%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.05),
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.weekly-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.weekly-close-btn:hover {
+    background: #ffffff;
+    color: #1e293b;
+}
+
+.weekly-modal-header {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    padding: 32px 32px 40px;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.weekly-modal-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.weekly-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.weekly-icon-wrapper svg {
+    stroke: white;
+    width: 32px;
+    height: 32px;
+}
+
+.weekly-modal-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.weekly-subtitle {
+    font-size: 14px;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.weekly-progress-bar {
+    position: relative;
+    height: 3px;
+    background: #e2e8f0;
+    overflow: hidden;
+}
+
+.weekly-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #059669, #10b981);
+    transition: width 0.3s ease;
+}
+
+.weekly-progress-text {
+    position: absolute;
+    right: 24px;
+    top: -35px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background: rgba(5, 150, 105, 0.9);
+    padding: 6px 12px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+}
+
+.weekly-modal-content {
+    padding: 28px;
+    background: #f8fafc;
+}
+
+.weekly-question-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.05),
+        0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.question-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+}
+
+.weekly-question-text {
+    font-size: 17px;
+    color: #1e293b;
+    line-height: 1.5;
+    margin: 0;
+    font-weight: 400;
+}
+
+.weekly-choices-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.weekly-choice-btn {
+    padding: 16px 20px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #374151;
+    position: relative;
+    overflow: hidden;
+}
+
+.weekly-choice-btn::before {
+    display: none;
+}
+
+.weekly-choice-btn::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.weekly-choice-btn:hover {
+    border-color: #059669;
+    background: #f0fdf4;
+    transform: translateY(-1px);
+}
+
+.weekly-choice-btn:hover::after {
+    border-color: #059669;
+}
+
+.weekly-choice-btn.selected {
+    border-color: #059669;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.weekly-choice-btn.selected::after {
+    background: transparent;
+    border-color: white;
+}
+
+.choice-icon {
+    width: 32px;
+    height: 32px;
+    background: #f1f5f9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.weekly-choice-btn:hover .choice-icon {
+    background: #dcfce7;
+    transform: scale(1.05);
+}
+
+.weekly-choice-btn.selected .choice-icon {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.weekly-modal-footer {
+    padding: 0 28px 28px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.weekly-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.progress-dot-small {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    transition: all 0.2s ease;
+}
+
+.progress-dot-small.completed {
+    background: #059669;
+    transform: scale(1.2);
+}
+
+.progress-dot-small.active {
+    background: #10b981;
+    transform: scale(1.4);
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+}
+
+.weekly-next-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.weekly-next-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
+}
+
+.weekly-next-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.weekly-next-btn:disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 480px) {
+    .weekly-modal-container {
+        margin: 12px;
+        max-width: calc(100% - 24px);
+        max-height: calc(100vh - 24px);
+    }
+    
+    .weekly-modal-header {
+        padding: 24px 24px 32px;
+    }
+    
+    .weekly-modal-header h2 {
+        font-size: 20px;
+    }
+    
+    .weekly-modal-content {
+        padding: 20px;
+    }
+    
+    .weekly-question-card {
+        padding: 20px;
+    }
+    
+    .weekly-question-text {
+        font-size: 16px;
+    }
+    
+    .weekly-choice-btn {
+        padding: 14px 16px;
+        font-size: 14px;
+    }
+    
+    .choice-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+    
+    .weekly-modal-footer {
+        padding: 0 20px 24px;
+    }
+    
+    .weekly-dots {
+        gap: 4px;
+    }
+    
+    .progress-dot-small {
+        width: 5px;
+        height: 5px;
+    }
 }

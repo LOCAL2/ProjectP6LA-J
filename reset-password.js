@@ -1,24 +1,39 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    
-    if (error || !session) {
+    try {
+        // ตรวจสอบว่า supabase พร้อมใช้งาน
+        if (!supabase || !supabase.auth) {
+            document.getElementById('errorState').style.display = 'block';
+            document.getElementById('resetFormCard').style.display = 'none';
+            document.getElementById('successState').style.display = 'none';
+            return;
+        }
+
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error || !session) {
+            document.getElementById('errorState').style.display = 'block';
+            document.getElementById('resetFormCard').style.display = 'none';
+            document.getElementById('successState').style.display = 'none';
+            return;
+        }
+
+        document.getElementById('errorState').style.display = 'none';
+        document.getElementById('resetFormCard').style.display = 'block';
+        document.getElementById('successState').style.display = 'none';
+
+        document.getElementById('newPassword').addEventListener('input', checkPasswordLength);
+        document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
+
+        document.getElementById('resetForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            await resetPassword();
+        });
+    } catch (error) {
+        console.error('Reset password initialization error:', error);
         document.getElementById('errorState').style.display = 'block';
         document.getElementById('resetFormCard').style.display = 'none';
         document.getElementById('successState').style.display = 'none';
-        return;
     }
-
-    document.getElementById('errorState').style.display = 'none';
-    document.getElementById('resetFormCard').style.display = 'block';
-    document.getElementById('successState').style.display = 'none';
-
-    document.getElementById('newPassword').addEventListener('input', checkPasswordLength);
-    document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
-
-    document.getElementById('resetForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        await resetPassword();
-    });
 });
 
 function checkPasswordLength() {
@@ -92,26 +107,37 @@ async function resetPassword() {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span>กำลังบันทึก...</span>';
 
-    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    try {
+        const { error } = await supabase.auth.updateUser({ password: newPassword });
 
-    if (error) {
+        if (error) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<span>บันทึกรหัสผ่านใหม่</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>`;
+            
+            let errorMessage = error.message;
+            if (error.message.includes('different from the old password')) {
+                errorMessage = 'รหัสผ่านใหม่ต้องไม่เหมือนกับรหัสผ่านเดิม';
+            }
+            formError.textContent = errorMessage;
+            formError.className = 'input-status error';
+            return;
+        }
+
+        await supabase.auth.signOut();
+
+        document.getElementById('resetFormCard').style.display = 'none';
+        document.getElementById('successState').style.display = 'block';
+    } catch (error) {
+        console.error('Password reset error:', error);
         submitBtn.disabled = false;
         submitBtn.innerHTML = `<span>บันทึกรหัสผ่านใหม่</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"></path>
             </svg>`;
-        
-        let errorMessage = error.message;
-        if (error.message.includes('different from the old password')) {
-            errorMessage = 'รหัสผ่านใหม่ต้องไม่เหมือนกับรหัสผ่านเดิม';
-        }
-        formError.textContent = errorMessage;
+        formError.textContent = 'ไม่สามารถเปลี่ยนรหัสผ่านได้ กรุณาลองใหม่อีกครั้ง';
         formError.className = 'input-status error';
-        return;
     }
-
-    await supabase.auth.signOut();
-
-    document.getElementById('resetFormCard').style.display = 'none';
-    document.getElementById('successState').style.display = 'block';
 }

@@ -12,7 +12,24 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <script src="config.js"></script>
+    <script>
+        // ตรวจสอบว่า config.js โหลดสำเร็จหรือไม่
+        window.configLoaded = false;
+        window.addEventListener('error', function(e) {
+            if (e.filename && e.filename.includes('config.js')) {
+                console.error('Config.js failed to load. Using fallback configuration.');
+                // สร้าง fallback config
+                window.SUPABASE_URL = 'https://ekbmxftmujfzkobyiyvk.supabase.co';
+                window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrYm14ZnRtdWpmemtvYnlpeXZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDY4MjQsImV4cCI6MjA4MTgyMjgyNH0.NZaOQQCo270sDkatM8sY_BZQOnUrIan6gAsnRVQog6I';
+                if (typeof window.supabase !== 'undefined') {
+                    window.supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+                    window.supabase = window.supabaseClient;
+                }
+                window.configLoaded = true;
+            }
+        });
+    </script>
+    <script src="config.js" onerror="console.warn('Config.js not found, using fallback')"></script>
     <div class="login-page">
         <header class="landing-header">
             <a href="index.html" class="landing-logo">

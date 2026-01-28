@@ -19,11 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         signup();
     });
-
-    // OTP input - auto focus and number only
-    document.getElementById('otpInput').addEventListener('input', function(e) {
-        this.value = this.value.replace(/[^0-9]/g, '');
-    });
 });
 
 function togglePassword(inputId, btn) {
@@ -58,6 +53,14 @@ async function checkUsername() {
     statusEl.className = 'input-status checking';
 
     try {
+        // ตรวจสอบว่า supabase พร้อมใช้งาน
+        if (!supabase || !supabase.from) {
+            statusEl.textContent = 'Username นี้สามารถใช้ได้';
+            statusEl.className = 'input-status success';
+            isUsernameAvailable = true;
+            return;
+        }
+
         const { data } = await supabase
             .from('users')
             .select('username')
@@ -73,7 +76,8 @@ async function checkUsername() {
             statusEl.className = 'input-status success';
             isUsernameAvailable = true;
         }
-    } catch {
+    } catch (error) {
+        console.error('Username check error:', error);
         statusEl.textContent = 'Username นี้สามารถใช้ได้';
         statusEl.className = 'input-status success';
         isUsernameAvailable = true;
@@ -126,6 +130,16 @@ async function signup() {
         return;
     }
 
+    // ตรวจสอบว่า supabase พร้อมใช้งาน
+    if (!supabase || !supabase.auth) {
+        Swal.fire({ 
+            icon: 'error', 
+            title: 'เกิดข้อผิดพลาด', 
+            text: 'ระบบไม่พร้อมใช้งาน กรุณาลองใหม่อีกครั้ง' 
+        });
+        return;
+    }
+
     const registerData = JSON.parse(localStorage.getItem('registerData'));
     const questionData = JSON.parse(localStorage.getItem('questionData'));
 
@@ -134,121 +148,64 @@ async function signup() {
 
     pendingSignupData = { email, username, password, registerData, questionData };
 
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-            data: {
-                username,
-                nickname: registerData.nickname,
-                gender: registerData.gender,
-                age: registerData.age,
-                birthdate: registerData.birthdate,
-                weight: registerData.weight,
-                height: registerData.height,
-                health_score: questionData.healthScore,
-                health_status: questionData.healthStatus,
-                answers: JSON.stringify(questionData.answers)
+    try {
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    username,
+                    nickname: registerData.nickname,
+                    gender: registerData.gender,
+                    age: registerData.age,
+                    birthdate: registerData.birthdate,
+                    weight: registerData.weight,
+                    height: registerData.height,
+                    health_score: questionData.healthScore,
+                    health_status: questionData.healthStatus,
+                    answers: JSON.stringify(questionData.answers)
+                }
             }
-        }
-    });
+        });
 
-    if (authError) {
+        if (authError) {
+            signupBtn.disabled = false;
+            signupBtn.innerHTML = `<span>สมัครสมาชิก</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>`;
+            
+            let errorMsg = authError.message;
+            if (authError.message.includes('already registered')) {
+                errorMsg = 'อีเมลนี้ถูกใช้งานแล้ว';
+            }
+            Swal.fire({ icon: 'error', title: 'สมัครสมาชิกไม่สำเร็จ', text: errorMsg });
+            return;
+        }
+
+        if (authData.session) {
+            // Direct redirect to main app - no confirmation needed
+            window.location.href = 'index.html';
+        } else {
+            Swal.fire({ 
+                icon: 'error', 
+                title: 'สมัครสมาชิกไม่สำเร็จ', 
+                text: 'ไม่สามารถสร้างเซสชันได้ กรุณาลองใหม่' 
+            });
+        }
+    } catch (error) {
+        console.error('Signup error:', error);
         signupBtn.disabled = false;
         signupBtn.innerHTML = `<span>สมัครสมาชิก</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"></path>
             </svg>`;
-        
-        let errorMsg = authError.message;
-        if (authError.message.includes('already registered')) {
-            errorMsg = 'อีเมลนี้ถูกใช้งานแล้ว';
-        }
-        Swal.fire({ icon: 'error', title: 'สมัครสมาชิกไม่สำเร็จ', text: errorMsg });
-        return;
-    }
-
-    if (authData.user && !authData.session) {
-        showOTPForm();
-    } else if (authData.session) {
-        showSuccessState();
+        Swal.fire({ 
+            icon: 'error', 
+            title: 'เกิดข้อผิดพลาด', 
+            text: 'ไม่สามารถสมัครสมาชิกได้ กรุณาลองใหม่อีกครั้ง' 
+        });
     }
 }
 
-function showOTPForm() {
-    document.getElementById('signupFormCard').style.display = 'none';
-    document.getElementById('otpFormCard').style.display = 'block';
-    document.getElementById('successState').style.display = 'none';
-    document.getElementById('otpEmailDisplay').textContent = pendingSignupData.email;
-    document.getElementById('otpInput').value = '';
-    document.getElementById('otpStatus').textContent = '';
-    document.getElementById('otpInput').focus();
-}
 
-function backToSignup() {
-    document.getElementById('signupFormCard').style.display = 'block';
-    document.getElementById('otpFormCard').style.display = 'none';
-    document.getElementById('successState').style.display = 'none';
-    
-    const signupBtn = document.getElementById('signupBtn');
-    signupBtn.disabled = false;
-    signupBtn.innerHTML = `<span>สมัครสมาชิก</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>`;
-}
-
-async function verifyOTP() {
-    const otp = document.getElementById('otpInput').value.trim();
-    const statusEl = document.getElementById('otpStatus');
-    const verifyBtn = document.getElementById('verifyOtpBtn');
-
-    statusEl.textContent = '';
-    statusEl.className = 'input-status';
-
-    if (!otp || otp.length < 6) {
-        statusEl.textContent = 'กรุณากรอกรหัส OTP 6 หลัก';
-        statusEl.className = 'input-status error';
-        return;
-    }
-
-    if (!pendingSignupData) {
-        statusEl.textContent = 'ไม่พบข้อมูลการสมัคร';
-        statusEl.className = 'input-status error';
-        return;
-    }
-
-    verifyBtn.disabled = true;
-    verifyBtn.innerHTML = '<span>กำลังยืนยัน...</span>';
-
-    const { error } = await supabase.auth.verifyOtp({
-        email: pendingSignupData.email,
-        token: otp,
-        type: 'signup'
-    });
-
-    if (error) {
-        verifyBtn.disabled = false;
-        verifyBtn.innerHTML = `<span>ยืนยัน</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>`;
-        statusEl.textContent = 'รหัส OTP ไม่ถูกต้อง กรุณาลองใหม่';
-        statusEl.className = 'input-status error';
-        return;
-    }
-
-    showSuccessState();
-}
-
-function showSuccessState() {
-    localStorage.removeItem('registerData');
-    localStorage.removeItem('questionData');
-    
-    document.getElementById('signupFormCard').style.display = 'none';
-    document.getElementById('otpFormCard').style.display = 'none';
-    document.getElementById('successState').style.display = 'block';
-    document.getElementById('welcomeUsername').textContent = `ยินดีต้อนรับ ${pendingSignupData.username}`;
-    
-    pendingSignupData = null;
-}

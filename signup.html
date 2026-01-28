@@ -12,7 +12,24 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <script src="config.js"></script>
+    <script>
+        // ตรวจสอบว่า config.js โหลดสำเร็จหรือไม่
+        window.configLoaded = false;
+        window.addEventListener('error', function(e) {
+            if (e.filename && e.filename.includes('config.js')) {
+                console.error('Config.js failed to load. Using fallback configuration.');
+                // สร้าง fallback config
+                window.SUPABASE_URL = 'https://ekbmxftmujfzkobyiyvk.supabase.co';
+                window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrYm14ZnRtdWpmemtvYnlpeXZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDY4MjQsImV4cCI6MjA4MTgyMjgyNH0.NZaOQQCo270sDkatM8sY_BZQOnUrIan6gAsnRVQog6I';
+                if (typeof window.supabase !== 'undefined') {
+                    window.supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+                    window.supabase = window.supabaseClient;
+                }
+                window.configLoaded = true;
+            }
+        });
+    </script>
+    <script src="config.js" onerror="console.warn('Config.js not found, using fallback')"></script>
     <div class="register-page">
         <header class="landing-header">
             <a href="index.html" class="landing-logo">
@@ -120,58 +137,6 @@
                 </form>
             </div>
 
-            <div id="otpFormCard" class="signup-card" style="display: none;">
-                <div class="signup-header">
-                    <div class="signup-icon" style="background: linear-gradient(135deg, #7aa449 0%, #5c8035 100%);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                    </div>
-                    <h2 class="signup-title">ยืนยันอีเมล</h2>
-                    <p class="signup-subtitle">เราส่งรหัส OTP ไปที่</p>
-                    <p id="otpEmailDisplay" style="color: #7aa449; font-weight: 600; margin-top: 5px;"></p>
-                </div>
-
-                <div class="signup-form">
-                    <div class="form-group" style="text-align: center;">
-                        <label style="display: block; text-align: center;">กรอกรหัส OTP 6 หลัก</label>
-                        <input type="text" id="otpInput" placeholder="000000" maxlength="6" 
-                            style="text-align: center; font-size: 28px; letter-spacing: 10px; width: 200px; display: inline-block;">
-                    </div>
-
-                    <span id="otpStatus" class="input-status" style="display: block; text-align: center; margin-bottom: 10px;"></span>
-
-                    <button type="button" class="btn-signup" id="verifyOtpBtn" onclick="verifyOTP()">
-                        <span>ยืนยัน</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"></path>
-                        </svg>
-                    </button>
-
-                    <p style="text-align: center; margin-top: 15px;">
-                        <a href="#" class="forgot-link" onclick="backToSignup()">กลับไปแก้ไขข้อมูล</a>
-                    </p>
-                </div>
-            </div>
-
-            <div id="successState" class="signup-card" style="display: none;">
-                <div style="text-align: center;">
-                    <div style="width: 60px; height: 60px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                    </div>
-                    <h2 style="color: #1f2937; font-size: 20px; margin-bottom: 8px;">สมัครสมาชิกสำเร็จ!</h2>
-                    <p id="welcomeUsername" style="color: #6b7280; font-size: 14px; margin-bottom: 20px;"></p>
-                    <a href="index.html" class="btn-signup" style="text-decoration: none; display: inline-flex;">
-                        <span>เข้าสู่ระบบ</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
         </main>
 
         <div class="chatbot-btn">

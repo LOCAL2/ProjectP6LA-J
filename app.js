@@ -241,17 +241,36 @@ const monthNames = ['มกราคม', 'กุมภาพันธ์', 'ม
                    'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
 
 async function checkAuth() {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-        const { data: { user }, error } = await supabase.auth.getUser();
-        if (error || !user) {
-            await supabase.auth.signOut();
+    try {
+        // ตรวจสอบว่า supabase ถูก initialize หรือไม่
+        if (!supabase || !supabase.auth) {
+            console.error('Supabase not initialized properly');
             document.getElementById('landingPage').style.display = 'flex';
             return;
         }
-        currentUser = user;
-        showMainApp();
-    } else {
+
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+            console.error('Auth error:', error);
+            document.getElementById('landingPage').style.display = 'flex';
+            return;
+        }
+
+        if (session) {
+            const { data: { user }, error: userError } = await supabase.auth.getUser();
+            if (userError || !user) {
+                await supabase.auth.signOut();
+                document.getElementById('landingPage').style.display = 'flex';
+                return;
+            }
+            currentUser = user;
+            showMainApp();
+        } else {
+            document.getElementById('landingPage').style.display = 'flex';
+        }
+    } catch (error) {
+        console.error('Failed to check auth:', error);
         document.getElementById('landingPage').style.display = 'flex';
     }
 }

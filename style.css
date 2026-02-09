@@ -3636,10 +3636,10 @@ transform: scale(1) rotate(45deg);
 .bmi-gauge-bar {
     height: 12px;
     background: linear-gradient(90deg, 
-        #3b82f6 0%, 
-        #65c8ff 30%, 
-        #65c8ff 50%, 
-        #eab308 70%, 
+        #22c55e 0%, 
+        #22c55e 25%, 
+        #eab308 50%, 
+        #f97316 75%, 
         #ef4444 100%
     );
     border-radius: 6px;

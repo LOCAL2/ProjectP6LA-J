@@ -360,6 +360,9 @@ async function logout() {
     isDevMode = false;
     isGuestMode = false;
     
+    // Clear localStorage for guest mode
+    localStorage.removeItem('guestMode');
+    
     // Remove dev badge if exists
     const devBadge = document.querySelector('.dev-badge');
     if (devBadge) devBadge.remove();
@@ -375,6 +378,9 @@ async function logout() {
     document.getElementById('mainApp').style.display = 'none';
     document.getElementById('landingPage').style.display = 'flex';
     resetForm();
+    
+    // Reload page to ensure clean state
+    location.reload();
 }
 
 function showMainApp() {

@@ -176,4 +176,44 @@ CREATE POLICY "Users can update own daily checks"
     ON public.daily_checks FOR UPDATE 
     TO authenticated
     USING (auth.uid() = user_id);
+
+-- =============================================
+-- 7. WEEKLY_CHECKS TABLE - เช็คสุขภาพประจำสัปดาห์
+-- =============================================
+CREATE TABLE IF NOT EXISTS public.weekly_checks (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    week_key TEXT NOT NULL,
+    answers JSONB,
+    health_score INTEGER,
+    mood TEXT,
+    mood_name TEXT,
+    completed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(user_id, week_key)
+);
+
+-- Enable RLS
+ALTER TABLE public.weekly_checks ENABLE ROW LEVEL SECURITY;
+
+-- WEEKLY_CHECKS POLICIES
+CREATE POLICY "Users can view own weekly checks" 
+    ON public.weekly_checks FOR SELECT 
+    TO authenticated
+    USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own weekly checks" 
+    ON public.weekly_checks FOR INSERT 
+    TO authenticated
+    WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own weekly checks" 
+    ON public.weekly_checks FOR UPDATE 
+    TO authenticated
+    USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete own weekly checks" 
+    ON public.weekly_checks FOR DELETE 
+    TO authenticated
+    USING (auth.uid() = user_id);
  

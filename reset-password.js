@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function() {
     try {
         // ตรวจสอบว่า supabase พร้อมใช้งาน
+        const supabase = window.supabaseClient;
         if (!supabase || !supabase.auth) {
             document.getElementById('errorState').style.display = 'block';
             document.getElementById('resetFormCard').style.display = 'none';
@@ -108,6 +109,7 @@ async function resetPassword() {
     submitBtn.innerHTML = '<span>กำลังบันทึก...</span>';
 
     try {
+        const supabase = window.supabaseClient;
         const { error } = await supabase.auth.updateUser({ password: newPassword });
 
         if (error) {

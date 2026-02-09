@@ -53,7 +53,7 @@ async function checkUsername() {
     statusEl.className = 'input-status checking';
 
     try {
-        // ตรวจสอบว่า supabase พร้อมใช้งาน
+        const supabase = window.supabaseClient;
         if (!supabase || !supabase.from) {
             statusEl.textContent = 'Username นี้สามารถใช้ได้';
             statusEl.className = 'input-status success';
@@ -131,6 +131,7 @@ async function signup() {
     }
 
     // ตรวจสอบว่า supabase พร้อมใช้งาน
+    const supabase = window.supabaseClient;
     if (!supabase || !supabase.auth) {
         Swal.fire({ 
             icon: 'error', 

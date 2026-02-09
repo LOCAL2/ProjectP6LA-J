@@ -97,13 +97,13 @@ body {
 .modal-title {
     font-size: 18px;
     font-weight: 600;
-    color: #1f2937;
+    color: #2572a2;
     margin-bottom: 8px;
 }
 
 .modal-message {
     font-size: 14px;
-    color: #6b7280;
+    color: #2572a2;
     margin-bottom: 20px;
     line-height: 1.5;
 }
@@ -125,7 +125,7 @@ body {
 
 .modal-input:focus {
     outline: none;
-    border-color: #65c8ff;
+    border-color: #2572a2;
 }
 
 .modal-buttons {
@@ -147,17 +147,17 @@ body {
 }
 
 .modal-btn-confirm {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
 }
 
 .modal-btn-confirm:hover {
-    background: #65c8ff;
+    background: #CBDDE9;
 }
 
 .modal-btn-cancel {
     background: #f3f4f6;
-    color: #4b5563;
+    color: #2572a2;
 }
 
 .modal-btn-cancel:hover {
@@ -172,7 +172,7 @@ body {
     width: 40px;
     height: 40px;
     border: 3px solid #e5e7eb;
-    border-top-color: #65c8ff;
+    border-top-color: #2572a2;
     border-radius: 50%;
     margin: 0 auto 16px;
     animation: spin 0.8s linear infinite;
@@ -185,7 +185,7 @@ body {
 /* Typing Cursor Animation */
 .typing-cursor {
     display: inline;
-    color: #65c8ff;
+    color: #2572a2;
     font-weight: 400;
     animation: blink 0.7s infinite;
 }
@@ -206,10 +206,10 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     font-size: 14px;
-    color: #1f2937;
+    color: #2572a2;
     z-index: 10000;
     transition: transform 0.3s ease;
-    border-left: 4px solid #65c8ff;
+    border-left: 4px solid #CBDDE9;
 }
 
 .toast-notification.show {
@@ -221,7 +221,7 @@ body {
     padding: 8px 14px;
     font-size: 13px;
     font-weight: 500;
-    color: #374151;
+    color: #2572a2;
     background: #f3f4f6;
     border: 1px solid #e5e7eb;
     border-radius: 6px;
@@ -231,9 +231,9 @@ body {
 }
 
 .preset-btn:hover {
-    background: #65c8ff;
-    color: white;
-    border-color: #65c8ff;
+    background: #CBDDE9;
+    color: #2572a2;
+    border-color: #2572a2;
 }
 
 /* ==================== End Modal System ==================== */
@@ -273,26 +273,26 @@ body {
 .logo-text {
     display: flex;
     flex-direction: column;
-    color: #65c8ff;
+    color: #2572a2;
     font-weight: 500;
     font-size: 18px;
     line-height: 1.2;
 }
 
 .landing-nav .nav-link {
-    color: #65c8ff;
+    color: #2572a2;
     text-decoration: none;
     font-size: 16px;
     font-weight: 500;
     padding: 10px 20px;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
     transition: all 0.3s;
 }
 
 .landing-nav .nav-link:hover {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
     text-decoration: none;
 }
 
@@ -311,8 +311,8 @@ body {
 }
 
 .btn-register {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
     border: none;
     padding: 18px 50px;
     font-size: 18px;
@@ -326,7 +326,7 @@ body {
 }
 
 .btn-register:hover {
-    background: #65c8ff;
+    background: #CBDDE9;
     transform: translateY(-2px);
 }
 
@@ -338,7 +338,7 @@ body {
 }
 
 .login-link {
-    color: #65c8ff;
+    color: #2572a2;
     text-decoration: none;
     font-size: 16px;
     margin-top: 20px;
@@ -352,7 +352,7 @@ body {
 /* Guest User Button */
 .btn-guest {
     background: transparent;
-    color: #6b7280;
+    color: #2572a2;
     border: 2px dashed #d1d5db;
     padding: 14px 40px;
     font-size: 15px;
@@ -365,15 +365,15 @@ body {
 }
 
 .btn-guest:hover {
-    border-color: #65c8ff;
-    color: #65c8ff;
+    border-color: #2572a2;
+    color: #2572a2;
     background: rgba(101, 200, 255, 0.05);
 }
 
 /* Guest Badge */
 .guest-badge {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    color: white;
+    color: #2572a2;
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 12px;
@@ -385,7 +385,7 @@ body {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background: #65c8ff;
+    background: #CBDDE9;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -402,7 +402,7 @@ body {
 .chatbot-btn:hover {
     transform: scale(1.1);
     box-shadow: 0 6px 20px rgba(101, 200, 255, 0.5);
-    background: #65c8ff;
+    background: #CBDDE9;
 }
 
 .chatbot-icon {
@@ -440,7 +440,7 @@ body {
 }
 
 .modal-content h2 {
-    color: #65c8ff;
+    color: #2572a2;
     text-align: center;
     margin-bottom: 25px;
 }
@@ -448,7 +448,7 @@ body {
 .modal-content input {
     width: 100%;
     padding: 12px;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
     margin-bottom: 15px;
     font-size: 14px;
@@ -457,7 +457,7 @@ body {
 
 .modal-content input:focus {
     outline: none;
-    border-color: #65c8ff;
+    border-color: #2572a2;
 }
 
 .close-btn {
@@ -466,21 +466,21 @@ body {
     right: 20px;
     font-size: 28px;
     cursor: pointer;
-    color: #6b7280;
+    color: #2572a2;
 }
 
 .close-btn:hover {
-    color: #1f2937;
+    color: #2572a2;
 }
 
 .modal-switch {
     text-align: center;
     margin-top: 15px;
-    color: #6b7280;
+    color: #2572a2;
 }
 
 .modal-switch a {
-    color: #65c8ff;
+    color: #2572a2;
     text-decoration: none;
 }
 
@@ -527,7 +527,7 @@ body {
 }
 
 .header h1 {
-    color: #65c8ff;
+    color: #2572a2;
     font-size: 28px;
     margin-bottom: 5px;
 }
@@ -549,8 +549,8 @@ body {
 }
 
 .btn-primary {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
 }
 
 .btn-primary:hover {
@@ -560,7 +560,7 @@ body {
 
 .btn-secondary {
     background: #f5f5f5;
-    color: #333333;
+    color: #2572a2;
 }
 
 .btn-secondary:hover {
@@ -591,7 +591,7 @@ body {
 }
 
 .card h2 {
-    color: #1f2937;
+    color: #2572a2;
     margin-bottom: 20px;
     font-size: 22px;
 }
@@ -613,12 +613,12 @@ body {
 
 .record-header h2 {
     font-size: 24px;
-    color: #1f2937;
+    color: #2572a2;
     margin-bottom: 8px;
 }
 
 .record-date {
-    color: #6b7280;
+    color: #2572a2;
     font-size: 14px;
 }
 
@@ -627,9 +627,9 @@ body {
     padding: 16px 80px;
     font-size: 24px;
     font-weight: 500;
-    color: #65c8ff;
+    color: #2572a2;
     background: white;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 30px;
     cursor: pointer;
     font-family: 'Mitr', sans-serif;
@@ -638,14 +638,14 @@ body {
 }
 
 .btn-start:hover:not(:disabled) {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
 }
 
 .btn-start.btn-completed {
     background: #f0fdf4;
-    border-color: #65c8ff;
-    color: #65c8ff;
+    border-color: #2572a2;
+    color: #2572a2;
     cursor: not-allowed;
     padding: 16px 50px;
 }
@@ -659,7 +659,7 @@ body {
     display: inline-flex;
     align-items: center;
     background: red;
-    color: #fff;
+    color: #2572a2;
     padding: 4px 10px;
     border-radius: 12px;
     font-size: 10px;
@@ -688,7 +688,7 @@ body {
     padding: 10px 20px;
     font-size: 13px;
     font-weight: 500;
-    color: #6b7280;
+    color: #2572a2;
     background: #f9fafb;
     border: 1px solid #e5e7eb;
     border-radius: 20px;
@@ -700,7 +700,7 @@ body {
 .btn-dev-skip:hover {
     background: #f3f4f6;
     border-color: #d1d5db;
-    color: #374151;
+    color: #2572a2;
 }
 
 .btn-dev-skip:active {
@@ -731,19 +731,19 @@ body {
     border-radius: 4px;
     font-size: 9px;
     font-weight: 600;
-    color: white;
+    color: #2572a2;
     white-space: nowrap;
 }
 
 .mood-badge.mood-blue { background: #3B82F6; }
-.mood-badge.mood-green { background: #65c8ff; }
+.mood-badge.mood-green { background: #CBDDE9; }
 .mood-badge.mood-yellow { background: #F59E0B; }
 .mood-badge.mood-orange { background: #F97316; }
 .mood-badge.mood-red { background: #EF4444; }
 
 /* Calendar Today Highlight */
 .calendar-day.today {
-    border: 2px solid #65c8ff !important;
+    border: 2px solid #CBDDE9 !important;
     font-weight: 700;
     position: relative;
     background: rgba(101, 200, 255, 0.08) !important;
@@ -753,7 +753,7 @@ body {
 .calendar-day.missed-day {
     position: relative;
     background: #fef2f2 !important;
-    color: #9ca3af;
+    color: #2572a2;
 }
 
 .calendar-day.missed-day::after {
@@ -768,7 +768,7 @@ body {
 }
 
 .calendar-day.missed-day .day-number {
-    color: #9ca3af;
+    color: #2572a2;
 }
 
 /* Dev Edit Score Button - Clean Design */
@@ -779,7 +779,7 @@ body {
     padding: 4px 12px;
     font-size: 11px;
     font-weight: 500;
-    color: #6b7280;
+    color: #2572a2;
     background: #f3f4f6;
     border: 1px solid #e5e7eb;
     border-radius: 6px;
@@ -791,7 +791,7 @@ body {
 
 .dev-edit-score-btn:hover {
     background: #e5e7eb;
-    color: #374151;
+    color: #2572a2;
 }
 
 /* Dev Score Preset Buttons in Modal */
@@ -799,7 +799,7 @@ body {
     padding: 8px 16px;
     font-size: 14px;
     font-weight: 500;
-    color: #374151;
+    color: #2572a2;
     background: #f3f4f6;
     border: 1px solid #d1d5db;
     border-radius: 8px;
@@ -810,9 +810,9 @@ body {
 }
 
 .dev-preset-btn:hover {
-    background: #65c8ff;
-    color: white;
-    border-color: #65c8ff;
+    background: #CBDDE9;
+    color: #2572a2;
+    border-color: #2572a2;
 }
 
 .mood-selector {
@@ -845,16 +845,16 @@ body {
 }
 
 .mood-btn.active {
-    border-color: #1f2937;
+    border-color: #2572a2;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transform: scale(1.1);
 }
 
-.mood-blue { background: #60A5FA; color: white; }
-.mood-green { background: #34D399; color: white; }
-.mood-yellow { background: #FBBF24; color: white; }
-.mood-orange { background: #FB923C; color: white; }
-.mood-red { background: #F87171; color: white; }
+.mood-blue { background: #60A5FA; color: #2572a2; }
+.mood-green { background: #34D399; color: #2572a2; }
+.mood-yellow { background: #FBBF24; color: #2572a2; }
+.mood-orange { background: #FB923C; color: #2572a2; }
+.mood-red { background: #F87171; color: #2572a2; }
 
 .behavior-section {
     display: flex;
@@ -895,7 +895,7 @@ body {
 
 .note-section textarea:focus {
     outline: none;
-    border-color: #65c8ff;
+    border-color: #2572a2;
 }
 
 .upload-section {
@@ -910,7 +910,7 @@ body {
     border-radius: 25px;
     cursor: pointer;
     font-size: 14px;
-    color: #4b5563;
+    color: #2572a2;
     transition: all 0.3s;
 }
 
@@ -999,13 +999,13 @@ transform: scale(1) rotate(45deg);
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #4b5563;
+    color: #2572a2;
 }
 
 .input-group textarea {
     width: 100%;
     padding: 12px;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
     font-size: 14px;
     resize: vertical;
@@ -1051,7 +1051,7 @@ transform: scale(1) rotate(45deg);
 
 .calendar-day:hover {
     transform: scale(1.08);
-    border-color: #65c8ff;
+    border-color: #2572a2;
 }
 
 .calendar-day.has-entry {
@@ -1064,7 +1064,7 @@ transform: scale(1) rotate(45deg);
     bottom: 2px;
     right: 4px;
     font-size: 10px;
-    color: white;
+    color: #2572a2;
     text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
@@ -1078,8 +1078,8 @@ transform: scale(1) rotate(45deg);
 }
 
 .calendar-header button {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
     border: none;
     padding: 10px 20px;
     border-radius: 25px;
@@ -1090,18 +1090,18 @@ transform: scale(1) rotate(45deg);
 }
 
 .calendar-header button:hover {
-    background: #65c8ff;
+    background: #CBDDE9;
     transform: translateY(-2px);
 }
 
 .calendar-header h3 {
-    color: #1f2937;
+    color: #2572a2;
     font-size: 20px;
 }
 
 .calendar-hint {
     text-align: center;
-    color: #9ca3af;
+    color: #2572a2;
     font-size: 13px;
     margin-top: 12px;
     padding-top: 12px;
@@ -1118,7 +1118,7 @@ transform: scale(1) rotate(45deg);
 .stats-title {
     font-size: 28px;
     font-weight: 600;
-    color: #1f2937;
+    color: #2572a2;
     text-align: center;
     margin-bottom: 25px;
 }
@@ -1144,7 +1144,7 @@ transform: scale(1) rotate(45deg);
     align-items: center;
     gap: 6px;
     font-size: 14px;
-    color: #4b5563;
+    color: #2572a2;
 }
 
 .legend-dot {
@@ -1158,7 +1158,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .legend-green {
-    background-color: #65c8ff;
+    background-color: #2572a2;
 }
 
 .legend-yellow {
@@ -1169,7 +1169,7 @@ transform: scale(1) rotate(45deg);
     background: white;
     border: 2px solid #1f2937;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    color: #1f2937;
+    color: #2572a2;
     padding: 20px;
     border-radius: 12px;
     text-align: center;
@@ -1179,68 +1179,68 @@ transform: scale(1) rotate(45deg);
 .stat-card h3 {
     font-size: 36px;
     margin-bottom: 5px;
-    color: #1f2937;
+    color: #2572a2;
 }
 
 .stat-card p {
     font-size: 14px;
-    color: #4b5563;
+    color: #2572a2;
     margin-bottom: 5px;
 }
 
 .stat-card-red {
     background: #ef4444;
     border-color: #ef4444;
-    color: white;
+    color: #2572a2;
 }
 
 .stat-card-red p,
 .stat-card-red h3 {
-    color: white;
+    color: #2572a2;
 }
 
 .stat-card-green {
-    background: #65c8ff;
-    border-color: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    border-color: #2572a2;
+    color: #2572a2;
 }
 
 .stat-card-green p,
 .stat-card-green h3 {
-    color: white;
+    color: #2572a2;
 }
 
 .stat-card-yellow {
     background: #eab308;
     border-color: #eab308;
-    color: white;
+    color: #2572a2;
 }
 
 .stat-card-yellow p,
 .stat-card-yellow h3 {
-    color: white;
+    color: #2572a2;
 }
 
 .stat-card-orange {
     background: #f97316;
     border-color: #f97316;
-    color: white;
+    color: #2572a2;
 }
 
 .stat-card-orange p,
 .stat-card-orange h3 {
-    color: white;
+    color: #2572a2;
 }
 
 .stat-card-gray {
     background: #9ca3af;
-    border-color: #9ca3af;
-    color: white;
+    border-color: #2572a2;
+    color: #2572a2;
 }
 
 .stat-card-gray p,
 .stat-card-gray h3 {
-    color: white;
+    color: #2572a2;
 }
 
 .stat-card-green .info-icon,
@@ -1248,7 +1248,7 @@ transform: scale(1) rotate(45deg);
 .stat-card-orange .info-icon,
 .stat-card-red .info-icon,
 .stat-card-gray .info-icon {
-    color: white;
+    color: #2572a2;
 }
 
 .info-icon {
@@ -1256,7 +1256,7 @@ transform: scale(1) rotate(45deg);
     bottom: 10px;
     right: 10px;
     font-size: 16px;
-    color: #9ca3af;
+    color: #2572a2;
     cursor: pointer;
 }
 
@@ -1337,23 +1337,23 @@ transform: scale(1) rotate(45deg);
 
 .tooltip-text strong {
     font-size: 13px;
-    color: #1f2937;
+    color: #2572a2;
     font-weight: 600;
 }
 
 .tooltip-text span {
     font-size: 12px;
-    color: #6b7280;
+    color: #2572a2;
 }
 
 .tooltip-text small {
     font-size: 11px;
-    color: #9ca3af;
+    color: #2572a2;
     margin-top: 2px;
 }
 
 .stat-card-red .info-icon {
-    color: white;
+    color: #2572a2;
 }
 
 
@@ -1389,12 +1389,12 @@ transform: scale(1) rotate(45deg);
     border: none;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    background-color: #65c8ff;
+    background-color: #2572a2;
 }
 
 .tab:hover:not(.active) {
     background-color: #f3f4f6;
-    color: #65c8ff;
+    color: #2572a2;
 }
 
 
@@ -1424,11 +1424,11 @@ transform: scale(1) rotate(45deg);
 
 .entry-item h4 {
     margin-bottom: 8px;
-    color: #1f2937;
+    color: #2572a2;
 }
 
 .entry-item p {
-    color: #6b7280;
+    color: #2572a2;
     font-size: 14px;
     margin-bottom: 5px;
 }
@@ -1460,7 +1460,7 @@ transform: scale(1) rotate(45deg);
     gap: 8px;
     margin-bottom: 10px;
     font-weight: 600;
-    color: #6b7280;
+    color: #2572a2;
     text-align: center;
     font-size: 13px;
 }
@@ -1509,7 +1509,7 @@ transform: scale(1) rotate(45deg);
     justify-content: space-between;
     margin-bottom: 8px;
     font-size: 14px;
-    color: #6b7280;
+    color: #2572a2;
 }
 
 .progress-bar {
@@ -1521,7 +1521,7 @@ transform: scale(1) rotate(45deg);
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #65c8ff, #16a34a);
+    background: linear-gradient(90deg, #CBDDE9, #16a34a);
     border-radius: 4px;
     transition: width 0.3s ease;
     width: 0%;
@@ -1546,7 +1546,7 @@ transform: scale(1) rotate(45deg);
 .form-group label {
     display: block;
     font-weight: 600;
-    color: #1f2937;
+    color: #2572a2;
     margin-bottom: 8px;
 }
 
@@ -1558,7 +1558,7 @@ transform: scale(1) rotate(45deg);
     max-width: 50%;
     width: 100%;
     padding: 12px;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
     font-size: 16px;
     font-family: 'Mitr', sans-serif;
@@ -1566,7 +1566,7 @@ transform: scale(1) rotate(45deg);
 
 .form-group input:focus {
     outline: none;
-    border-color: #65c8ff;
+    border-color: #2572a2;
 }
 
 .form-row {
@@ -1590,7 +1590,7 @@ transform: scale(1) rotate(45deg);
 .radio-wrapper input[type="radio"] {
     width: 18px;
     height: 18px;
-    accent-color: #65c8ff;
+    accent-color: #2572a2;
 }
 
 .checkbox-group {
@@ -1609,7 +1609,7 @@ transform: scale(1) rotate(45deg);
 .checkbox-item input[type="checkbox"] {
     width: 16px;
     height: 16px;
-    accent-color: #65c8ff;
+    accent-color: #2572a2;
 }
 
 .form-actions {
@@ -1619,8 +1619,8 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-next {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
     border: none;
     padding: 14px 40px;
     font-size: 16px;
@@ -1632,7 +1632,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-next:hover {
-    background: #65c8ff;
+    background: #CBDDE9;
 }
 
 
@@ -1650,7 +1650,7 @@ transform: scale(1) rotate(45deg);
 .question-label {
     display: block;
     font-weight: 600;
-    color: #1f2937;
+    color: #2572a2;
     margin-bottom: 12px;
     text-align: center;
     font-size: 18px;
@@ -1672,7 +1672,7 @@ transform: scale(1) rotate(45deg);
 .question-options .radio-wrapper input[type="radio"] {
     width: 18px;
     height: 18px;
-    accent-color: #65c8ff;
+    accent-color: #2572a2;
 }
 
 
@@ -1696,7 +1696,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .about-title {
-    color: #1f2937;
+    color: #2572a2;
     font-size: 32px;
     font-weight: 600;
     margin-bottom: 60px;
@@ -1710,12 +1710,12 @@ transform: scale(1) rotate(45deg);
 }
 
 .contact-icon {
-    color: #1f2937;
+    color: #2572a2;
     transition: all 0.3s;
 }
 
 .contact-icon:hover {
-    color: #65c8ff;
+    color: #2572a2;
     transform: scale(1.1);
 }
 
@@ -1725,7 +1725,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .notice-text {
-    color: #65c8ff;
+    color: #2572a2;
     font-size: 20px;
     font-weight: 500;
     line-height: 1.8;
@@ -1738,9 +1738,9 @@ transform: scale(1) rotate(45deg);
 .btn-understand {
     display: inline-block;
     padding: 14px 60px;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
-    color: #65c8ff;
+    color: #2572a2;
     font-size: 18px;
     font-weight: 500;
     text-decoration: none;
@@ -1749,8 +1749,8 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-understand:hover {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
 }
 
 .question-single {
@@ -1760,7 +1760,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .question-title {
-    color: #1f2937;
+    color: #2572a2;
     font-size: 22px;
     font-weight: 600;
     margin-bottom: 40px;
@@ -1803,34 +1803,34 @@ transform: scale(1) rotate(45deg);
 
 .choice-btn:hover .choice-circle {
     transform: scale(1.05);
-    border-color: #9ca3af;
+    border-color: #2572a2;
 }
 
 .choice-text {
     font-size: 14px;
-    color: #4b5563;
+    color: #2572a2;
     font-weight: 500;
 }
 
 .choice-btn.selected .choice-circle {
     transform: scale(1.1);
-    border-color: #65c8ff;
-    background: #65c8ff;
+    border-color: #2572a2;
+    background: #CBDDE9;
 }
 
 .choice-btn.selected .choice-text {
-    color: #65c8ff;
+    color: #2572a2;
     font-weight: 600;
 }
 
 .question-hint {
-    color: #9ca3af;
+    color: #2572a2;
     font-size: 15px;
     margin-top: 20px;
 }
 
 .question-hint-bottom {
-    color: #9ca3af;
+    color: #2572a2;
     font-size: 13px;
     text-align: center;
     padding: 15px 20px;
@@ -1863,7 +1863,7 @@ transform: scale(1) rotate(45deg);
 .pro-form .form-group label {
     font-size: 16px;
     font-weight: 600;
-    color: #1f2937;
+    color: #2572a2;
     margin-bottom: 10px;
     display: block;
 }
@@ -1874,7 +1874,7 @@ transform: scale(1) rotate(45deg);
     width: 100%;
     max-width: 100%;
     padding: 14px 16px;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
     font-size: 16px;
     font-family: 'Mitr', sans-serif;
@@ -1882,12 +1882,12 @@ transform: scale(1) rotate(45deg);
 }
 
 .pro-form .form-group input:focus {
-    border-color: #65c8ff;
+    border-color: #2572a2;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .pro-form .form-group input::placeholder {
-    color: #9ca3af;
+    color: #2572a2;
 }
 
 .gender-options {
@@ -1908,21 +1908,21 @@ transform: scale(1) rotate(45deg);
     display: block;
     padding: 14px 20px;
     text-align: center;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
     font-size: 16px;
     transition: all 0.3s;
 }
 
 .gender-option input:checked + .gender-box {
-    border-color: #65c8ff;
+    border-color: #2572a2;
     background: #eff6ff;
-    color: #65c8ff;
+    color: #2572a2;
     font-weight: 500;
 }
 
 .gender-option:hover .gender-box {
-    border-color: #65c8ff;
+    border-color: #2572a2;
 }
 
 @media (max-width: 768px) {
@@ -1963,7 +1963,7 @@ transform: scale(1) rotate(45deg);
 .login-form .form-group label {
     display: block;
     font-weight: 600;
-    color: #1f2937;
+    color: #2572a2;
     margin-bottom: 8px;
 }
 
@@ -1971,7 +1971,7 @@ transform: scale(1) rotate(45deg);
     width: 100%;
     max-width: 100%;
     padding: 12px 16px;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
     font-size: 16px;
     font-family: 'Mitr', sans-serif;
@@ -1979,7 +1979,7 @@ transform: scale(1) rotate(45deg);
 
 .login-form .form-group input:focus {
     outline: none;
-    border-color: #65c8ff;
+    border-color: #2572a2;
 }
 
 .login-form .form-group .password-wrapper {
@@ -2003,7 +2003,7 @@ transform: scale(1) rotate(45deg);
     border: none;
     cursor: pointer;
     padding: 0;
-    color: #9ca3af;
+    color: #2572a2;
     transition: color 0.2s;
     display: flex;
     align-items: center;
@@ -2011,7 +2011,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .login-form .form-group .toggle-password:hover {
-    color: #6b7280;
+    color: #2572a2;
 }
 
 .login-form .form-group .toggle-password.showing {
@@ -2048,8 +2048,8 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-login {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
     border: none;
     padding: 12px 40px;
     font-size: 16px;
@@ -2061,17 +2061,17 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-login:hover {
-    background: #65c8ff;
+    background: #CBDDE9;
 }
 
 .forgot-link {
-    color: #6b7280;
+    color: #2572a2;
     text-decoration: none;
     font-size: 14px;
 }
 
 .forgot-link:hover {
-    color: #65c8ff;
+    color: #2572a2;
     text-decoration: underline;
 }
 
@@ -2082,7 +2082,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .signup-title {
-    color: #1f2937;
+    color: #2572a2;
     margin-bottom: 30px;
     font-size: 24px;
     font-weight: 600;
@@ -2096,7 +2096,7 @@ transform: scale(1) rotate(45deg);
 .signup-full .form-group label {
     display: block;
     font-weight: 600;
-    color: #1f2937;
+    color: #2572a2;
     margin-bottom: 10px;
     font-size: 16px;
 }
@@ -2104,7 +2104,7 @@ transform: scale(1) rotate(45deg);
 .signup-full .form-group input {
     width: 50%;
     padding: 14px 16px;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
     font-size: 16px;
     font-family: 'Mitr', sans-serif;
@@ -2143,12 +2143,12 @@ transform: scale(1) rotate(45deg);
 
 .signup-full .form-group input:focus {
     outline: none;
-    border-color: #65c8ff;
+    border-color: #2572a2;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .signup-full .form-group input::placeholder {
-    color: #9ca3af;
+    color: #2572a2;
 }
 
 .input-status {
@@ -2185,8 +2185,8 @@ transform: scale(1) rotate(45deg);
     justify-content: center;
     width: 14px;
     height: 14px;
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
     border-radius: 50%;
     font-size: 9px;
     font-weight: bold;
@@ -2207,14 +2207,14 @@ transform: scale(1) rotate(45deg);
     width: 14px;
     height: 14px;
     background: #ef4444;
-    color: white;
+    color: #2572a2;
     border-radius: 50%;
     font-size: 9px;
     font-weight: bold;
 }
 
 .input-status.checking {
-    color: #4b5563;
+    color: #2572a2;
     background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
     border: 1px solid #d1d5db;
 }
@@ -2257,23 +2257,23 @@ transform: scale(1) rotate(45deg);
 .signup-icon {
     width: 56px;
     height: 56px;
-    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
+    background: linear-gradient(135deg, #CBDDE9 0%, #CBDDE9 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 12px;
-    color: white;
+    color: #2572a2;
 }
 
 .signup-header h2 {
-    color: #1f2937;
+    color: #2572a2;
     font-size: 22px;
     margin-bottom: 4px;
 }
 
 .signup-subtitle {
-    color: #6b7280;
+    color: #2572a2;
     font-size: 14px;
 }
 
@@ -2290,7 +2290,7 @@ transform: scale(1) rotate(45deg);
     height: 32px;
     border-radius: 50%;
     background: #e5e7eb;
-    color: #9ca3af;
+    color: #2572a2;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2299,13 +2299,13 @@ transform: scale(1) rotate(45deg);
 }
 
 .progress-step.completed {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
 }
 
 .progress-step.active {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
 }
 
 .progress-line {
@@ -2315,7 +2315,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .progress-line.completed {
-    background: #65c8ff;
+    background: #CBDDE9;
 }
 
 .signup-form .form-group {
@@ -2327,20 +2327,20 @@ transform: scale(1) rotate(45deg);
     align-items: center;
     gap: 8px;
     font-weight: 500;
-    color: #374151;
+    color: #2572a2;
     margin-bottom: 6px;
     font-size: 14px;
 }
 
 .signup-form .form-group label svg {
-    color: #6b7280;
+    color: #2572a2;
 }
 
 .signup-form .form-group input {
     width: 100%;
     max-width: 100%;
     padding: 14px 16px;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
     font-size: 16px;
     font-family: 'Mitr', sans-serif;
@@ -2350,12 +2350,12 @@ transform: scale(1) rotate(45deg);
 
 .signup-form .form-group input:focus {
     outline: none;
-    border-color: #65c8ff;
+    border-color: #2572a2;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .signup-form .form-group input::placeholder {
-    color: #9ca3af;
+    color: #2572a2;
 }
 
 .signup-form .form-group .password-wrapper {
@@ -2379,7 +2379,7 @@ transform: scale(1) rotate(45deg);
     border: none;
     cursor: pointer;
     padding: 0;
-    color: #9ca3af;
+    color: #2572a2;
     transition: color 0.2s;
     display: flex;
     align-items: center;
@@ -2387,7 +2387,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .signup-form .form-group .toggle-password:hover {
-    color: #6b7280;
+    color: #2572a2;
 }
 
 .signup-form .form-group .toggle-password.showing {
@@ -2424,8 +2424,8 @@ transform: scale(1) rotate(45deg);
 .btn-signup {
     width: 100%;
     padding: 14px;
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
     border: none;
     border-radius: 10px;
     font-size: 15px;
@@ -2441,7 +2441,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-signup:hover {
-    background: #65c8ff;
+    background: #CBDDE9;
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(101, 200, 255, 0.3);
 }
@@ -2449,12 +2449,12 @@ transform: scale(1) rotate(45deg);
 .login-redirect {
     text-align: center;
     margin-top: 12px;
-    color: #6b7280;
+    color: #2572a2;
     font-size: 14px;
 }
 
 .login-redirect a {
-    color: #65c8ff;
+    color: #2572a2;
     text-decoration: none;
     font-weight: 500;
 }
@@ -2494,7 +2494,7 @@ transform: scale(1) rotate(45deg);
     border: none !important;
     cursor: pointer !important;
     padding: 0 !important;
-    color: #9ca3af !important;
+    color: #2572a2 !important;
     transition: color 0.2s !important;
     display: flex !important;
     align-items: center !important;
@@ -2503,7 +2503,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .toggle-password:hover {
-    color: #6b7280 !important;
+    color: #2572a2 !important;
 }
 
 .toggle-password.showing {
@@ -2548,7 +2548,7 @@ transform: scale(1) rotate(45deg);
 .signup-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #3b82f6 0%, #65c8ff 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #CBDDE9 100%);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -2560,18 +2560,18 @@ transform: scale(1) rotate(45deg);
 .signup-icon svg {
     width: 26px;
     height: 26px;
-    color: white;
+    color: #2572a2;
 }
 
 .signup-card .signup-title {
     font-size: 20px;
     font-weight: 600;
-    color: #1f2937;
+    color: #2572a2;
     margin: 0 0 8px;
 }
 
 .signup-subtitle {
-    color: #6b7280;
+    color: #2572a2;
     font-size: 14px;
     margin: 0;
 }
@@ -2582,20 +2582,20 @@ transform: scale(1) rotate(45deg);
     gap: 8px;
     font-size: 14px;
     font-weight: 500;
-    color: #374151;
+    color: #2572a2;
     margin-bottom: 6px;
 }
 
 .signup-form label svg {
     width: 16px;
     height: 16px;
-    color: #6b7280;
+    color: #2572a2;
 }
 
 .signup-form input {
     width: 100%;
     padding: 12px 14px;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
     font-size: 14px;
     font-family: 'Mitr', sans-serif;
@@ -2612,14 +2612,14 @@ transform: scale(1) rotate(45deg);
 }
 
 .signup-form input::placeholder {
-    color: #9ca3af;
+    color: #2572a2;
 }
 
 .btn-signup {
     width: 100%;
     padding: 16px;
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
     border: none;
     border-radius: 12px;
     font-size: 16px;
@@ -2636,7 +2636,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-signup:hover {
-    background: #65c8ff;
+    background: #CBDDE9;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(101, 200, 255, 0.4);
 }
@@ -2658,7 +2658,7 @@ transform: scale(1) rotate(45deg);
 .signup-form .login-redirect {
     text-align: center;
     margin-top: 12px;
-    color: #6b7280;
+    color: #2572a2;
     font-size: 14px;
 }
 
@@ -2706,8 +2706,8 @@ transform: scale(1) rotate(45deg);
 }
 
 .chat-header {
-    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
-    color: white;
+    background: linear-gradient(135deg, #CBDDE9 0%, #CBDDE9 100%);
+    color: #2572a2;
     padding: 16px 20px;
     display: flex;
     justify-content: space-between;
@@ -2749,7 +2749,7 @@ transform: scale(1) rotate(45deg);
 .chat-close {
     background: none;
     border: none;
-    color: white;
+    color: #2572a2;
     cursor: pointer;
     padding: 8px;
     border-radius: 50%;
@@ -2785,7 +2785,7 @@ transform: scale(1) rotate(45deg);
 
 .chat-welcome p {
     margin: 4px 0;
-    color: #374151;
+    color: #2572a2;
     font-size: 14px;
 }
 
@@ -2801,7 +2801,7 @@ transform: scale(1) rotate(45deg);
     padding: 8px 14px;
     border-radius: 20px;
     font-size: 13px;
-    color: #65c8ff;
+    color: #2572a2;
     cursor: pointer;
     transition: all 0.2s;
     font-family: 'Mitr', sans-serif;
@@ -2809,9 +2809,9 @@ transform: scale(1) rotate(45deg);
 }
 
 .suggest-btn:hover {
-    background: #65c8ff;
-    color: white;
-    border-color: #65c8ff;
+    background: #CBDDE9;
+    color: #2572a2;
+    border-color: #2572a2;
 }
 
 .chat-message {
@@ -2836,14 +2836,14 @@ transform: scale(1) rotate(45deg);
 }
 
 .chat-message.user .message-bubble {
-    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
-    color: white;
+    background: linear-gradient(135deg, #CBDDE9 0%, #CBDDE9 100%);
+    color: #2572a2;
     border-bottom-right-radius: 4px;
 }
 
 .chat-message.bot .message-bubble {
     background: white;
-    color: #374151;
+    color: #2572a2;
     border-bottom-left-radius: 4px;
     box-shadow: 
         0 1px 3px rgba(0, 0, 0, 0.05),
@@ -2889,7 +2889,7 @@ transform: scale(1) rotate(45deg);
 .chat-input-area input {
     flex: 1;
     padding: 12px 16px;
-    border: 2px solid #65c8ff;
+    border: 2px solid #CBDDE9;
     border-radius: 25px;
     font-size: 14px;
     font-family: 'Mitr', sans-serif;
@@ -2898,16 +2898,16 @@ transform: scale(1) rotate(45deg);
 }
 
 .chat-input-area input:focus {
-    border-color: #65c8ff;
+    border-color: #2572a2;
 }
 
 .chat-send {
     width: 44px;
     height: 44px;
-    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
+    background: linear-gradient(135deg, #CBDDE9 0%, #CBDDE9 100%);
     border: none;
     border-radius: 50%;
-    color: white;
+    color: #2572a2;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -3066,8 +3066,8 @@ transform: scale(1) rotate(45deg);
     }
     
     .tab.active {
-        background: #65c8ff;
-        color: white;
+        background: #CBDDE9;
+        color: #2572a2;
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(101, 200, 255, 0.3);
     }
@@ -3134,8 +3134,8 @@ transform: scale(1) rotate(45deg);
     }
     
     .tab.active {
-        background: #65c8ff;
-        color: white;
+        background: #CBDDE9;
+        color: #2572a2;
         box-shadow: 0 2px 8px rgba(101, 200, 255, 0.3);
     }
     
@@ -3483,7 +3483,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .notice-title {
-    color: #1f2937;
+    color: #2572a2;
     font-size: 28px;
     font-weight: 600;
     text-align: center;
@@ -3503,7 +3503,7 @@ transform: scale(1) rotate(45deg);
     top: 15px;
     right: 20px;
     font-size: 14px;
-    color: #6b7280;
+    color: #2572a2;
 }
 
 .about-you-content {
@@ -3516,13 +3516,13 @@ transform: scale(1) rotate(45deg);
 .about-you-content h2 {
     font-size: 32px;
     font-weight: 600;
-    color: #1f2937;
+    color: #2572a2;
     margin: 0;
 }
 
 .about-you-content p {
     font-size: 16px;
-    color: #4b5563;
+    color: #2572a2;
     margin: 0;
 }
 
@@ -3532,14 +3532,14 @@ transform: scale(1) rotate(45deg);
     gap: 20px;
     font-size: 18px;
     font-weight: 500;
-    color: #1f2937;
+    color: #2572a2;
     margin: 10px 0;
 }
 
 #aboutBMI {
     font-size: 18px;
     font-weight: 500;
-    color: #1f2937;
+    color: #2572a2;
 }
 
 .radar-chart-container {
@@ -3566,7 +3566,7 @@ transform: scale(1) rotate(45deg);
     gap: 12px;
     font-size: 16px;
     font-weight: 500;
-    color: #1f2937;
+    color: #2572a2;
 }
 
 .color-dot {
@@ -3577,7 +3577,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .color-green {
-    background-color: #65c8ff;
+    background-color: #2572a2;
 }
 
 .color-yellow {
@@ -3603,13 +3603,13 @@ transform: scale(1) rotate(45deg);
 }
 
 .greeting-text {
-    color: #4b5563;
+    color: #2572a2;
     font-size: 16px;
     margin-top: 5px;
 }
 
 .user-name {
-    color: #65c8ff;
+    color: #2572a2;
     font-weight: 600;
 }
 
@@ -3818,10 +3818,10 @@ transform: scale(1) rotate(45deg);
 }
 
 .daily-modal-header {
-    background: linear-gradient(135deg, #65c8ff 0%, #047857 100%);
+    background: linear-gradient(135deg, #CBDDE9 0%, #047857 100%);
     padding: 32px 32px 40px;
     text-align: center;
-    color: white;
+    color: #2572a2;
     position: relative;
     overflow: hidden;
 }
@@ -3880,7 +3880,7 @@ transform: scale(1) rotate(45deg);
 
 .daily-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #65c8ff, #65c8ff);
+    background: linear-gradient(90deg, #CBDDE9, #CBDDE9);
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 0 2px 2px 0;
 }
@@ -3918,8 +3918,8 @@ transform: scale(1) rotate(45deg);
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: linear-gradient(135deg, #65c8ff, #65c8ff);
-    color: white;
+    background: linear-gradient(135deg, #CBDDE9, #CBDDE9);
+    color: #2572a2;
     font-size: 11px;
     font-weight: 600;
     padding: 6px 12px;
@@ -3979,28 +3979,28 @@ transform: scale(1) rotate(45deg);
 }
 
 .daily-choice-btn:hover {
-    border-color: #65c8ff;
+    border-color: #2572a2;
     background: #f0fdf4;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
 }
 
 .daily-choice-btn:hover::after {
-    border-color: #65c8ff;
+    border-color: #2572a2;
 }
 
 .daily-choice-btn.selected {
-    border-color: #65c8ff;
-    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
-    color: white;
+    border-color: #2572a2;
+    background: linear-gradient(135deg, #CBDDE9 0%, #CBDDE9 100%);
+    color: #2572a2;
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(5, 150, 105, 0.35);
 }
 
 .daily-choice-btn.selected::after {
     background: white;
-    border-color: white;
-    box-shadow: inset 0 0 0 3px #65c8ff;
+    border-color: #2572a2;
+    box-shadow: inset 0 0 0 3px #CBDDE9;
 }
 
 .choice-icon {
@@ -4049,19 +4049,19 @@ transform: scale(1) rotate(45deg);
 }
 
 .progress-dot.active {
-    background: #65c8ff;
+    background: #CBDDE9;
     transform: scale(1.2);
 }
 
 .progress-dot.completed {
-    background: #65c8ff;
+    background: #CBDDE9;
 }
 
 .daily-next-btn {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, #65c8ff 0%, #047857 100%);
-    color: white;
+    background: linear-gradient(135deg, #CBDDE9 0%, #047857 100%);
+    color: #2572a2;
     border: none;
     border-radius: 14px;
     font-size: 15px;
@@ -4133,22 +4133,22 @@ transform: scale(1) rotate(45deg);
 }
 
 .progress-dot.active {
-    background: #65c8ff;
+    background: #CBDDE9;
     transform: scale(1.3);
 }
 
 .progress-dot.completed {
-    background: #65c8ff;
+    background: #CBDDE9;
 }
 
 .btn-start.btn-health-green {
-    color: #65c8ff;
-    border-color: #65c8ff;
+    color: #2572a2;
+    border-color: #2572a2;
 }
 
 .btn-start.btn-health-green:hover:not(:disabled) {
-    background: #65c8ff;
-    color: white;
+    background: #CBDDE9;
+    color: #2572a2;
 }
 
 .btn-start.btn-health-yellow {
@@ -4158,7 +4158,7 @@ transform: scale(1) rotate(45deg);
 
 .btn-start.btn-health-yellow:hover:not(:disabled) {
     background: #eab308;
-    color: white;
+    color: #2572a2;
 }
 
 .btn-start.btn-health-orange {
@@ -4168,7 +4168,7 @@ transform: scale(1) rotate(45deg);
 
 .btn-start.btn-health-orange:hover:not(:disabled) {
     background: #f97316;
-    color: white;
+    color: #2572a2;
 }
 
 .btn-start.btn-health-red {
@@ -4178,17 +4178,17 @@ transform: scale(1) rotate(45deg);
 
 .btn-start.btn-health-red:hover:not(:disabled) {
     background: #ef4444;
-    color: white;
+    color: #2572a2;
 }
 
 .btn-start.btn-health-gray {
-    color: #9ca3af;
-    border-color: #9ca3af;
+    color: #2572a2;
+    border-color: #2572a2;
 }
 
 .btn-start.btn-health-gray:hover:not(:disabled) {
     background: #9ca3af;
-    color: white;
+    color: #2572a2;
 }
 
 /* ==================== Weekly Health Check Modal - World-Class Design ==================== */
@@ -4232,7 +4232,7 @@ transform: scale(1) rotate(45deg);
     border: none;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    color: white;
+    color: #2572a2;
     cursor: pointer;
     z-index: 10;
     transition: all 0.2s ease;
@@ -4247,10 +4247,10 @@ transform: scale(1) rotate(45deg);
 }
 
 .weekly-modal-header {
-    background: linear-gradient(135deg, #65c8ff 0%, #047857 100%);
+    background: linear-gradient(135deg, #CBDDE9 0%, #047857 100%);
     padding: 32px 32px 40px;
     text-align: center;
-    color: white;
+    color: #2572a2;
     position: relative;
     overflow: hidden;
 }
@@ -4306,7 +4306,7 @@ transform: scale(1) rotate(45deg);
 
 .weekly-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #65c8ff, #65c8ff);
+    background: linear-gradient(90deg, #CBDDE9, #CBDDE9);
     transition: width 0.3s ease;
 }
 
@@ -4316,7 +4316,7 @@ transform: scale(1) rotate(45deg);
     top: -35px;
     font-size: 14px;
     font-weight: 600;
-    color: white;
+    color: #2572a2;
     background: rgba(5, 150, 105, 0.9);
     padding: 6px 12px;
     border-radius: 16px;
@@ -4343,8 +4343,8 @@ transform: scale(1) rotate(45deg);
 
 .question-badge {
     display: inline-block;
-    background: linear-gradient(135deg, #65c8ff, #65c8ff);
-    color: white;
+    background: linear-gradient(135deg, #CBDDE9, #CBDDE9);
+    color: #2572a2;
     padding: 8px 16px;
     border-radius: 24px;
     font-size: 14px;
@@ -4379,7 +4379,7 @@ transform: scale(1) rotate(45deg);
     gap: 12px;
     font-size: 15px;
     font-weight: 400;
-    color: #374151;
+    color: #2572a2;
     position: relative;
     overflow: hidden;
 }
@@ -4401,25 +4401,25 @@ transform: scale(1) rotate(45deg);
 }
 
 .weekly-choice-btn:hover {
-    border-color: #65c8ff;
+    border-color: #2572a2;
     background: #f0fdf4;
     transform: translateY(-1px);
 }
 
 .weekly-choice-btn:hover::after {
-    border-color: #65c8ff;
+    border-color: #2572a2;
 }
 
 .weekly-choice-btn.selected {
-    border-color: #65c8ff;
-    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
-    color: white;
+    border-color: #2572a2;
+    background: linear-gradient(135deg, #CBDDE9 0%, #CBDDE9 100%);
+    color: #2572a2;
     transform: translateY(-2px);
 }
 
 .weekly-choice-btn.selected::after {
     background: transparent;
-    border-color: white;
+    border-color: #2572a2;
 }
 
 .choice-icon {
@@ -4469,12 +4469,12 @@ transform: scale(1) rotate(45deg);
 }
 
 .progress-dot-small.completed {
-    background: #65c8ff;
+    background: #CBDDE9;
     transform: scale(1.2);
 }
 
 .progress-dot-small.active {
-    background: #65c8ff;
+    background: #CBDDE9;
     transform: scale(1.4);
     box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
 }
@@ -4482,8 +4482,8 @@ transform: scale(1) rotate(45deg);
 .weekly-next-btn {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
-    color: white;
+    background: linear-gradient(135deg, #CBDDE9 0%, #CBDDE9 100%);
+    color: #2572a2;
     border: none;
     border-radius: 12px;
     font-size: 16px;

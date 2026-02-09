@@ -8,6 +8,7 @@ async function login() {
     }
 
     // ตรวจสอบว่า supabase พร้อมใช้งาน
+    const supabase = window.supabaseClient;
     if (!supabase || !supabase.from) {
         Swal.fire({ 
             icon: 'error', 
@@ -101,6 +102,7 @@ async function sendResetEmail() {
     sendBtn.textContent = 'กำลังส่ง...';
 
     try {
+        const supabase = window.supabaseClient;
         const redirectUrl = window.location.origin + '/reset-password.html';
         
         const { error } = await supabase.auth.resetPasswordForEmail(email, {

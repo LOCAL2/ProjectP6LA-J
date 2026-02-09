@@ -7,6 +7,11 @@ let imageData = null;
 let isDevMode = false;
 let isGuestMode = false;
 
+// Helper function to get supabase client
+function getSupabase() {
+    return window.supabaseClient;
+}
+
 // Global function declarations to ensure they're available everywhere
 // These will be assigned the actual function values later
 window.startWeeklyCheck = null;
@@ -19,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Wait for supabase to be ready
     const waitForSupabase = () => {
-        if (typeof supabase !== 'undefined' && supabase) {
+        if (window.supabaseClient && window.supabaseClient.auth) {
             console.log('Supabase ready, checking auth...');
             checkAuth();
         } else {
@@ -167,7 +172,6 @@ const Modal = {
     }
 };
 
-// ==================== Typing Effect Function ====================
 async function typeText(containerId, html, speed = 20) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -280,6 +284,12 @@ const monthNames = ['มกราคม', 'กุมภาพันธ์', 'ม
 
 async function checkAuth() {
     try {
+        // ใช้ window.supabaseClient เท่านั้น
+        const supabase = getSupabase();
+        
+        console.log('supabase:', supabase);
+        console.log('supabase.auth:', supabase ? supabase.auth : 'no client');
+        
         // ตรวจสอบว่า supabase ถูก initialize หรือไม่
         if (!supabase || !supabase.auth) {
             console.error('Supabase not initialized properly');
@@ -354,8 +364,17 @@ function loginAsGuest() {
     showMainApp();
 }
 
-async function logout() {
-    await supabase.auth.signOut();
+function logout() {
+    // Only sign out if user is logged in with Supabase (not guest mode)
+    const supabase = getSupabase();
+    if (!isGuestMode && supabase && supabase.auth) {
+        try {
+            supabase.auth.signOut().catch(err => console.log('Sign out error:', err));
+        } catch (error) {
+            console.log('Sign out error:', error);
+        }
+    }
+    
     currentUser = null;
     isDevMode = false;
     isGuestMode = false;
@@ -380,7 +399,9 @@ async function logout() {
     resetForm();
     
     // Reload page to ensure clean state
-    location.reload();
+    setTimeout(() => {
+        location.reload();
+    }, 100);
 }
 
 function showMainApp() {
@@ -418,6 +439,7 @@ function showMainApp() {
 
 // Load health score instantly without waiting for other data
 async function loadHealthScoreInstant() {
+    const supabase = getSupabase();
     const { data: userData } = await supabase
         .from('users')
         .select('health_score')
@@ -446,6 +468,7 @@ async function loadProfile() {
             localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
         }
     } else {
+        const supabase = getSupabase();
         const { data: userData } = await supabase
             .from('users')
             .select('nickname, username')
@@ -512,6 +535,7 @@ async function saveEntry() {
         }
         localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
     } else {
+        const supabase = getSupabase();
         const { error } = await supabase.from('mood_entries').upsert(entry, { onConflict: 'user_id,date' });
         
         if (error) {
@@ -637,6 +661,7 @@ async function loadCalendar() {
             weeklyChecks = guestData.weekly_checks || [];
         } else {
             try {
+                const supabase = getSupabase();
                 const { data: userData } = await supabase
                     .from('users')
                     .select('created_at')
@@ -855,6 +880,7 @@ async function loadStats() {
         entries = guestData.mood_entries || [];
         healthScore = guestData.health_score || 100;
     } else {
+        const supabase = getSupabase();
         const { data: entriesData } = await supabase
             .from('mood_entries')
             .select('*')
@@ -1079,6 +1105,7 @@ async function loadHistory() {
             health_score: guestData.health_score ?? 100
         };
     } else{
+        const supabase = getSupabase();
         const { data } = await supabase
             .from('users')
             .select('*')
@@ -1214,6 +1241,7 @@ async function showEditProfileModal() {
         document.getElementById('editWeight').value = guestData.weight || '';
         document.getElementById('editHeight').value = guestData.height || '';
     } else {
+        const supabase = getSupabase();
         const { data: userData } = await supabase
             .from('users')
             .select('weight, height, birthdate')
@@ -1258,6 +1286,7 @@ async function saveProfile() {
         Modal.toast('อัพเดทข้อมูลเรียบร้อยแล้ว', 'success');
         loadHistory();
     } else {
+        const supabase = getSupabase();
         const { error } = await supabase
             .from('users')
             .update({ 
@@ -1337,6 +1366,7 @@ async function checkThisWeekCompletion() {
             updateStartButton(false, healthScore);
         }
     } else {
+        const supabase = getSupabase();
         const { data: userData } = await supabase
             .from('users')
             .select('health_score')
@@ -1488,6 +1518,7 @@ function updateDevSkipButton(completed) {
             localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
         } else {
             // Save to database
+            const supabase = getSupabase();
             await supabase.from('weekly_checks').upsert(weeklyCheckData, { onConflict: 'user_id,week_key' });
             await supabase.from('users').update({ health_score: healthScore }).eq('id', currentUser.id);
         }
@@ -1552,6 +1583,7 @@ async function devSkipToNextDay() {
 async function devAdjustHealthScore() {
     if (!isDevMode) return;
     
+    const supabase = getSupabase();
     const { data: userData } = await supabase
         .from('users')
         .select('health_score')
@@ -1917,6 +1949,7 @@ async function completeWeeklyCheck() {
         localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
     } else {
         // Save to weekly_checks table
+        const supabase = getSupabase();
         await supabase.from('weekly_checks').upsert(weeklyCheckData, { onConflict: 'user_id,week_key' });
         
         // Update user's health score

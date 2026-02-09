@@ -209,7 +209,7 @@ body {
     color: #1f2937;
     z-index: 10000;
     transition: transform 0.3s ease;
-    border-left: 4px solid #10B981;
+    border-left: 4px solid #65c8ff;
 }
 
 .toast-notification.show {
@@ -736,7 +736,7 @@ body {
 }
 
 .mood-badge.mood-blue { background: #3B82F6; }
-.mood-badge.mood-green { background: #10B981; }
+.mood-badge.mood-green { background: #65c8ff; }
 .mood-badge.mood-yellow { background: #F59E0B; }
 .mood-badge.mood-orange { background: #F97316; }
 .mood-badge.mood-red { background: #EF4444; }
@@ -1309,7 +1309,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .tooltip-dot.green {
-    background-color: #65c8ff;
+    background-color: #22c55e;
 }
 
 .tooltip-dot.yellow {
@@ -3818,7 +3818,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .daily-modal-header {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    background: linear-gradient(135deg, #65c8ff 0%, #047857 100%);
     padding: 32px 32px 40px;
     text-align: center;
     color: white;
@@ -3880,7 +3880,7 @@ transform: scale(1) rotate(45deg);
 
 .daily-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #059669, #10b981);
+    background: linear-gradient(90deg, #65c8ff, #65c8ff);
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 0 2px 2px 0;
 }
@@ -3918,7 +3918,7 @@ transform: scale(1) rotate(45deg);
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: linear-gradient(135deg, #059669, #10b981);
+    background: linear-gradient(135deg, #65c8ff, #65c8ff);
     color: white;
     font-size: 11px;
     font-weight: 600;
@@ -3979,19 +3979,19 @@ transform: scale(1) rotate(45deg);
 }
 
 .daily-choice-btn:hover {
-    border-color: #059669;
+    border-color: #65c8ff;
     background: #f0fdf4;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
 }
 
 .daily-choice-btn:hover::after {
-    border-color: #059669;
+    border-color: #65c8ff;
 }
 
 .daily-choice-btn.selected {
-    border-color: #059669;
-    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    border-color: #65c8ff;
+    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(5, 150, 105, 0.35);
@@ -4000,7 +4000,7 @@ transform: scale(1) rotate(45deg);
 .daily-choice-btn.selected::after {
     background: white;
     border-color: white;
-    box-shadow: inset 0 0 0 3px #059669;
+    box-shadow: inset 0 0 0 3px #65c8ff;
 }
 
 .choice-icon {
@@ -4049,18 +4049,18 @@ transform: scale(1) rotate(45deg);
 }
 
 .progress-dot.active {
-    background: #059669;
+    background: #65c8ff;
     transform: scale(1.2);
 }
 
 .progress-dot.completed {
-    background: #10b981;
+    background: #65c8ff;
 }
 
 .daily-next-btn {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    background: linear-gradient(135deg, #65c8ff 0%, #047857 100%);
     color: white;
     border: none;
     border-radius: 14px;
@@ -4247,7 +4247,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .weekly-modal-header {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    background: linear-gradient(135deg, #65c8ff 0%, #047857 100%);
     padding: 32px 32px 40px;
     text-align: center;
     color: white;
@@ -4306,7 +4306,7 @@ transform: scale(1) rotate(45deg);
 
 .weekly-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #059669, #10b981);
+    background: linear-gradient(90deg, #65c8ff, #65c8ff);
     transition: width 0.3s ease;
 }
 
@@ -4343,7 +4343,7 @@ transform: scale(1) rotate(45deg);
 
 .question-badge {
     display: inline-block;
-    background: linear-gradient(135deg, #059669, #10b981);
+    background: linear-gradient(135deg, #65c8ff, #65c8ff);
     color: white;
     padding: 8px 16px;
     border-radius: 24px;
@@ -4401,18 +4401,18 @@ transform: scale(1) rotate(45deg);
 }
 
 .weekly-choice-btn:hover {
-    border-color: #059669;
+    border-color: #65c8ff;
     background: #f0fdf4;
     transform: translateY(-1px);
 }
 
 .weekly-choice-btn:hover::after {
-    border-color: #059669;
+    border-color: #65c8ff;
 }
 
 .weekly-choice-btn.selected {
-    border-color: #059669;
-    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    border-color: #65c8ff;
+    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
     color: white;
     transform: translateY(-2px);
 }
@@ -4469,12 +4469,12 @@ transform: scale(1) rotate(45deg);
 }
 
 .progress-dot-small.completed {
-    background: #059669;
+    background: #65c8ff;
     transform: scale(1.2);
 }
 
 .progress-dot-small.active {
-    background: #10b981;
+    background: #65c8ff;
     transform: scale(1.4);
     box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
 }
@@ -4482,7 +4482,7 @@ transform: scale(1) rotate(45deg);
 .weekly-next-btn {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
     color: white;
     border: none;
     border-radius: 12px;

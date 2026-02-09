@@ -152,7 +152,7 @@ const Modal = {
         const existing = document.querySelector('.toast-notification');
         if (existing) existing.remove();
         
-        const colors = { success: '#10B981', error: '#EF4444', warning: '#F59E0B', info: '#3B82F6' };
+        const colors = { success: '#65c8ff', error: '#EF4444', warning: '#F59E0B', info: '#3B82F6' };
         const toast = document.createElement('div');
         toast.className = 'toast-notification';
         toast.style.borderLeftColor = colors[type];

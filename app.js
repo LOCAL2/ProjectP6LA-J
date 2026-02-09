@@ -301,6 +301,11 @@ async function checkAuth() {
         
         if (error) {
             console.error('Auth error:', error);
+            // Clear invalid session data
+            if (error.message && error.message.includes('Refresh Token')) {
+                await supabase.auth.signOut();
+                localStorage.clear();
+            }
             document.getElementById('landingPage').style.display = 'flex';
             return;
         }

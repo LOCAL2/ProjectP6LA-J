@@ -125,7 +125,7 @@ body {
 
 .modal-input:focus {
     outline: none;
-    border-color: #7aa449;
+    border-color: #65c8ff;
 }
 
 .modal-buttons {
@@ -147,12 +147,12 @@ body {
 }
 
 .modal-btn-confirm {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
 }
 
 .modal-btn-confirm:hover {
-    background: #5c8035;
+    background: #65c8ff;
 }
 
 .modal-btn-cancel {
@@ -172,7 +172,7 @@ body {
     width: 40px;
     height: 40px;
     border: 3px solid #e5e7eb;
-    border-top-color: #7aa449;
+    border-top-color: #65c8ff;
     border-radius: 50%;
     margin: 0 auto 16px;
     animation: spin 0.8s linear infinite;
@@ -185,7 +185,7 @@ body {
 /* Typing Cursor Animation */
 .typing-cursor {
     display: inline;
-    color: #7aa449;
+    color: #65c8ff;
     font-weight: 400;
     animation: blink 0.7s infinite;
 }
@@ -231,9 +231,9 @@ body {
 }
 
 .preset-btn:hover {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
-    border-color: #7aa449;
+    border-color: #65c8ff;
 }
 
 /* ==================== End Modal System ==================== */
@@ -273,25 +273,25 @@ body {
 .logo-text {
     display: flex;
     flex-direction: column;
-    color: #7aa449;
+    color: #65c8ff;
     font-weight: 500;
     font-size: 18px;
     line-height: 1.2;
 }
 
 .landing-nav .nav-link {
-    color: #7aa449;
+    color: #65c8ff;
     text-decoration: none;
     font-size: 16px;
     font-weight: 500;
     padding: 10px 20px;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
     transition: all 0.3s;
 }
 
 .landing-nav .nav-link:hover {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
     text-decoration: none;
 }
@@ -311,7 +311,7 @@ body {
 }
 
 .btn-register {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
     border: none;
     padding: 18px 50px;
@@ -326,7 +326,7 @@ body {
 }
 
 .btn-register:hover {
-    background: #5c8035;
+    background: #65c8ff;
     transform: translateY(-2px);
 }
 
@@ -338,7 +338,7 @@ body {
 }
 
 .login-link {
-    color: #7aa449;
+    color: #65c8ff;
     text-decoration: none;
     font-size: 16px;
     margin-top: 20px;
@@ -365,9 +365,9 @@ body {
 }
 
 .btn-guest:hover {
-    border-color: #7aa449;
-    color: #7aa449;
-    background: rgba(122, 164, 73, 0.05);
+    border-color: #65c8ff;
+    color: #65c8ff;
+    background: rgba(101, 200, 255, 0.05);
 }
 
 /* Guest Badge */
@@ -385,7 +385,7 @@ body {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background: #7aa449;
+    background: #65c8ff;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -395,14 +395,14 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 999;
-    box-shadow: 0 4px 15px rgba(122, 164, 73, 0.4);
+    box-shadow: 0 4px 15px rgba(101, 200, 255, 0.4);
     border: none;
 }
 
 .chatbot-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(122, 164, 73, 0.5);
-    background: #5c8035;
+    box-shadow: 0 6px 20px rgba(101, 200, 255, 0.5);
+    background: #65c8ff;
 }
 
 .chatbot-icon {
@@ -440,7 +440,7 @@ body {
 }
 
 .modal-content h2 {
-    color: #7aa449;
+    color: #65c8ff;
     text-align: center;
     margin-bottom: 25px;
 }
@@ -448,7 +448,7 @@ body {
 .modal-content input {
     width: 100%;
     padding: 12px;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
     margin-bottom: 15px;
     font-size: 14px;
@@ -457,7 +457,7 @@ body {
 
 .modal-content input:focus {
     outline: none;
-    border-color: #7aa449;
+    border-color: #65c8ff;
 }
 
 .close-btn {
@@ -480,7 +480,7 @@ body {
 }
 
 .modal-switch a {
-    color: #7aa449;
+    color: #65c8ff;
     text-decoration: none;
 }
 
@@ -527,7 +527,7 @@ body {
 }
 
 .header h1 {
-    color: #7aa449;
+    color: #65c8ff;
     font-size: 28px;
     margin-bottom: 5px;
 }
@@ -549,7 +549,7 @@ body {
 }
 
 .btn-primary {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
 }
 
@@ -627,9 +627,9 @@ body {
     padding: 16px 80px;
     font-size: 24px;
     font-weight: 500;
-    color: #7aa449;
+    color: #65c8ff;
     background: white;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 30px;
     cursor: pointer;
     font-family: 'Mitr', sans-serif;
@@ -638,14 +638,14 @@ body {
 }
 
 .btn-start:hover:not(:disabled) {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
 }
 
 .btn-start.btn-completed {
     background: #f0fdf4;
-    border-color: #22c55e;
-    color: #22c55e;
+    border-color: #65c8ff;
+    color: #65c8ff;
     cursor: not-allowed;
     padding: 16px 50px;
 }
@@ -743,10 +743,10 @@ body {
 
 /* Calendar Today Highlight */
 .calendar-day.today {
-    border: 2px solid #7aa449 !important;
+    border: 2px solid #65c8ff !important;
     font-weight: 700;
     position: relative;
-    background: rgba(122, 164, 73, 0.08) !important;
+    background: rgba(101, 200, 255, 0.08) !important;
 }
 
 /* Missed Day - Red Strikethrough */
@@ -810,9 +810,9 @@ body {
 }
 
 .dev-preset-btn:hover {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
-    border-color: #7aa449;
+    border-color: #65c8ff;
 }
 
 .mood-selector {
@@ -895,7 +895,7 @@ body {
 
 .note-section textarea:focus {
     outline: none;
-    border-color: #7aa449;
+    border-color: #65c8ff;
 }
 
 .upload-section {
@@ -1005,7 +1005,7 @@ transform: scale(1) rotate(45deg);
 .input-group textarea {
     width: 100%;
     padding: 12px;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
     font-size: 14px;
     resize: vertical;
@@ -1051,7 +1051,7 @@ transform: scale(1) rotate(45deg);
 
 .calendar-day:hover {
     transform: scale(1.08);
-    border-color: #7aa449;
+    border-color: #65c8ff;
 }
 
 .calendar-day.has-entry {
@@ -1078,7 +1078,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .calendar-header button {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -1090,7 +1090,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .calendar-header button:hover {
-    background: #5c8035;
+    background: #65c8ff;
     transform: translateY(-2px);
 }
 
@@ -1158,7 +1158,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .legend-green {
-    background-color: #22c55e;
+    background-color: #65c8ff;
 }
 
 .legend-yellow {
@@ -1200,8 +1200,8 @@ transform: scale(1) rotate(45deg);
 }
 
 .stat-card-green {
-    background: #22c55e;
-    border-color: #22c55e;
+    background: #65c8ff;
+    border-color: #65c8ff;
     color: white;
 }
 
@@ -1309,7 +1309,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .tooltip-dot.green {
-    background-color: #22c55e;
+    background-color: #65c8ff;
 }
 
 .tooltip-dot.yellow {
@@ -1389,12 +1389,12 @@ transform: scale(1) rotate(45deg);
     border: none;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    background-color: #7aa449;
+    background-color: #65c8ff;
 }
 
 .tab:hover:not(.active) {
     background-color: #f3f4f6;
-    color: #7aa449;
+    color: #65c8ff;
 }
 
 
@@ -1521,7 +1521,7 @@ transform: scale(1) rotate(45deg);
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #22c55e, #16a34a);
+    background: linear-gradient(90deg, #65c8ff, #16a34a);
     border-radius: 4px;
     transition: width 0.3s ease;
     width: 0%;
@@ -1558,7 +1558,7 @@ transform: scale(1) rotate(45deg);
     max-width: 50%;
     width: 100%;
     padding: 12px;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
     font-size: 16px;
     font-family: 'Mitr', sans-serif;
@@ -1566,7 +1566,7 @@ transform: scale(1) rotate(45deg);
 
 .form-group input:focus {
     outline: none;
-    border-color: #7aa449;
+    border-color: #65c8ff;
 }
 
 .form-row {
@@ -1590,7 +1590,7 @@ transform: scale(1) rotate(45deg);
 .radio-wrapper input[type="radio"] {
     width: 18px;
     height: 18px;
-    accent-color: #7aa449;
+    accent-color: #65c8ff;
 }
 
 .checkbox-group {
@@ -1609,7 +1609,7 @@ transform: scale(1) rotate(45deg);
 .checkbox-item input[type="checkbox"] {
     width: 16px;
     height: 16px;
-    accent-color: #7aa449;
+    accent-color: #65c8ff;
 }
 
 .form-actions {
@@ -1619,7 +1619,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-next {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
     border: none;
     padding: 14px 40px;
@@ -1632,7 +1632,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-next:hover {
-    background: #5c8035;
+    background: #65c8ff;
 }
 
 
@@ -1672,7 +1672,7 @@ transform: scale(1) rotate(45deg);
 .question-options .radio-wrapper input[type="radio"] {
     width: 18px;
     height: 18px;
-    accent-color: #7aa449;
+    accent-color: #65c8ff;
 }
 
 
@@ -1715,7 +1715,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .contact-icon:hover {
-    color: #7aa449;
+    color: #65c8ff;
     transform: scale(1.1);
 }
 
@@ -1725,7 +1725,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .notice-text {
-    color: #7aa449;
+    color: #65c8ff;
     font-size: 20px;
     font-weight: 500;
     line-height: 1.8;
@@ -1738,9 +1738,9 @@ transform: scale(1) rotate(45deg);
 .btn-understand {
     display: inline-block;
     padding: 14px 60px;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
-    color: #7aa449;
+    color: #65c8ff;
     font-size: 18px;
     font-weight: 500;
     text-decoration: none;
@@ -1749,7 +1749,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-understand:hover {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
 }
 
@@ -1814,12 +1814,12 @@ transform: scale(1) rotate(45deg);
 
 .choice-btn.selected .choice-circle {
     transform: scale(1.1);
-    border-color: #22c55e;
-    background: #22c55e;
+    border-color: #65c8ff;
+    background: #65c8ff;
 }
 
 .choice-btn.selected .choice-text {
-    color: #22c55e;
+    color: #65c8ff;
     font-weight: 600;
 }
 
@@ -1874,7 +1874,7 @@ transform: scale(1) rotate(45deg);
     width: 100%;
     max-width: 100%;
     padding: 14px 16px;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
     font-size: 16px;
     font-family: 'Mitr', sans-serif;
@@ -1882,7 +1882,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .pro-form .form-group input:focus {
-    border-color: #7aa449;
+    border-color: #65c8ff;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
@@ -1908,21 +1908,21 @@ transform: scale(1) rotate(45deg);
     display: block;
     padding: 14px 20px;
     text-align: center;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
     font-size: 16px;
     transition: all 0.3s;
 }
 
 .gender-option input:checked + .gender-box {
-    border-color: #7aa449;
+    border-color: #65c8ff;
     background: #eff6ff;
-    color: #7aa449;
+    color: #65c8ff;
     font-weight: 500;
 }
 
 .gender-option:hover .gender-box {
-    border-color: #7aa449;
+    border-color: #65c8ff;
 }
 
 @media (max-width: 768px) {
@@ -1971,7 +1971,7 @@ transform: scale(1) rotate(45deg);
     width: 100%;
     max-width: 100%;
     padding: 12px 16px;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
     font-size: 16px;
     font-family: 'Mitr', sans-serif;
@@ -1979,7 +1979,7 @@ transform: scale(1) rotate(45deg);
 
 .login-form .form-group input:focus {
     outline: none;
-    border-color: #7aa449;
+    border-color: #65c8ff;
 }
 
 .login-form .form-group .password-wrapper {
@@ -2048,7 +2048,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-login {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
     border: none;
     padding: 12px 40px;
@@ -2061,7 +2061,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-login:hover {
-    background: #5c8035;
+    background: #65c8ff;
 }
 
 .forgot-link {
@@ -2071,7 +2071,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .forgot-link:hover {
-    color: #7aa449;
+    color: #65c8ff;
     text-decoration: underline;
 }
 
@@ -2104,7 +2104,7 @@ transform: scale(1) rotate(45deg);
 .signup-full .form-group input {
     width: 50%;
     padding: 14px 16px;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
     font-size: 16px;
     font-family: 'Mitr', sans-serif;
@@ -2143,7 +2143,7 @@ transform: scale(1) rotate(45deg);
 
 .signup-full .form-group input:focus {
     outline: none;
-    border-color: #7aa449;
+    border-color: #65c8ff;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
@@ -2185,7 +2185,7 @@ transform: scale(1) rotate(45deg);
     justify-content: center;
     width: 14px;
     height: 14px;
-    background: #22c55e;
+    background: #65c8ff;
     color: white;
     border-radius: 50%;
     font-size: 9px;
@@ -2257,7 +2257,7 @@ transform: scale(1) rotate(45deg);
 .signup-icon {
     width: 56px;
     height: 56px;
-    background: linear-gradient(135deg, #7aa449 0%, #5c8035 100%);
+    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -2299,12 +2299,12 @@ transform: scale(1) rotate(45deg);
 }
 
 .progress-step.completed {
-    background: #22c55e;
+    background: #65c8ff;
     color: white;
 }
 
 .progress-step.active {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
 }
 
@@ -2315,7 +2315,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .progress-line.completed {
-    background: #22c55e;
+    background: #65c8ff;
 }
 
 .signup-form .form-group {
@@ -2340,7 +2340,7 @@ transform: scale(1) rotate(45deg);
     width: 100%;
     max-width: 100%;
     padding: 14px 16px;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
     font-size: 16px;
     font-family: 'Mitr', sans-serif;
@@ -2350,7 +2350,7 @@ transform: scale(1) rotate(45deg);
 
 .signup-form .form-group input:focus {
     outline: none;
-    border-color: #7aa449;
+    border-color: #65c8ff;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
@@ -2424,7 +2424,7 @@ transform: scale(1) rotate(45deg);
 .btn-signup {
     width: 100%;
     padding: 14px;
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
     border: none;
     border-radius: 10px;
@@ -2441,9 +2441,9 @@ transform: scale(1) rotate(45deg);
 }
 
 .btn-signup:hover {
-    background: #5c8035;
+    background: #65c8ff;
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(122, 164, 73, 0.3);
+    box-shadow: 0 10px 20px rgba(101, 200, 255, 0.3);
 }
 
 .login-redirect {
@@ -2454,7 +2454,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .login-redirect a {
-    color: #7aa449;
+    color: #65c8ff;
     text-decoration: none;
     font-weight: 500;
 }
@@ -2548,7 +2548,7 @@ transform: scale(1) rotate(45deg);
 .signup-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #3b82f6 0%, #5c8035 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #65c8ff 100%);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -2595,7 +2595,7 @@ transform: scale(1) rotate(45deg);
 .signup-form input {
     width: 100%;
     padding: 12px 14px;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
     font-size: 14px;
     font-family: 'Mitr', sans-serif;
@@ -2618,7 +2618,7 @@ transform: scale(1) rotate(45deg);
 .btn-signup {
     width: 100%;
     padding: 16px;
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
     border: none;
     border-radius: 12px;
@@ -2632,13 +2632,13 @@ transform: scale(1) rotate(45deg);
     gap: 8px;
     transition: all 0.3s;
     margin-top: 24px;
-    box-shadow: 0 4px 15px rgba(122, 164, 73, 0.3);
+    box-shadow: 0 4px 15px rgba(101, 200, 255, 0.3);
 }
 
 .btn-signup:hover {
-    background: #5c8035;
+    background: #65c8ff;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(122, 164, 73, 0.4);
+    box-shadow: 0 8px 25px rgba(101, 200, 255, 0.4);
 }
 
 .btn-signup:active {
@@ -2706,7 +2706,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .chat-header {
-    background: linear-gradient(135deg, #7aa449 0%, #5c8035 100%);
+    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
     color: white;
     padding: 16px 20px;
     display: flex;
@@ -2801,7 +2801,7 @@ transform: scale(1) rotate(45deg);
     padding: 8px 14px;
     border-radius: 20px;
     font-size: 13px;
-    color: #7aa449;
+    color: #65c8ff;
     cursor: pointer;
     transition: all 0.2s;
     font-family: 'Mitr', sans-serif;
@@ -2809,9 +2809,9 @@ transform: scale(1) rotate(45deg);
 }
 
 .suggest-btn:hover {
-    background: #7aa449;
+    background: #65c8ff;
     color: white;
-    border-color: #7aa449;
+    border-color: #65c8ff;
 }
 
 .chat-message {
@@ -2836,7 +2836,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .chat-message.user .message-bubble {
-    background: linear-gradient(135deg, #7aa449 0%, #5c8035 100%);
+    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
     color: white;
     border-bottom-right-radius: 4px;
 }
@@ -2889,7 +2889,7 @@ transform: scale(1) rotate(45deg);
 .chat-input-area input {
     flex: 1;
     padding: 12px 16px;
-    border: 2px solid #7aa449;
+    border: 2px solid #65c8ff;
     border-radius: 25px;
     font-size: 14px;
     font-family: 'Mitr', sans-serif;
@@ -2898,13 +2898,13 @@ transform: scale(1) rotate(45deg);
 }
 
 .chat-input-area input:focus {
-    border-color: #5c8035;
+    border-color: #65c8ff;
 }
 
 .chat-send {
     width: 44px;
     height: 44px;
-    background: linear-gradient(135deg, #7aa449 0%, #5c8035 100%);
+    background: linear-gradient(135deg, #65c8ff 0%, #65c8ff 100%);
     border: none;
     border-radius: 50%;
     color: white;
@@ -3066,10 +3066,10 @@ transform: scale(1) rotate(45deg);
     }
     
     .tab.active {
-        background: #7aa449;
+        background: #65c8ff;
         color: white;
         border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(122, 164, 73, 0.3);
+        box-shadow: 0 2px 8px rgba(101, 200, 255, 0.3);
     }
     
     .stats-grid {
@@ -3134,9 +3134,9 @@ transform: scale(1) rotate(45deg);
     }
     
     .tab.active {
-        background: #7aa449;
+        background: #65c8ff;
         color: white;
-        box-shadow: 0 2px 8px rgba(122, 164, 73, 0.3);
+        box-shadow: 0 2px 8px rgba(101, 200, 255, 0.3);
     }
     
     .landing-logo {
@@ -3577,7 +3577,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .color-green {
-    background-color: #22c55e;
+    background-color: #65c8ff;
 }
 
 .color-yellow {
@@ -3609,7 +3609,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .user-name {
-    color: #7aa449;
+    color: #65c8ff;
     font-weight: 600;
 }
 
@@ -3637,8 +3637,8 @@ transform: scale(1) rotate(45deg);
     height: 12px;
     background: linear-gradient(90deg, 
         #3b82f6 0%, 
-        #22c55e 30%, 
-        #22c55e 50%, 
+        #65c8ff 30%, 
+        #65c8ff 50%, 
         #eab308 70%, 
         #ef4444 100%
     );
@@ -4133,21 +4133,21 @@ transform: scale(1) rotate(45deg);
 }
 
 .progress-dot.active {
-    background: #7aa449;
+    background: #65c8ff;
     transform: scale(1.3);
 }
 
 .progress-dot.completed {
-    background: #7aa449;
+    background: #65c8ff;
 }
 
 .btn-start.btn-health-green {
-    color: #22c55e;
-    border-color: #22c55e;
+    color: #65c8ff;
+    border-color: #65c8ff;
 }
 
 .btn-start.btn-health-green:hover:not(:disabled) {
-    background: #22c55e;
+    background: #65c8ff;
     color: white;
 }
 

@@ -1947,7 +1947,7 @@ async function completeWeeklyCheck() {
                 <span style="color: #6b7280;"> (${totalScore}/${maxScore})</span>
             </div>
             <div style="background: #f9fafb; padding: 12px; border-radius: 8px; text-align: left; font-size: 13px; line-height: 1.5;">
-                <p style="font-weight: 600; margin-bottom: 8px; color: #7aa449;">💡 สรุปสัปดาห์นี้</p>
+                <p style="font-weight: 600; margin-bottom: 8px; color: #65c8ff;">💡 สรุปสัปดาห์นี้</p>
                 <div id="aiTypingContainer"><span class="typing-cursor">|</span></div>
             </div>
         `,
@@ -2103,7 +2103,7 @@ Modal.show({
             <span style="color: #6b7280;"> (${totalScore}/${maxScore})</span>
         </div>
         <div style="background: #f9fafb; padding: 12px; border-radius: 8px; text-align: left; font-size: 13px; line-height: 1.5;">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #7aa449;">สรุปสัปดาห์นี้</p>
+            <p style="font-weight: 600; margin-bottom: 8px; color: #65c8ff;">สรุปสัปดาห์นี้</p>
             <div id="aiTypingContainer"><span class="typing-cursor">|</span></div>
         </div>
     `,

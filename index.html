@@ -59,9 +59,6 @@
                 ลงทะเบียนและเริ่มแบบสอบถาม
             </a>
             <a href="login.html" class="login-link">เข้าสู่ระบบ?</a>
-            <button class="btn-guest" onclick="loginAsGuest()">
-                ใช้งานแบบไม่ลงทะเบียน
-            </button>
         </main>
 
         <div class="chatbot-btn">
@@ -105,7 +102,11 @@
                 </div>
                 <div class="user-info">
                     <span id="guestBadge" class="guest-badge" style="display: none;">ผู้ใช้ชั่วคราว</span>
-                    <button class="btn btn-secondary" onclick="logout()">ออกจากระบบ</button>
+                    <div id="guestActions" style="display: none; gap: 10px;">
+                        <button class="btn btn-primary" onclick="window.location.href='signup.html'">ลงทะเบียน</button>
+                        <button class="btn btn-secondary" onclick="window.location.href='login.html'">เข้าสู่ระบบ</button>
+                    </div>
+                    <button class="btn btn-secondary" id="logoutBtn" onclick="logout()">ออกจากระบบ</button>
                 </div>
             </div>
 
@@ -122,7 +123,7 @@
                         <div class="card record-card">
                             <div class="record-header">
                                 <h2>บันทึกสุขภาพสัปดาห์นี้</h2>
-                                <p class="record-date">วันที่ <span id="todayDate"></span></p>
+                                <p class="record-date">สัปดาห์ที่ <span id="weekRange"></span></p>
                                 <br>
                                 <p>คำแนะนำสำหรับคุณ<br>
                                     ข้อมูลแนะนำจะมาจากการวิเคราะห์การตอบ</p>
@@ -149,7 +150,6 @@
                                 <div>ส</div>
                             </div>
                             <div class="calendar-grid" id="calendarGrid"></div>
-                            <p class="calendar-hint">💡 แตะสัปดาห์ที่มีข้อมูลเพื่อดูรายละเอียด</p>
                         </div>
                     </div>
 
@@ -247,16 +247,6 @@
                     </div>
                 </div>
                 <div class="card">
-                    <h2>กราฟแสดงสุขภาพ 7 วันล่าสุด <span
-                            style="font-size: 12px; color: #888;">(จากคะแนนและการตอบ)</span></h2>
-                    <div class="chart-legend">
-                        <span class="legend-item"><span class="legend-dot legend-red"></span> แดง</span>
-                        <span class="legend-item"><span class="legend-dot legend-green"></span> เขียว</span>
-                        <span class="legend-item"><span class="legend-dot legend-yellow"></span> เหลือง</span>
-                    </div>
-                    <canvas id="healthChart"></canvas>
-                </div>
-                <div class="card">
                     <h2>กราฟแสดงสุขภาพ 30 วันล่าสุด</h2>
                     <div class="radar-chart-wrapper">
                         <div class="radar-chart-container">
@@ -277,6 +267,12 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Question Review Section -->
+                <div class="card" id="questionReviewCard" style="display: none;">
+                    <h2>ตรวจสอบคำตอบ</h2>
+                    <div id="questionReviewList"></div>
                 </div>
             </div>
             <div id="historyTab" class="tab-content">

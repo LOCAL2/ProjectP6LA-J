@@ -1,60 +1,34 @@
-const questions = [
-    {
-        id: 1,
-        text: "1. โดยปกติคุณกินอาหารครบ วันละ 3 มื้อ หรือไม่",
-        choices: [
-            { text: "ครบทุกวัน", value: 3 },
-            { text: "ไม่ครบทุกวัน", value: 1 }
-        ]
-    },
-    {
-        id: 2,
-        text: "2. คุณกินผัก วันละอย่างน้อย 4 ทัพพี กี่วันต่อสัปดาห์",
-        choices: [
-            { text: "ไม่กินเลย", value: 0 },
-            { text: "1–3 วัน/สัปดาห์", value: 1 },
-            { text: "4–6 วัน/สัปดาห์", value: 2 },
-            { text: "ทุกวัน", value: 3 }
-        ]
-    },
-    {
-        id: 3,
-        text: "3. คุณกินผลไม้รสไม่หวาน (เช่น ฝรั่ง ชมพู่ แอปเปิลเขียว) หรือไม่",
-        choices: [
-            { text: "ไม่กินเลย", value: 0 },
-            { text: "กินน้อย/ไม่สม่ำเสมอ", value: 1 },
-            { text: "กินเป็นประจำ", value: 3 }
-        ]
-    },
-    {
-        id: 4,
-        text: "4. เวลากินอาหาร คุณเติมน้ำปลา ซีอิ๊ว หรือเครื่องปรุงเค็ม หรือไม่",
-        choices: [
-            { text: "ไม่เติมเลย", value: 3 },
-            { text: "เติมบางครั้ง", value: 1 },
-            { text: "เติมทุกครั้ง", value: 0 }
-        ]
-    },
-    {
-        id: 5,
-        text: "5. คุณเติมน้ำตาลในอาหารหรือเครื่องดื่มบ่อยแค่ไหน",
-        choices: [
-            { text: "ไม่เติมเลย", value: 3 },
-            { text: "เติมบางครั้ง", value: 1 },
-            { text: "เติมทุกครั้ง", value: 0 }
-        ]
-    },
-    {
-        id: 6,
-        text: "6. ใน 1 สัปดาห์ คุณดื่มเครื่องดื่มรสหวาน (น้ำอัดลม ชานม น้ำหวาน) กี่วัน",
-        choices: [
-            { text: "ไม่ดื่มเลย", value: 3 },
-            { text: "1–3 วัน/สัปดาห์", value: 1 },
-            { text: "ดื่มบ่อย/ทุกวัน", value: 0 }
-        ]
-    }
+// All 20 health questions
+const allHealthQuestions = [
+    { id: 1, text: "สัปดาห์นี้คุณรู้สึกมีความสุขเป็นส่วนใหญ่หรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 2, text: "สัปดาห์นี้คุณนอนหลับพักผ่อนเพียงพอ (7-8 ชั่วโมงต่อคืน) สม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 3, text: "สัปดาห์นี้ส่วนใหญ่คุณตื่นมาแล้วรู้สึกสดชื่นหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 4, text: "สัปดาห์นี้คุณมีเรื่องเครียดหรือวิตกกังวลมากเกินไปหรือไม่?", choices: ["ไม่", "บางครั้ง", "ใช่"], scores: [10, 5, 0] },
+    { id: 5, text: "สัปดาห์นี้คุณสามารถงดเล่นมือถือหรือดูจอก่อนเข้านอนอย่างน้อย 30 นาทีได้เป็นส่วนใหญ่หรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 6, text: "สัปดาห์นี้คุณกินผักหรือผลไม้เป็นประจำทุกวันหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 7, text: "สัปดาห์นี้คุณกินอาหารครบ 3 มื้อในแต่ละวันหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 8, text: "สัปดาห์นี้คุณดื่มน้ำเปล่าเพียงพอ (ประมาณ 2 ลิตรต่อวัน) สม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 9, text: "สัปดาห์นี้คุณทานของหวานหรือเครื่องดื่มที่มีน้ำตาลสูงบ่อยแค่ไหน?", choices: ["เลี่ยงได้", "บางครั้ง", "บ่อย"], scores: [10, 5, 0] },
+    { id: 10, text: "สัปดาห์นี้คุณดื่มเครื่องดื่มแอลกอฮอล์หรือไม่?", choices: ["ไม่ดื่ม", "บางครั้ง", "ดื่มบ่อย"], scores: [10, 5, 0] },
+    { id: 11, text: "สัปดาห์นี้คุณมีการเดินหรือใช้บันไดแทนลิฟต์บ้างหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 12, text: "สัปดาห์นี้คุณได้ออกกำลังกายติดต่อกันอย่างน้อย 30 นาที (อย่างน้อย 3-5 วัน) หรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 13, text: "สัปดาห์นี้คุณมีการยืดเหยียดกล้ามเนื้อ (Stretching) ระหว่างสัปดาห์บ้างหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 14, text: "สัปดาห์นี้คุณนั่งทำงานติดต่อกันนานเกิน 2 ชั่วโมงโดยไม่ลุกเดินบ่อยหรือไม่?", choices: ["ไม่บ่อย", "บางครั้ง", "บ่อย"], scores: [10, 5, 0] },
+    { id: 15, text: "สัปดาห์นี้คุณได้รับแสงแดดอ่อนๆ หรือได้ออกไปสูดอากาศข้างนอกบ้างหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 16, text: "สัปดาห์นี้คุณสูบบุหรี่หรือไม่?", choices: ["ไม่สูบ", "บางครั้ง", "สูบ"], scores: [10, 5, 0] },
+    { id: 17, text: "สัปดาห์นี้ระบบขับถ่ายของคุณเป็นปกติสม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 18, text: "สัปดาห์นี้คุณมีการพักสายตาจากหน้าจอระหว่างวันสม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 19, text: "สัปดาห์นี้คุณทานยาหรือวิตามินตามที่กำหนดครบถ้วนหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
+    { id: 20, text: "สัปดาห์นี้คุณได้พูดคุยหรือทำกิจกรรมร่วมกับคนในครอบครัวหรือเพื่อนบ้างหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] }
 ];
 
+// Function to shuffle all 20 questions (different order for each person)
+function shuffleAllQuestions() {
+    const shuffled = [...allHealthQuestions].sort(() => Math.random() - 0.5);
+    return shuffled;
+}
+
+let selectedQuestions = [];
 let currentQuestion = 0;
 let answers = {};
 let selectedValue = null;
@@ -69,6 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
+    // Shuffle all 20 questions
+    selectedQuestions = shuffleAllQuestions();
+    
     const savedAnswers = localStorage.getItem('questionAnswers');
     if (savedAnswers) {
         answers = JSON.parse(savedAnswers);
@@ -77,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedQuestion = localStorage.getItem('currentQuestion');
     if (savedQuestion) {
         const savedIndex = parseInt(savedQuestion);
-        if (savedIndex >= 0 && savedIndex < questions.length) {
+        if (savedIndex >= 0 && savedIndex < selectedQuestions.length) {
             currentQuestion = savedIndex;
         } else {
             currentQuestion = 0;
@@ -87,12 +64,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     renderQuestion();
+    
+    // Add keyboard event listener for Enter key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && selectedValue !== null) {
+            goToNext();
+        }
+    });
 });
 
 function renderQuestion() {
-    const question = questions[currentQuestion];
-    const totalSteps = 8;
-    const currentStep = currentQuestion + 3;
+    const question = selectedQuestions[currentQuestion];
+    const totalSteps = 23; // 3 register steps + 20 questions
+    const currentStep = currentQuestion + 4; // Start from step 4 (after 3 register steps)
     const percent = Math.round((currentStep / totalSteps) * 100);
 
     document.getElementById('progressPercent').textContent = percent + '%';
@@ -104,18 +88,19 @@ function renderQuestion() {
     const choicesContainer = document.getElementById('questionChoices');
     choicesContainer.innerHTML = '';
 
-    question.choices.forEach((choice) => {
+    // Create choice buttons from the new format
+    question.choices.forEach((choiceText, index) => {
         const choiceBtn = document.createElement('button');
         choiceBtn.className = 'choice-btn';
         choiceBtn.innerHTML = `
             <span class="choice-circle"></span>
-            <span class="choice-text">${choice.text}</span>
+            <span class="choice-text">${choiceText}</span>
         `;
-        choiceBtn.onclick = () => selectAnswer(choice.value, choiceBtn);
+        choiceBtn.onclick = () => selectAnswer(question.scores[index], choiceBtn);
         choicesContainer.appendChild(choiceBtn);
     });
 
-    const isLastQuestion = currentQuestion === questions.length - 1;
+    const isLastQuestion = currentQuestion === selectedQuestions.length - 1;
     document.getElementById('nextBtn').textContent = isLastQuestion ? 'เสร็จสิ้น' : 'ข้อถัดไป';
     document.getElementById('nextBtn').disabled = true;
 }
@@ -133,13 +118,13 @@ function goToNext() {
         return;
     }
 
-    const question = questions[currentQuestion];
+    const question = selectedQuestions[currentQuestion];
     answers[`q${question.id}`] = selectedValue;
 
     localStorage.setItem('questionAnswers', JSON.stringify(answers));
     localStorage.setItem('currentQuestion', currentQuestion + 1);
 
-    if (currentQuestion < questions.length - 1) {
+    if (currentQuestion < selectedQuestions.length - 1) {
         currentQuestion++;
         renderQuestion();
     } else {
@@ -153,26 +138,54 @@ function finishQuestions() {
         totalScore += parseInt(answers[key]);
     }
 
-    const maxScore = 18;
+    const maxScore = 200; // 20 questions * 10 points each
     const healthScore = Math.round((totalScore / maxScore) * 100);
 
     let healthStatus = '';
     if (healthScore >= 80) {
+        healthStatus = 'สุขภาพดีมาก';
+    } else if (healthScore >= 60) {
         healthStatus = 'สุขภาพดี';
-    } else if (healthScore >= 50) {
+    } else if (healthScore >= 40) {
         healthStatus = 'ควรปรับปรุง';
     } else {
         healthStatus = 'เสี่ยง';
     }
 
+    // Create guest user automatically
+    const registerData = JSON.parse(localStorage.getItem('registerData') || '{}');
+    const guestId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    const guestData = {
+        id: guestId,
+        nickname: registerData.nickname || 'ผู้ใช้ชั่วคราว',
+        gender: registerData.gender || null,
+        birthdate: registerData.birthdate || null,
+        weight: registerData.weight || null,
+        height: registerData.height || null,
+        health_score: healthScore,
+        created_at: new Date().toISOString(),
+        mood_entries: [],
+        daily_checks: [],
+        weekly_checks: []
+    };
+
+    // Save guest data
+    localStorage.setItem('guest_user_data', JSON.stringify(guestData));
+    localStorage.setItem('guestMode', 'true');
+
+    // Save question data
     localStorage.setItem('questionData', JSON.stringify({
         answers,
         healthScore,
         healthStatus
     }));
 
+    // Set flag to show result modal and switch to stats tab
+    localStorage.setItem('showHealthResult', 'true');
+
     localStorage.removeItem('questionAnswers');
     localStorage.removeItem('currentQuestion');
+    localStorage.removeItem('registerData');
 
-    window.location.href = 'signup.html';
+    window.location.href = 'index.html';
 }

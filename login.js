@@ -50,6 +50,10 @@ async function login() {
             return;
         }
 
+        // Clear guest mode data on successful login
+        localStorage.removeItem('guestMode');
+        localStorage.removeItem('guest_user_data');
+
         Swal.fire({ icon: 'success', title: 'เข้าสู่ระบบสำเร็จ!', timer: 1500, showConfirmButton: false }).then(() => {
             window.location.href = 'index.html';
         });

@@ -249,28 +249,21 @@ async function typeText(containerId, html, speed = 20) {
 }
 
 const allHealthQuestions = [
-    // 🧠 สุขภาพจิตและการนอนหลับ
     { id: 1, text: "สัปดาห์นี้คุณรู้สึกมีความสุขเป็นส่วนใหญ่หรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
     { id: 2, text: "สัปดาห์นี้คุณนอนหลับพักผ่อนเพียงพอ (7-8 ชั่วโมงต่อคืน) สม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
     { id: 3, text: "สัปดาห์นี้ส่วนใหญ่คุณตื่นมาแล้วรู้สึกสดชื่นหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
     { id: 4, text: "สัปดาห์นี้คุณมีเรื่องเครียดหรือวิตกกังวลมากเกินไปหรือไม่?", choices: ["ไม่", "บางครั้ง", "ใช่"], scores: [10, 5, 0] },
     { id: 5, text: "สัปดาห์นี้คุณสามารถงดเล่นมือถือหรือดูจอก่อนเข้านอนอย่างน้อย 30 นาทีได้เป็นส่วนใหญ่หรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
-    
-    // 🥗 โภชนาการ
     { id: 6, text: "สัปดาห์นี้คุณกินผักหรือผลไม้เป็นประจำทุกวันหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
     { id: 7, text: "สัปดาห์นี้คุณกินอาหารครบ 3 มื้อในแต่ละวันหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
     { id: 8, text: "สัปดาห์นี้คุณดื่มน้ำเปล่าเพียงพอ (ประมาณ 2 ลิตรต่อวัน) สม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
     { id: 9, text: "สัปดาห์นี้คุณทานของหวานหรือเครื่องดื่มที่มีน้ำตาลสูงบ่อยแค่ไหน? (หรือสามารถเลี่ยงได้หรือไม่?)", choices: ["เลี่ยงได้", "บางครั้ง", "บ่อย"], scores: [10, 5, 0] },
     { id: 10, text: "สัปดาห์นี้คุณดื่มเครื่องดื่มแอลกอฮอล์หรือไม่?", choices: ["ไม่ดื่ม", "บางครั้ง", "ดื่มบ่อย"], scores: [10, 5, 0] },
-    
-    // 🏃 การออกกำลังกายและกิจกรรม
     { id: 11, text: "สัปดาห์นี้คุณมีการเดินหรือใช้บันไดแทนลิฟต์บ้างหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
     { id: 12, text: "สัปดาห์นี้คุณได้ออกกำลังกายติดต่อกันอย่างน้อย 30 นาที (อย่างน้อย 3-5 วัน) หรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
     { id: 13, text: "สัปดาห์นี้คุณมีการยืดเหยียดกล้ามเนื้อ (Stretching) ระหว่างสัปดาห์บ้างหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
     { id: 14, text: "สัปดาห์นี้คุณนั่งทำงานติดต่อกันนานเกิน 2 ชั่วโมงโดยไม่ลุกเดินบ่อยหรือไม่?", choices: ["ไม่บ่อย", "บางครั้ง", "บ่อย"], scores: [10, 5, 0] },
     { id: 15, text: "สัปดาห์นี้คุณได้รับแสงแดดอ่อนๆ หรือได้ออกไปสูดอากาศข้างนอกบ้างหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
-    
-    // 🚬 พฤติกรรมเสี่ยงและสุขภาพทั่วไป
     { id: 16, text: "สัปดาห์นี้คุณสูบบุหรี่หรือไม่?", choices: ["ไม่สูบ", "บางครั้ง", "สูบ"], scores: [10, 5, 0] },
     { id: 17, text: "สัปดาห์นี้ระบบขับถ่ายของคุณเป็นปกติสม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
     { id: 18, text: "สัปดาห์นี้คุณมีการพักสายตาจากหน้าจอระหว่างวันสม่ำเสมอหรือไม่?", choices: ["ใช่", "บางครั้ง", "ไม่"], scores: [10, 5, 0] },
@@ -284,13 +277,27 @@ const monthNames = ['มกราคม', 'กุมภาพันธ์', 'ม
 
 async function checkAuth() {
     try {
-        // ใช้ window.supabaseClient เท่านั้น
+        // Check for guest mode first
+        const guestMode = localStorage.getItem('guestMode');
+        const guestData = localStorage.getItem(GUEST_STORAGE_KEY);
+        
+        if (guestMode === 'true' && guestData) {
+            const guest = JSON.parse(guestData);
+            currentUser = {
+                id: guest.id,
+                email: null,
+                isGuest: true
+            };
+            isGuestMode = true;
+            showMainApp();
+            return;
+        }
+        
         const supabase = getSupabase();
         
-        console.log('supabase:', supabase);
-        console.log('supabase.auth:', supabase ? supabase.auth : 'no client');
+        // console.log('supabase:', supabase);
+        // console.log('supabase.auth:', supabase ? supabase.auth : 'no client');
         
-        // ตรวจสอบว่า supabase ถูก initialize หรือไม่
         if (!supabase || !supabase.auth) {
             console.error('Supabase not initialized properly');
             document.getElementById('landingPage').style.display = 'flex';
@@ -409,9 +416,78 @@ function logout() {
     }, 100);
 }
 
+// Save weekly check data from weekly-check.html
+async function saveWeeklyCheckData(data) {
+    const { answers, healthScore, healthStatus } = data;
+    const weekKey = getWeekKey();
+    
+    // Determine mood based on score
+    let mood, moodName;
+    if (healthScore >= 80) { mood = 'blue'; moodName = 'สุขมาก'; }
+    else if (healthScore >= 60) { mood = 'green'; moodName = 'ดี'; }
+    else if (healthScore >= 40) { mood = 'yellow'; moodName = 'ปกติ'; }
+    else if (healthScore >= 20) { mood = 'orange'; moodName = 'เหนื่อย'; }
+    else { mood = 'red'; moodName = 'เครียด'; }
+    
+    const weeklyCheckData = {
+        user_id: currentUser.id,
+        week_key: weekKey,
+        answers: answers,
+        health_score: healthScore,
+        mood: mood,
+        mood_name: moodName,
+        completed_at: new Date().toISOString()
+    };
+    
+    if (isGuestMode) {
+        const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+        if (!guestData.weekly_checks) guestData.weekly_checks = [];
+        
+        // Remove existing entry for this week if any
+        guestData.weekly_checks = guestData.weekly_checks.filter(check => check.week_key !== weekKey);
+        guestData.weekly_checks.push(weeklyCheckData);
+        guestData.health_score = healthScore;
+        
+        localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
+    } else {
+        // Save to weekly_checks table
+        const supabase = getSupabase();
+        await supabase.from('weekly_checks').upsert(weeklyCheckData, { onConflict: 'user_id,week_key' });
+        
+        // Update user's health score
+        await supabase.from('users').update({ health_score: healthScore }).eq('id', currentUser.id);
+        
+        // Also save to mood_entries for calendar (use Monday of the week)
+        const weekStart = getWeekStart();
+        const dateKey = `${weekStart.getFullYear()}-${String(weekStart.getMonth() + 1).padStart(2, '0')}-${String(weekStart.getDate()).padStart(2, '0')}`;
+        
+        await supabase.from('mood_entries').upsert({
+            user_id: currentUser.id,
+            date: dateKey,
+            mood: mood,
+            mood_name: moodName,
+            note: `คะแนนสุขภาพประจำสัปดาห์: ${healthScore}`
+        }, { onConflict: 'user_id,date' });
+    }
+    
+    // Mark this week as completed
+    thisWeekCompleted = true;
+}
+
 function showMainApp() {
     document.getElementById('landingPage').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
+    
+    // Show/hide guest mode UI elements
+    if (isGuestMode) {
+        document.getElementById('guestBadge').style.display = 'inline-flex';
+        document.getElementById('guestActions').style.display = 'flex';
+        document.getElementById('logoutBtn').style.display = 'none';
+    } else {
+        document.getElementById('guestBadge').style.display = 'none';
+        document.getElementById('guestActions').style.display = 'none';
+        document.getElementById('logoutBtn').style.display = 'inline-block';
+    }
     
     // Check if user is Dev
     isDevMode = DEV_EMAILS.includes(currentUser.email);
@@ -427,23 +503,86 @@ function showMainApp() {
     
     updateTodayDate();
     
-    // Setup tab event listeners
-    setupTabListeners();
-    
-    // Force reset to first tab
-    currentTabIndex = 0;
-    switchTab('record');
-    console.log('Switched to record tab');
+    // Check and save weekly check data if exists
+    const weeklyCheckData = localStorage.getItem('weeklyCheckData');
+    if (weeklyCheckData) {
+        saveWeeklyCheckData(JSON.parse(weeklyCheckData));
+        localStorage.removeItem('weeklyCheckData');
+    }
     
     // Load health score first for instant color display
     loadHealthScoreInstant();
     
     loadProfile();
     checkThisWeekCompletion();
+    
+    // Check if we should show health result and switch to stats tab
+    const showHealthResult = localStorage.getItem('showHealthResult');
+    
+    // Setup tab event listeners AFTER checking showHealthResult
+    setupTabListeners();
+    
+    if (showHealthResult === 'true') {
+        localStorage.removeItem('showHealthResult');
+        currentTabIndex = 2;
+        const tabButtons = document.querySelectorAll('.tab');
+        tabButtons.forEach((tab, i) => {
+            if (i === 2) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+        
+        // Hide all tabs
+        const allTabIds = ['recordTab', 'calendarTab', 'statsTab', 'historyTab'];
+        allTabIds.forEach((tabId) => {
+            const element = document.getElementById(tabId);
+            if (element) {
+                element.classList.remove('active');
+                element.style.display = 'none';
+            }
+        });
+        
+        // Show stats tab
+        const statsTab = document.getElementById('statsTab');
+        if (statsTab) {
+            statsTab.style.display = 'block';
+            statsTab.classList.add('active');
+        }
+        
+        // Load stats
+        loadStats();
+        
+        console.log('Stats tab should be visible now');
+        
+        // Show health result modal after tab switch
+        setTimeout(() => {
+            showHealthResultModal();
+        }, 500);
+    } else {
+        // Force reset to first tab
+        currentTabIndex = 0;
+        switchTab('record');
+    }
 }
 
 // Load health score instantly without waiting for other data
 async function loadHealthScoreInstant() {
+    if (isGuestMode) {
+        const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+        const healthScore = guestData.health_score ?? 100;
+        
+        // Update UI immediately
+        document.getElementById('healthScore').textContent = healthScore;
+        document.getElementById('aboutHealthScore').textContent = healthScore;
+        updateHealthLevelCard(healthScore);
+        
+        // Then load full stats in background
+        loadStats();
+        return;
+    }
+    
     const supabase = getSupabase();
     const { data: userData } = await supabase
         .from('users')
@@ -487,7 +626,38 @@ async function loadProfile() {
 
 function updateTodayDate() {
     const today = getCurrentDate();
-    document.getElementById('todayDate').textContent = `${today.getDate()} ${monthNames[today.getMonth()]} ${today.getFullYear() + 543}`;
+    
+    // คำนวณวันจันทร์และวันอาทิตย์ของสัปดาห์นี้
+    const currentDay = today.getDay(); // 0 = อาทิตย์, 1 = จันทร์, ..., 6 = เสาร์
+    const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay; // ถ้าเป็นวันอาทิตย์ให้ย้อนกลับ 6 วัน
+    const sundayOffset = currentDay === 0 ? 0 : 7 - currentDay; // ถ้าเป็นวันอาทิตย์ก็คือวันนี้
+    
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + mondayOffset);
+    
+    const sunday = new Date(today);
+    sunday.setDate(today.getDate() + sundayOffset);
+    
+    // Format: "3 - 9 กุมภาพันธ์ 2569" หรือ "28 มกราคม - 3 กุมภาพันธ์ 2569"
+    const mondayDate = monday.getDate();
+    const sundayDate = sunday.getDate();
+    const mondayMonth = monday.getMonth();
+    const sundayMonth = sunday.getMonth();
+    const sundayYear = sunday.getFullYear() + 543;
+    
+    let weekRangeText;
+    if (mondayMonth === sundayMonth) {
+        // เดือนเดียวกัน
+        weekRangeText = `${mondayDate} - ${sundayDate} ${monthNames[sundayMonth]} ${sundayYear}`;
+    } else {
+        // คนละเดือน
+        weekRangeText = `${mondayDate} ${monthNames[mondayMonth]} - ${sundayDate} ${monthNames[sundayMonth]} ${sundayYear}`;
+    }
+    
+    const weekRangeElement = document.getElementById('weekRange');
+    if (weekRangeElement) {
+        weekRangeElement.textContent = weekRangeText;
+    }
 }
 
 function selectMood(color, name) {
@@ -924,127 +1094,160 @@ async function loadStats() {
     
     const moodValues = { blue: 50, green: 40, yellow: 30, orange: 20, red: 10 };
 
-    // Create 7-day Line Chart
-    if (window.healthChartInstance) window.healthChartInstance.destroy();
-    const ctx7 = document.getElementById('healthChart');
-    if (ctx7) {
-        window.healthChartInstance = new Chart(ctx7, {
-            type: 'line',
-            data: {
-                labels: recent7.map(e => e.date.split('-')[2] + '/' + e.date.split('-')[1]),
-                datasets: [
-                    { 
-                        label: 'แดง', 
-                        data: recent7.map(e => e.mood === 'red' ? moodValues[e.mood] : null), 
-                        borderColor: '#ef4444', 
-                        backgroundColor: '#ef4444',
-                        tension: 0.4,
-                        pointRadius: 5
-                    },
-                    { 
-                        label: 'เขียว', 
-                        data: recent7.map(e => e.mood === 'green' || e.mood === 'blue' ? moodValues[e.mood] : null), 
-                        borderColor: '#22c55e', 
-                        backgroundColor: '#22c55e',
-                        tension: 0.4,
-                        pointRadius: 5
-                    },
-                    { 
-                        label: 'เหลือง', 
-                        data: recent7.map(e => e.mood === 'yellow' || e.mood === 'orange' ? moodValues[e.mood] : null), 
-                        borderColor: '#eab308', 
-                        backgroundColor: '#eab308',
-                        tension: 0.4,
-                        pointRadius: 5
-                    }
-                ]
-            },
-            options: { 
-                responsive: true, 
-                scales: { 
-                    y: { 
-                        min: 0, 
-                        max: 60,
-                        ticks: {
-                            stepSize: 10
-                        }
-                    } 
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
-    }
-
-    // Create 30-day Radar Chart
+    // Create 30-day Bar Chart
     if (window.healthRadarChartInstance) window.healthRadarChartInstance.destroy();
     const ctx30 = document.getElementById('healthRadarChart');
     if (ctx30) {
         window.healthRadarChartInstance = new Chart(ctx30, {
-            type: 'radar',
+            type: 'bar',
             data: {
-                labels: ['สุขมาก', 'ดี', 'ปกติ', 'เหนื่อย', 'เครียด'],
+                labels: recent30.map(e => e.date.split('-')[2] + '/' + e.date.split('-')[1]),
                 datasets: [
                     {
-                        label: 'สัปดาห์ที่ 1',
-                        data: calculateWeekData(recent30, 0),
-                        backgroundColor: 'rgba(96, 165, 250, 0.3)',
-                        borderColor: 'rgba(96, 165, 250, 1)',
+                        label: 'คะแนนสุขภาพ',
+                        data: recent30.map(e => moodValues[e.mood] || 0),
+                        backgroundColor: recent30.map(e => {
+                            const colors = {
+                                'red': '#ef4444',
+                                'orange': '#f97316',
+                                'yellow': '#eab308',
+                                'green': '#22c55e',
+                                'blue': '#60a5fa'
+                            };
+                            return colors[e.mood] || '#9ca3af';
+                        }),
+                        borderColor: recent30.map(e => {
+                            const colors = {
+                                'red': '#dc2626',
+                                'orange': '#ea580c',
+                                'yellow': '#ca8a04',
+                                'green': '#16a34a',
+                                'blue': '#3b82f6'
+                            };
+                            return colors[e.mood] || '#6b7280';
+                        }),
                         borderWidth: 2,
-                        pointBackgroundColor: 'rgba(96, 165, 250, 1)'
-                    },
-                    {
-                        label: 'สัปดาห์ที่ 2',
-                        data: calculateWeekData(recent30, 1),
-                        backgroundColor: 'rgba(59, 130, 246, 0.3)',
-                        borderColor: 'rgba(59, 130, 246, 1)',
-                        borderWidth: 2,
-                        pointBackgroundColor: 'rgba(59, 130, 246, 1)'
-                    },
-                    {
-                        label: 'สัปดาห์ที่ 3-4',
-                        data: calculateWeekData(recent30, 2),
-                        backgroundColor: 'rgba(30, 64, 175, 0.3)',
-                        borderColor: 'rgba(30, 64, 175, 1)',
-                        borderWidth: 2,
-                        pointBackgroundColor: 'rgba(30, 64, 175, 1)'
+                        borderRadius: 6
                     }
                 ]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true,
+                maintainAspectRatio: false,
                 scales: {
-                    r: {
+                    y: {
                         beginAtZero: true,
-                        max: 10,
+                        max: 60,
                         ticks: {
-                            stepSize: 2
-                        },
-                        pointLabels: {
+                            stepSize: 10,
                             font: {
-                                size: 14,
-                                family: 'Mitr'
+                                family: 'Mitr',
+                                size: 12
                             }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                family: 'Mitr',
+                                size: 10
+                            },
+                            maxRotation: 90,
+                            minRotation: 90
+                        },
+                        grid: {
+                            display: false
                         }
                     }
                 },
                 plugins: {
                     legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                family: 'Mitr'
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const moodNames = {
+                                    50: 'สุขมาก',
+                                    40: 'ดี',
+                                    30: 'ปกติ',
+                                    20: 'เหนื่อย',
+                                    10: 'เครียด'
+                                };
+                                return `${moodNames[context.parsed.y] || 'ไม่ระบุ'}: ${context.parsed.y} คะแนน`;
                             }
+                        },
+                        titleFont: {
+                            family: 'Mitr'
+                        },
+                        bodyFont: {
+                            family: 'Mitr'
                         }
                     }
                 }
             }
         });
     }
+    
+    // Load question review
+    loadQuestionReview();
+}
+
+function loadQuestionReview() {
+    const questionData = JSON.parse(localStorage.getItem('questionData') || '{}');
+    const reviewCard = document.getElementById('questionReviewCard');
+    const reviewList = document.getElementById('questionReviewList');
+    
+    if (!questionData.answers || Object.keys(questionData.answers).length === 0) {
+        reviewCard.style.display = 'none';
+        return;
+    }
+    
+    reviewCard.style.display = 'block';
+    reviewList.innerHTML = '';
+    
+    // Get all questions from app.js
+    const questionMeanings = allHealthQuestions;
+    
+    // Sort answers by question ID
+    const sortedAnswers = Object.entries(questionData.answers).sort((a, b) => {
+        const idA = parseInt(a[0].replace('q', ''));
+        const idB = parseInt(b[0].replace('q', ''));
+        return idA - idB;
+    });
+    
+    sortedAnswers.forEach(([key, score], index) => {
+        const questionId = parseInt(key.replace('q', ''));
+        const question = questionMeanings.find(q => q.id === questionId);
+        
+        if (!question) return;
+        
+        // Find which choice was selected based on score
+        let selectedChoiceIndex = question.scores.indexOf(score);
+        if (selectedChoiceIndex === -1) selectedChoiceIndex = 0;
+        
+        const questionItem = document.createElement('div');
+        questionItem.className = 'question-review-item expanded';
+        questionItem.innerHTML = `
+            <div class="question-review-header">
+                <div class="question-number">${index + 1}</div>
+                <div class="question-text">${question.text}</div>
+            </div>
+            <div class="question-choices">
+                ${question.choices.map((choice, i) => `
+                    <div class="choice-option ${i === selectedChoiceIndex ? 'selected' : ''}">
+                        <div class="choice-circle"></div>
+                        <div class="choice-label">${choice}</div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        
+        reviewList.appendChild(questionItem);
+    });
 }
 
 function calculateWeekData(entries, weekIndex) {
@@ -1087,6 +1290,248 @@ function updateHealthLevelCard(score) {
     } else {
         card.classList.add('stat-card-red');
         text.textContent = 'สุขภาพไม่ดี';
+    }
+}
+
+async function showHealthResultModal() {
+    // Get data from localStorage (could be from questions.js or weekly-check.js)
+    const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+    const questionData = JSON.parse(localStorage.getItem('questionData') || '{}');
+    
+    // Use health score from guest data (updated by saveWeeklyCheckData)
+    const healthScore = guestData.health_score ?? 100;
+    
+    // Get answers from questionData for AI recommendations
+    const answers = questionData.answers || {};
+    
+    let healthLevel = '';
+    let healthColor = '';
+    let healthMessage = '';
+    let healthIcon = '';
+    
+    if (healthScore >= 80) {
+        healthLevel = 'สุขภาพดีมาก';
+        healthColor = '#22c55e';
+        healthIcon = '🎉';
+        healthMessage = 'ยอดเยี่ยม! คุณมีสุขภาพที่ดีมาก<br>รักษาพฤติกรรมที่ดีนี้ต่อไปนะ';
+    } else if (healthScore >= 60) {
+        healthLevel = 'สุขภาพปานกลาง';
+        healthColor = '#eab308';
+        healthIcon = '😊';
+        healthMessage = 'ดีแล้ว! แต่ยังมีจุดที่ควรปรับปรุง<br>พยายามดูแลสุขภาพให้ดีขึ้นนะ';
+    } else if (healthScore >= 40) {
+        healthLevel = 'สุขภาพเริ่มเสี่ยง';
+        healthColor = '#f97316';
+        healthIcon = '😟';
+        healthMessage = 'ควรระวัง! สุขภาพของคุณเริ่มเสี่ยง<br>ควรปรับเปลี่ยนพฤติกรรมโดยเร็ว';
+    } else {
+        healthLevel = 'สุขภาพไม่ดี';
+        healthColor = '#ef4444';
+        healthIcon = '😰';
+        healthMessage = 'ต้องระวัง! สุขภาพของคุณไม่ดี<br>ควรดูแลตัวเองอย่างจริงจัง';
+    }
+    
+    // Show initial modal
+    Modal.show({
+        type: 'success',
+        title: `ผลการประเมินสุขภาพ ${healthIcon}`,
+        html: `
+            <div style="margin: 20px 0;">
+                <div style="font-size: 48px; font-weight: 700; color: ${healthColor}; margin-bottom: 10px;">
+                    ${healthScore}
+                </div>
+                <div style="font-size: 20px; font-weight: 600; color: ${healthColor}; margin-bottom: 15px;">
+                    ${healthLevel}
+                </div>
+                <div style="font-size: 16px; color: #2572a2; line-height: 1.6; margin-bottom: 20px;">
+                    ${healthMessage}
+                </div>
+                <div id="aiRecommendations" style="text-align: left; font-size: 14px; color: #2572a2; line-height: 1.8;">
+                    <div style="text-align: center; padding: 20px;">
+                        <div class="modal-spinner"></div>
+                        <p style="margin-top: 10px; color: #2572a2;">กำลังวิเคราะห์และสร้างคำแนะนำ...</p>
+                    </div>
+                </div>
+            </div>
+        `,
+        confirmText: 'เข้าใจแล้ว',
+        width: '650px'
+    });
+    
+    // Get AI recommendations
+    const recommendations = await getHealthRecommendations(answers, healthScore);
+    
+    // Update modal with recommendations
+    const aiRecommendationsDiv = document.getElementById('aiRecommendations');
+    if (aiRecommendationsDiv && recommendations) {
+        // Format the recommendations for better readability
+        const formattedRecommendations = recommendations
+            .replace(/\n/g, '<br>')
+            .replace(/📌/g, '<br><span style="color: #2572a2;">📌')
+            .replace(/🎯/g, '<br><span style="color: #2572a2;">🎯')
+            .replace(/⚠️/g, '<br><span style="color: #2572a2;">⚠️')
+            .replace(/💪/g, '<br><span style="color: #2572a2;">💪')
+            .replace(/•/g, '<br>&nbsp;&nbsp;•')
+            .replace(/<\/strong>/g, '</span><br>')
+            .replace(/(<br>){3,}/g, '<br><br>');
+        
+        const shortText = formattedRecommendations.substring(0, 400);
+        const hasMore = formattedRecommendations.length > 400;
+        
+        aiRecommendationsDiv.innerHTML = `
+            <div style="background: #f8fafc; padding: 15px; border-radius: 10px; border-left: 4px solid ${healthColor};">
+                <div style="font-weight: 600; margin-bottom: 15px; color: ${healthColor}; font-size: 15px;">💡 คำแนะนำเฉพาะสำหรับคุณ</div>
+                <div id="recommendationText" style="line-height: 1.9; white-space: pre-wrap; color: #2572a2;">${shortText}${hasMore ? '...' : ''}</div>
+                ${hasMore ? `
+                    <div id="fullRecommendation" style="display: none; line-height: 1.9; white-space: pre-wrap; color: #2572a2;">${formattedRecommendations}</div>
+                    <button id="toggleBtn" style="margin-top: 15px; padding: 10px 20px; background: ${healthColor}; color: white; border: none; border-radius: 8px; cursor: pointer; font-family: 'Mitr', sans-serif; font-size: 14px; font-weight: 500; transition: all 0.2s;">
+                        แสดงเพิ่มเติม ▼
+                    </button>
+                ` : ''}
+            </div>
+        `;
+        
+        // Add event listener after creating the button
+        if (hasMore) {
+            setTimeout(() => {
+                const toggleBtn = document.getElementById('toggleBtn');
+                if (toggleBtn) {
+                    toggleBtn.addEventListener('click', toggleRecommendation);
+                }
+            }, 100);
+        }
+    }
+}
+
+// Global function for toggle
+function toggleRecommendation() {
+    const shortDiv = document.getElementById('recommendationText');
+    const fullDiv = document.getElementById('fullRecommendation');
+    const btn = document.getElementById('toggleBtn');
+    
+    // Silently return if elements don't exist (modal might be closed)
+    if (!shortDiv || !fullDiv || !btn) {
+        return;
+    }
+    
+    if (fullDiv.style.display === 'none') {
+        shortDiv.style.display = 'none';
+        fullDiv.style.display = 'block';
+        btn.textContent = 'แสดงน้อยลง ▲';
+    } else {
+        shortDiv.style.display = 'block';
+        fullDiv.style.display = 'none';
+        btn.textContent = 'แสดงเพิ่มเติม ▼';
+    }
+}
+
+async function getHealthRecommendations(answers, healthScore) {
+    try {
+        // Analyze answers to find problem areas
+        const problems = [];
+        
+        // Map question IDs to their meanings
+        const questionMeanings = {
+            1: 'ความสุข',
+            2: 'การนอนหลับ',
+            3: 'ความสดชื่น',
+            4: 'ความเครียด',
+            5: 'การใช้มือถือก่อนนอน',
+            6: 'การกินผักผลไม้',
+            7: 'การกินอาหารครบมื้อ',
+            8: 'การดื่มน้ำ',
+            9: 'การทานของหวาน',
+            10: 'การดื่มแอลกอฮอล์',
+            11: 'การเดินและใช้บันได',
+            12: 'การออกกำลังกาย',
+            13: 'การยืดเหยียด',
+            14: 'การนั่งนาน',
+            15: 'การรับแสงแดด',
+            16: 'การสูบบุหรี่',
+            17: 'ระบบขับถ่าย',
+            18: 'การพักสายตา',
+            19: 'การทานยา/วิตามิน',
+            20: 'การพูดคุยกับคนอื่น'
+        };
+        
+        // Find low score answers (0 or 5 points)
+        for (const [key, value] of Object.entries(answers)) {
+            const questionId = parseInt(key.replace('q', ''));
+            if (value <= 5) {
+                problems.push(questionMeanings[questionId]);
+            }
+        }
+        
+        const apiKey = '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';
+        
+        const prompt = `คุณเป็นผู้เชี่ยวชาญด้านสุขภาพ ผู้ใช้ได้คะแนนสุขภาพ ${healthScore}/100 จากการตอบคำถาม 20 ข้อ และมีปัญหาในด้าน: ${problems.join(', ')}
+
+กรุณาให้คำแนะนำที่ละเอียดและครบถ้วน โดย:
+1. วิเคราะห์ปัญหาแต่ละด้านอย่างเฉพาะเจาะจง
+2. ให้คำแนะนำที่ปฏิบัติได้จริงในชีวิตประจำวัน อย่างน้อย 5-7 ข้อ
+3. เตือนถึงความเสี่ยงต่อสุขภาพและวิธีป้องกันอย่างละเอียด
+4. กำหนดเป้าหมายระยะสั้นและระยะยาว
+5. ให้กำลังใจและแนวทางปรับปรุง
+6. ใช้ภาษาที่เข้าใจง่าย เป็นกันเอง
+
+รูปแบบ (ต้องครบทุกหัวข้อ):
+
+📌 สรุปสถานะสุขภาพ:
+[วิเคราะห์คะแนนและปัญหาหลักที่พบ 2-3 ประโยค]
+
+🎯 คำแนะนำเร่งด่วน (ต้องมีอย่างน้อย 5 ข้อ):
+• [คำแนะนำเฉพาะเจาะจงที่ 1 พร้อมวิธีปฏิบัติ]
+• [คำแนะนำเฉพาะเจาะจงที่ 2 พร้อมวิธีปฏิบัติ]
+• [คำแนะนำเฉพาะเจาะจงที่ 3 พร้อมวิธีปฏิบัติ]
+• [คำแนะนำเฉพาะเจาะจงที่ 4 พร้อมวิธีปฏิบัติ]
+• [คำแนะนำเฉพาะเจาะจงที่ 5 พร้อมวิธีปฏิบัติ]
+
+⚠️ ความเสี่ยงและการป้องกัน (ต้องมีอย่างน้อย 3 ข้อ):
+• [ความเสี่ยงที่ 1 และวิธีป้องกันอย่างละเอียด]
+• [ความเสี่ยงที่ 2 และวิธีป้องกันอย่างละเอียด]
+• [ความเสี่ยงที่ 3 และวิธีป้องกันอย่างละเอียด]
+
+💪 เป้าหมายระยะสั้น (1-2 สัปดาห์):
+• [เป้าหมายที่ 1 ที่วัดผลได้]
+• [เป้าหมายที่ 2 ที่วัดผลได้]
+• [เป้าหมายที่ 3 ที่วัดผลได้]
+
+🌟 เป้าหมายระยะยาว (1-3 เดือน):
+• [เป้าหมายระยะยาวที่ 1]
+• [เป้าหมายระยะยาวที่ 2]
+
+💬 กำลังใจ:
+[ข้อความให้กำลังใจและแรงบันดาลใจ 1-2 ประโยค]
+
+หมายเหตุ: ต้องให้คำแนะนำครบทุกหัวข้อและละเอียดพอที่จะนำไปปฏิบัติได้จริง`;
+
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'llama-3.3-70b-versatile',
+                messages: [
+                    { role: 'system', content: 'คุณเป็นผู้เชี่ยวชาญด้านสุขภาพที่ให้คำแนะนำที่ละเอียด ครบถ้วน และปฏิบัติได้จริง คุณต้องให้คำแนะนำครบทุกหัวข้อที่กำหนด' },
+                    { role: 'user', content: prompt }
+                ],
+                temperature: 0.7,
+                max_tokens: 2000
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('API request failed');
+        }
+
+        const data = await response.json();
+        return data.choices[0].message.content;
+        
+    } catch (error) {
+        console.error('Error getting recommendations:', error);
+        return 'ไม่สามารถสร้างคำแนะนำได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง';
     }
 }
 
@@ -1390,8 +1835,11 @@ async function checkThisWeekCompletion() {
                 .select('*')
                 .eq('user_id', currentUser.id)
                 .eq('week_key', weekKey)
-                .single();
-            data = result.data;
+                .maybeSingle();
+            
+            if (!result.error) {
+                data = result.data;
+            }
         } catch (error) {
             console.log('Weekly checks table not available yet');
             data = null;
@@ -1776,19 +2224,8 @@ async function startWeeklyCheck() {
         return;
     }
     
-    Modal.loading('กำลังเตรียมคำถาม...');
-    
-    // Use all 20 health questions for weekly assessment
-    weeklyQuestions = [...allHealthQuestions];
-    
-    Modal.close();
-    
-    currentWeeklyQuestion = 0;
-    weeklyAnswers = [];
-    
-    renderProgressDots();
-    renderWeeklyQuestion();
-    document.getElementById('weeklyCheckModal').style.display = 'flex';
+    // Redirect to weekly check page
+    window.location.href = 'weekly-check.html';
 }
 
 // Ensure function is globally accessible
@@ -2006,6 +2443,164 @@ async function completeWeeklyCheck() {
     loadStats();
     loadCalendar();
     loadHistory();
+}
+
+// Generate AI Summary based on answers using GROQ API
+async function generateAISummary(answers, healthScore) {
+    const container = document.getElementById('aiTypingContainer');
+    if (!container) return;
+    
+    // Hardcode API key
+    const apiKey = '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';
+    
+    // console.log('Summary API Key check:', apiKey ? `Key found (${apiKey.substring(0, 10)}...)` : 'No key');
+    
+    // ถ้าไม่มี API key หรือ key ไม่ถูกต้อง ใช้ fallback ทันที
+    if (!apiKey || apiKey.length < 20) {
+        console.log('No valid GROQ API key, using fallback');
+        await showFallbackSummary(healthScore);
+        return;
+    }
+    
+    try {
+        // สร้าง prompt สำหรับ AI
+        const questionsText = answers.map((a, i) => 
+            `${i + 1}. ${allHealthQuestions[i].text}\n   คำตอบ: ${a.choice} (${a.score} คะแนน)`
+        ).join('\n\n');
+        
+        const prompt = `คุณเป็นผู้เชี่ยวชาญด้านสุขภาพ วิเคราะห์ผลการตอบคำถามสุขภาพสัปดาห์นี้และให้สรุปแบบละเอียด:
+
+คะแนนสุขภาพรวม: ${healthScore}/100
+
+คำถามและคำตอบ:
+${questionsText}
+
+กรุณาสรุปในรูปแบบนี้ (ต้องมี emoji และขึ้นบรรทัดใหม่ชัดเจน):
+
+📊 สรุปภาพรวม
+[สรุป 1-2 ประโยคว่าสัปดาห์นี้เป็นยังไง]
+
+✅ จุดที่ทำได้ดี
+• [ข้อ 1]
+• [ข้อ 2]
+
+⚠️ จุดที่ควรปรับปรุง
+• [ข้อ 1]
+• [ข้อ 2]
+
+💡 แนวทางแก้ไข
+1. [คำแนะนำข้อ 1]
+2. [คำแนะนำข้อ 2]
+3. [คำแนะนำข้อ 3]
+
+ตอบเป็นภาษาไทยที่เป็นกันเอง อ่านง่าย และให้กำลังใจ ห้ามใช้ markdown แต่ให้ขึ้นบรรทัดใหม่ชัดเจน`;
+
+        // เรียก GROQ API
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'llama-3.3-70b-versatile',
+                messages: [
+                    {
+                        role: 'system',
+                        content: 'คุณเป็นผู้เชี่ยวชาญด้านสุขภาพที่ให้คำแนะนำเป็นภาษาไทยอย่างเป็นกันเอง อ่านง่าย และให้กำลังใจ ตอบแบบมีโครงสร้างชัดเจน'
+                    },
+                    {
+                        role: 'user',
+                        content: prompt
+                    }
+                ],
+                temperature: 0.7,
+                max_tokens: 600
+            })
+        });
+
+        if (!response.ok) {
+            console.log('API request failed, using fallback');
+            await showFallbackSummary(healthScore);
+            return;
+        }
+
+        const data = await response.json();
+        const aiSummary = data.choices[0].message.content;
+        
+        // แสดงผลด้วย typing animation
+        await typeText('aiTypingContainer', aiSummary, 30);
+        
+    } catch (error) {
+        console.error('Error generating AI summary:', error);
+        await showFallbackSummary(healthScore);
+    }
+}
+
+// Fallback summary function
+async function showFallbackSummary(healthScore) {
+    let fallbackSummary = '';
+    if (healthScore >= 80) {
+        fallbackSummary = `📊 สรุปภาพรวม
+ยอดเยี่ยม! คุณดูแลสุขภาพได้ดีมาก
+
+✅ จุดที่ทำได้ดี
+• รักษาพฤติกรรมสุขภาพได้สม่ำเสมอ
+• มีวินัยในการดูแลตัวเอง
+
+💡 แนวทางแก้ไข
+1. รักษาพฤติกรรมดีๆ แบบนี้ต่อไป
+2. เป็นแบบอย่างที่ดีให้คนรอบข้าง
+3. ท้าทายตัวเองด้วยเป้าหมายใหม่ๆ`;
+    } else if (healthScore >= 60) {
+        fallbackSummary = `� สรุปภาพรวม
+ดีมาก! คุณดูแลสุขภาพได้ดี แต่ยังมีบางจุดที่สามารถปรับปรุงได้
+
+✅ จุดที่ทำได้ดี
+• มีความตั้งใจในการดูแลสุขภาพ
+• มีพฤติกรรมสุขภาพที่ดีหลายด้าน
+
+⚠️ จุดที่ควรปรับปรุง
+• การออกกำลังกายยังไม่สม่ำเสมอ
+• การพักผ่อนอาจยังไม่เพียงพอ
+
+💡 แนวทางแก้ไข
+1. ตั้งเป้าออกกำลังกายสัปดาห์ละ 3-5 วัน
+2. นอนให้ครบ 7-8 ชั่วโมงทุกคืน
+3. ดื่มน้ำเปล่าให้เพียงพอ 8 แก้วต่อวัน`;
+    } else if (healthScore >= 40) {
+        fallbackSummary = `📊 สรุปภาพรวม
+คุณกำลังทำได้ดีอยู่แล้ว แต่ควรให้ความสำคัญกับสุขภาพมากขึ้น
+
+⚠️ จุดที่ควรปรับปรุง
+• การพักผ่อนยังไม่เพียงพอ
+• การออกกำลังกายน้อยเกินไป
+• การกินอาหารยังไม่สมดุล
+
+💡 แนวทางแก้ไข
+1. เริ่มนอนให้ตรงเวลาและครบ 7-8 ชั่วโมง
+2. เดินหรือยืดเหยียดร่างกายวันละ 20-30 นาที
+3. กินผักผลไม้ให้มากขึ้น ลดของทอดและหวาน
+4. ดื่มน้ำเปล่าแทนเครื่องดื่มหวาน`;
+    } else {
+        fallbackSummary = `📊 สรุปภาพรวม
+อย่าท้อใจ! ทุกคนเริ่มต้นจากจุดศูนย์ และคุณสามารถปรับปรุงได้
+
+⚠️ จุดที่ควรปรับปรุง
+• พฤติกรรมสุขภาพหลายด้านยังไม่เหมาะสม
+• ขาดการดูแลตัวเองอย่างสม่ำเสมอ
+
+💡 แนวทางแก้ไข
+1. เริ่มจากการนอนให้เพียงพอ 7-8 ชั่วโมงทุกคืน
+2. ดื่มน้ำเปล่าวันละ 6-8 แก้ว
+3. เดินหรือเคลื่อนไหวร่างกายวันละ 15-20 นาที
+4. กินอาหารครบ 3 มื้อ เพิ่มผักผลไม้
+5. หลีกเลี่ยงบุหรี่และแอลกอฮอล์
+
+เริ่มทีละขั้นตอน ค่อยๆ ทำไป คุณทำได้แน่นอน! 💪`;
+    }
+    
+    await typeText('aiTypingContainer', fallbackSummary, 30);
 }
 
 function closeWeeklyCheckModal() {

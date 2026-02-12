@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สมัครสมาชิก - Mood Tracker</title>
+    <title>ลงทะเบียน - Mood Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +36,7 @@
             initSupabase();
         }
     </script>
-    <div class="register-page">
+    <div class="login-page">
         <header class="landing-header">
             <a href="index.html" class="landing-logo">
                 <img src="images/logo.png" alt="Logo" class="logo-img">
@@ -49,100 +49,61 @@
             </nav>
         </header>
 
-        <main class="register-content">
-            <div id="signupFormCard" class="signup-card">
-                <div class="signup-header">
-                    <div class="signup-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                    <h2 class="signup-title">สร้างบัญชีผู้ใช้</h2>
-                    <p class="signup-subtitle">กรอกข้อมูลเพื่อเริ่มต้นใช้งาน</p>
+        <main class="login-content">
+            <form id="signupForm" class="login-form">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="signupUsername" placeholder="กรอก username" required>
+                    <span id="usernameStatus" class="input-status"></span>
                 </div>
 
-                <form id="signupForm" class="signup-form" autocomplete="on">
-                    <div class="form-group">
-                        <label for="signupEmail">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="signupEmail" placeholder="email@example.com" required>
+                    <span id="emailStatus" class="input-status"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-wrapper" style="width: 100%;">
+                        <input type="password" id="signupPassword" placeholder="กรอกรหัสผ่าน (อย่างน้อย 6 ตัวอักษร)" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('signupPassword', this)">
+                            <svg class="eye-icon eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
                             </svg>
-                            Email
-                        </label>
-                        <input type="email" id="signupEmail" name="email" autocomplete="email" placeholder="example@email.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="signupUsername">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
+                            <svg class="eye-icon eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
                             </svg>
-                            Username
-                        </label>
-                        <input type="text" id="signupUsername" name="username" autocomplete="username" placeholder="ชื่อผู้ใช้งาน" required>
-                        <span id="usernameStatus" class="input-status"></span>
+                        </button>
                     </div>
+                    <span id="passwordStatus" class="input-status"></span>
+                </div>
 
-                    <div class="form-group">
-                        <label for="signupPassword">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <div class="password-wrapper" style="width: 100%;">
+                        <input type="password" id="confirmPassword" placeholder="ยืนยันรหัสผ่าน" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword', this)">
+                            <svg class="eye-icon eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
                             </svg>
-                            Password
-                        </label>
-                        <div class="password-wrapper">
-                            <input type="password" id="signupPassword" name="password" autocomplete="new-password" placeholder="รหัสผ่านอย่างน้อย 6 ตัว" required>
-                            <button type="button" class="toggle-password" onclick="togglePassword('signupPassword', this)">
-                                <svg class="eye-icon eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                                    <line x1="1" y1="1" x2="23" y2="23"></line>
-                                </svg>
-                                <svg class="eye-icon eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="signupConfirmPassword">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <svg class="eye-icon eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
                             </svg>
-                            Confirm Password
-                        </label>
-                        <div class="password-wrapper">
-                            <input type="password" id="signupConfirmPassword" name="confirm-password" autocomplete="new-password" placeholder="ยืนยันรหัสผ่าน" required>
-                            <button type="button" class="toggle-password" onclick="togglePassword('signupConfirmPassword', this)">
-                                <svg class="eye-icon eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                                    <line x1="1" y1="1" x2="23" y2="23"></line>
-                                </svg>
-                                <svg class="eye-icon eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                </svg>
-                            </button>
-                        </div>
-                        <span id="passwordStatus" class="input-status"></span>
+                        </button>
                     </div>
+                    <span id="confirmPasswordStatus" class="input-status"></span>
+                </div>
 
-                    <button type="submit" class="btn-signup" id="signupBtn">
-                        <span>สมัครสมาชิก</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"></path>
-                        </svg>
-                    </button>
-
-                    <p class="login-redirect">มีบัญชีอยู่แล้ว? <a href="login.html">เข้าสู่ระบบ</a></p>
-                </form>
-            </div>
-
+                <div class="login-actions">
+                    <button type="button" class="btn-login" onclick="signup()">ลงทะเบียน</button>
+                    <a href="login.html" class="forgot-link">มีบัญชีแล้ว? เข้าสู่ระบบ</a>
+                </div>
+            </form>
         </main>
 
         <div class="chatbot-btn">

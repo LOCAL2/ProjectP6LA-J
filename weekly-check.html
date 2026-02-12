@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เช็คสุขภาพประจำสัปดาห์</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="register-page">
+        <div class="progress-section progress-section-top">
+            <div class="progress-text">
+                <span id="progressPercent">5%</span>
+                <span id="stepText">step 1 of 20</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 5%;"></div>
+            </div>
+        </div>
+
+        <div class="register-content question-content">
+            <div class="question-section-center">
+                <h2 id="questionTitle" class="question-title"></h2>
+                <div id="questionChoices" class="question-choices"></div>
+            </div>
+
+            <div class="form-navigation-right">
+                <button type="button" class="btn-next" id="nextBtn" onclick="goToNext()" disabled>ข้อถัดไป</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="weekly-check.js"></script>
+</body>
+
+</html>

@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function renderQuestion() {
     const question = selectedQuestions[currentQuestion];
-    const totalSteps = 23; // 3 register steps + 20 questions
-    const currentStep = currentQuestion + 4; // Start from step 4 (after 3 register steps)
+    const totalSteps = 22; // 2 register steps + 20 questions
+    const currentStep = currentQuestion + 3; // Start from step 3 (after 2 register steps)
     const percent = Math.round((currentStep / totalSteps) * 100);
 
     document.getElementById('progressPercent').textContent = percent + '%';

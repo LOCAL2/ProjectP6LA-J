@@ -1,6 +1,6 @@
 -- =============================================
 -- Supabase Database Schema
--- Healthy By Yourself - Mood Tracker
+-- Healthy By Myself - Mood Tracker
 -- รันไฟล์นี้ใน Supabase SQL Editor
 -- =============================================
 

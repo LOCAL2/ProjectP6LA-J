@@ -10,6 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <script>
+        // Apply saved font size on page load
+        (function() {
+            const savedSize = localStorage.getItem('fontSize') || 'large';
+            document.body.classList.add('font-' + savedSize);
+        })();
+    </script>
     <div class="about-page">
         <header class="landing-header">
             <a href="index.html" class="landing-logo">
@@ -26,60 +33,6 @@
         <main class="about-content">
             <h1 class="about-title">ข้อความเกี่ยวกับตัวเว็ปไซต์</h1>
 
-            <div class="contact-icons">
-                <a href="#" class="contact-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.53-4.5-10.02-10-10.02z"/>
-                    </svg>
-                </a>
-                <a href="#" class="contact-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="2" y="4" width="20" height="16" rx="2"/>
-                        <path d="M22 6l-10 7L2 6"/>
-                    </svg>
-                </a>
-                <a href="#" class="contact-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                    </svg>
-                </a>
-            </div>
-        </main>
-
-        <div class="chatbot-btn">
-            <img src="images/iconchat.png" alt="Chat" class="chatbot-icon">
-        </div>
-    </div>
-    <script src="chatbot.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Mood Tracker</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="about-page">
-        <header class="landing-header">
-            <a href="index.html" class="landing-logo">
-                <img src="images/logo.png" alt="Logo" class="logo-img">
-                <div class="logo-text">
-                    <span>Healthy By Yourself</span>
-                </div>
-            </a>
-            <nav class="landing-nav">
-                <a href="about.html" class="nav-link">About us</a>
-            </nav>
-        </header>
-
-        <main class="about-content">
-            <h1 class="about-title">ข้อความเกี่ยวกับตัวเว็ปไซต์</h1>
             <div class="contact-icons">
                 <a href="#" class="contact-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">

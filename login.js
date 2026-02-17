@@ -7,7 +7,33 @@ async function login() {
         return;
     }
 
-    // ตรวจสอบว่า supabase พร้อมใช้งาน
+    // Test account bypass
+    if (username === 'test' && password === 'test') {
+        localStorage.removeItem('guestMode');
+        localStorage.removeItem('guest_user_data');
+        
+        // Create test user session
+        const testUser = {
+            id: 'test-user-id',
+            email: 'test@test.com',
+            username: 'test',
+            name: 'Test User'
+        };
+        
+        localStorage.setItem('currentUser', JSON.stringify(testUser));
+        
+        Swal.fire({ 
+            icon: 'success', 
+            title: 'เข้าสู่ระบบสำเร็จ!', 
+            text: 'ยินดีต้อนรับสู่บัญชีทดสอบ ยังไม่เสร็จ',
+            timer: 1500, 
+            showConfirmButton: false 
+        }).then(() => {
+            window.location.href = 'index.html';
+        });
+        return;
+    }
+
     const supabase = window.supabaseClient;
     if (!supabase || !supabase.from) {
         Swal.fire({ 
@@ -50,7 +76,6 @@ async function login() {
             return;
         }
 
-        // Clear guest mode data on successful login
         localStorage.removeItem('guestMode');
         localStorage.removeItem('guest_user_data');
 

@@ -1,4 +1,3 @@
-// Real-time validation
 document.getElementById('signupUsername')?.addEventListener('blur', checkUsername);
 document.getElementById('signupEmail')?.addEventListener('blur', checkEmail);
 document.getElementById('signupPassword')?.addEventListener('input', validatePassword);
@@ -131,7 +130,6 @@ async function signup() {
     const password = document.getElementById('signupPassword').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
 
-    // Validation
     if (!username || !email || !password || !confirmPassword) {
         Swal.fire({ 
             icon: 'warning', 
@@ -205,7 +203,6 @@ async function signup() {
     });
 
     try {
-        // Check if username already exists
         const { data: existingUser } = await supabase
             .from('users')
             .select('username')
@@ -221,7 +218,6 @@ async function signup() {
             return;
         }
 
-        // Check if email already exists
         const { data: existingEmail } = await supabase
             .from('users')
             .select('email')
@@ -237,7 +233,6 @@ async function signup() {
             return;
         }
 
-        // Sign up with Supabase Auth (without email confirmation)
         const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
@@ -252,7 +247,6 @@ async function signup() {
             console.error('Signup error:', error);
             console.log('Error message:', error.message);
             
-            // Ignore email-related errors, treat as success
             const errorMsg = error.message.toLowerCase();
             if (errorMsg.includes('email') || errorMsg.includes('confirmation') || errorMsg.includes('smtp') || errorMsg.includes('sending')) {
                 console.log('Email error detected, treating as success');

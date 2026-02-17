@@ -13,6 +13,13 @@
 </head>
 
 <body>
+    <script>
+        // Apply saved font size on page load
+        (function() {
+            const savedSize = localStorage.getItem('fontSize') || 'large';
+            document.body.classList.add('font-' + savedSize);
+        })();
+    </script>
     <div class="register-page">
         <div class="progress-section progress-section-top">
             <div class="progress-text">

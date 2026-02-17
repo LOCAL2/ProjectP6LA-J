@@ -156,8 +156,7 @@ async function callGroqAPI(userMessage) {
         ...chatHistory.slice(-10)
     ];
     
-    // Hardcode API key
-    const apiKey = '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';
+    const apiKey = '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';
     
     // console.log('Chatbot API Key check:', apiKey ? `Key found (${apiKey.substring(0, 10)}...)` : 'No key');
     

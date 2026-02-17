@@ -16,11 +16,9 @@
 
 <body>
     <script>
-        // Supabase Configuration - Inline for deployment
         const SUPABASE_URL = 'https://ekbmxftmujfzkobyiyvk.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrYm14ZnRtdWpmemtvYnlpeXZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDY4MjQsImV4cCI6MjA4MTgyMjgyNH0.NZaOQQCo270sDkatM8sY_BZQOnUrIan6gAsnRVQog6I';
 
-        // Wait for supabase library to load, then create client
         window.configLoaded = false;
         const initSupabase = () => {
             if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
@@ -34,7 +32,6 @@
             }
         };
         
-        // Start initialization after DOM loads
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initSupabase);
         } else {
@@ -51,14 +48,14 @@
             </div>
             <nav class="landing-nav">
                 <a href="about.html" class="nav-link">About us</a>
+                <a href="login.html" class="nav-link">เข้าสู่ระบบ</a>
             </nav>
         </header>
 
         <main class="landing-content">
             <a href="register.html" class="btn-register">
-                ลงทะเบียนและเริ่มแบบสอบถาม
+                ป้อนข้อมูลส่วนตัวและเริ่มแบบสอบถาม
             </a>
-            <a href="login.html" class="login-link">เข้าสู่ระบบ?</a>
         </main>
 
         <div class="chatbot-btn">
@@ -105,6 +102,7 @@
                     <div id="guestActions" style="display: none; gap: 10px;">
                         <button class="btn btn-primary" onclick="window.location.href='signup.html'">ลงทะเบียน</button>
                         <button class="btn btn-secondary" onclick="window.location.href='login.html'">เข้าสู่ระบบ</button>
+                        <button class="btn btn-secondary" onclick="logout()">ออกจากระบบ</button>
                     </div>
                     <button class="btn btn-secondary" id="logoutBtn" onclick="logout()">ออกจากระบบ</button>
                 </div>

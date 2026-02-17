@@ -7,6 +7,12 @@ let imageData = null;
 let isDevMode = false;
 let isGuestMode = false;
 
+// Apply saved font size on page load
+(function() {
+    const savedSize = localStorage.getItem('fontSize') || 'large';
+    document.body.classList.add('font-' + savedSize);
+})();
+
 // Helper function to get supabase client
 function getSupabase() {
     return window.supabaseClient;
@@ -48,9 +54,26 @@ function getCurrentDate() {
 }
 
 // Dev accounts
-const DEV_EMAILS = ['time27535@gmail.com'];
+const DEV_EMAILS = ['time27535@gmail.com', 'test@test.com'];
 
 const GUEST_STORAGE_KEY = 'guest_user_data';
+const TEST_USER_STORAGE_KEY = 'test_user_data';
+
+// Helper function to check if current user is test user
+function isTestUser() {
+    return currentUser && currentUser.id === 'test-user-id';
+}
+
+// Helper function to get test user data
+function getTestUserData() {
+    const data = localStorage.getItem(TEST_USER_STORAGE_KEY);
+    return data ? JSON.parse(data) : null;
+}
+
+// Helper function to save test user data
+function saveTestUserData(data) {
+    localStorage.setItem(TEST_USER_STORAGE_KEY, JSON.stringify(data));
+}
 
 // Weekly Health Check Variables
 let weeklyQuestions = [];
@@ -277,6 +300,69 @@ const monthNames = ['มกราคม', 'กุมภาพันธ์', 'ม
 
 async function checkAuth() {
     try {
+        // Check for incomplete questions first
+        const savedQuestion = localStorage.getItem('currentQuestion');
+        const savedAnswers = localStorage.getItem('questionAnswers');
+        const registerData = localStorage.getItem('registerData');
+        
+        if (savedQuestion && savedAnswers && registerData) {
+            const currentQ = parseInt(savedQuestion);
+            if (currentQ > 0 && currentQ < 20) {
+                Swal.fire({
+                    icon: 'question',
+                    title: 'คุณมีแบบสอบถามค้างอยู่',
+                    text: `คุณทำแบบสอบถามไปแล้ว ${currentQ} ข้อจาก 20 ข้อ`,
+                    showCancelButton: true,
+                    confirmButtonText: 'ทำต่อ',
+                    cancelButtonText: 'เริ่มใหม่',
+                    confirmButtonColor: '#2572a2',
+                    cancelButtonColor: '#d33'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'questions.html';
+                    } else {
+                        localStorage.removeItem('currentQuestion');
+                        localStorage.removeItem('questionAnswers');
+                        localStorage.removeItem('registerData');
+                    }
+                });
+                return;
+            }
+        }
+        
+        // Check for test account session
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            try {
+                const user = JSON.parse(savedUser);
+                if (user.id === 'test-user-id') {
+                    currentUser = user;
+                    isGuestMode = false;
+                    
+                    // Initialize test user data in localStorage if not exists
+                    const testUserData = localStorage.getItem('test_user_data');
+                    if (!testUserData) {
+                        const initialData = {
+                            id: 'test-user-id',
+                            email: 'test@test.com',
+                            username: 'test',
+                            name: 'Test User',
+                            health_score: 100,
+                            mood_entries: [],
+                            weekly_checks: [],
+                            created_at: new Date().toISOString()
+                        };
+                        localStorage.setItem('test_user_data', JSON.stringify(initialData));
+                    }
+                    
+                    showMainApp();
+                    return;
+                }
+            } catch (e) {
+                localStorage.removeItem('currentUser');
+            }
+        }
+        
         // Check for guest mode first
         const guestMode = localStorage.getItem('guestMode');
         const guestData = localStorage.getItem(GUEST_STORAGE_KEY);
@@ -379,7 +465,11 @@ function loginAsGuest() {
 function logout() {
     // Only sign out if user is logged in with Supabase (not guest mode)
     const supabase = getSupabase();
-    if (!isGuestMode && supabase && supabase.auth) {
+    
+    // Check if this is test user
+    const isTestUser = currentUser && currentUser.id === 'test-user-id';
+    
+    if (!isGuestMode && !isTestUser && supabase && supabase.auth) {
         try {
             supabase.auth.signOut().catch(err => console.log('Sign out error:', err));
         } catch (error) {
@@ -391,8 +481,9 @@ function logout() {
     isDevMode = false;
     isGuestMode = false;
     
-    // Clear localStorage for guest mode
+    // Clear localStorage
     localStorage.removeItem('guestMode');
+    localStorage.removeItem('currentUser');
     
     // Remove dev badge if exists
     const devBadge = document.querySelector('.dev-badge');
@@ -439,14 +530,53 @@ async function saveWeeklyCheckData(data) {
         completed_at: new Date().toISOString()
     };
     
-    if (isGuestMode) {
+    if (isTestUser()) {
+        // Save to test user data
+        const testData = getTestUserData() || {};
+        if (!testData.weekly_checks) testData.weekly_checks = [];
+        if (!testData.mood_entries) testData.mood_entries = [];
+        
+        // Remove existing entry for this week if any
+        testData.weekly_checks = testData.weekly_checks.filter(check => check.week_key !== weekKey);
+        testData.weekly_checks.push(weeklyCheckData);
+        testData.health_score = healthScore;
+        
+        // Also save to mood_entries for calendar (use Monday of the week)
+        const weekStart = getWeekStart();
+        const dateKey = `${weekStart.getFullYear()}-${String(weekStart.getMonth() + 1).padStart(2, '0')}-${String(weekStart.getDate()).padStart(2, '0')}`;
+        
+        // Remove existing entry for this date if any
+        testData.mood_entries = testData.mood_entries.filter(entry => entry.date !== dateKey);
+        testData.mood_entries.push({
+            date: dateKey,
+            mood: mood,
+            mood_name: moodName,
+            note: `คะแนนสุขภาพประจำสัปดาห์: ${healthScore}`
+        });
+        
+        saveTestUserData(testData);
+    } else if (isGuestMode) {
         const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
         if (!guestData.weekly_checks) guestData.weekly_checks = [];
+        if (!guestData.mood_entries) guestData.mood_entries = [];
         
         // Remove existing entry for this week if any
         guestData.weekly_checks = guestData.weekly_checks.filter(check => check.week_key !== weekKey);
         guestData.weekly_checks.push(weeklyCheckData);
         guestData.health_score = healthScore;
+        
+        // Also save to mood_entries for calendar (use Monday of the week)
+        const weekStart = getWeekStart();
+        const dateKey = `${weekStart.getFullYear()}-${String(weekStart.getMonth() + 1).padStart(2, '0')}-${String(weekStart.getDate()).padStart(2, '0')}`;
+        
+        // Remove existing entry for this date if any
+        guestData.mood_entries = guestData.mood_entries.filter(entry => entry.date !== dateKey);
+        guestData.mood_entries.push({
+            date: dateKey,
+            mood: mood,
+            mood_name: moodName,
+            note: `คะแนนสุขภาพประจำสัปดาห์: ${healthScore}`
+        });
         
         localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
     } else {
@@ -604,7 +734,11 @@ async function loadHealthScoreInstant() {
 async function loadProfile() {
     let displayName = 'ผู้ใช้';
     
-    if (isGuestMode) {
+    if (isTestUser()) {
+        // Load from test user data
+        const testData = getTestUserData() || {};
+        displayName = testData.name || testData.username || 'Test User';
+    } else if (isGuestMode) {
         const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
         displayName = guestData.nickname || 'ผู้ใช้ชั่วคราว';
         if (!guestData.nickname) {
@@ -1050,7 +1184,12 @@ async function loadStats() {
     let entries = [];
     let healthScore = 100;
     
-    if (isGuestMode) {
+    if (isTestUser()) {
+        // Load from test user data
+        const testData = getTestUserData() || {};
+        entries = testData.mood_entries || [];
+        healthScore = testData.health_score || 100;
+    } else if (isGuestMode) {
         const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
         entries = guestData.mood_entries || [];
         healthScore = guestData.health_score || 100;
@@ -1462,7 +1601,7 @@ async function getHealthRecommendations(answers, healthScore) {
             }
         }
         
-        const apiKey = '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';
+        const apiKey = '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';
         
         const prompt = `คุณเป็นผู้เชี่ยวชาญด้านสุขภาพ ผู้ใช้ได้คะแนนสุขภาพ ${healthScore}/100 จากการตอบคำถาม 20 ข้อ และมีปัญหาในด้าน: ${problems.join(', ')}
 
@@ -1538,7 +1677,19 @@ async function getHealthRecommendations(answers, healthScore) {
 async function loadHistory() {
     let userData = null;
 
-    if(isGuestMode) {
+    if (isTestUser()) {
+        // Load from test user data
+        const testData = getTestUserData() || {};
+        userData = {
+            nickname: testData.name || 'Test User',
+            username: testData.username || 'test',
+            email: testData.email || 'test@test.com',
+            birthdate: testData.birthdate || null,
+            weight: testData.weight || null,
+            height: testData.height || null,
+            health_score: testData.health_score ?? 100
+        };
+    } else if(isGuestMode) {
         const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
         if (!guestData.nickname) {
             guestData.nickname = 'ผู้ใช้ชั่วคราว';
@@ -1796,15 +1947,25 @@ function getWeekNumber(date) {
 
 async function checkThisWeekCompletion() {
     const weekKey = getWeekKey();
-    
-    // Get health score from users table
     let healthScore = null;
     
-    if (isGuestMode) {
+    if (isTestUser()) {
+        // Check test user data
+        const testData = getTestUserData() || {};
+        healthScore = testData.health_score || 100;
+        const weeklyChecks = testData.weekly_checks || [];
+        const thisWeekCheck = weeklyChecks.find(check => check.week_key === weekKey);
+        
+        if (thisWeekCheck) {
+            thisWeekCompleted = true;
+            updateStartButton(true, healthScore);
+        } else {
+            thisWeekCompleted = false;
+            updateStartButton(false, healthScore);
+        }
+    } else if (isGuestMode) {
         const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
         healthScore = guestData.health_score || 100;
-        
-        // Check if this week's assessment is completed
         const weeklyChecks = guestData.weekly_checks || [];
         const thisWeekCheck = weeklyChecks.find(check => check.week_key === weekKey);
         
@@ -1827,7 +1988,6 @@ async function checkThisWeekCompletion() {
             healthScore = userData.health_score;
         }
         
-        // Try to get weekly check data (table might not exist yet)
         let data = null;
         try {
             const result = await supabase
@@ -1858,7 +2018,6 @@ async function checkThisWeekCompletion() {
 function updateStartButton(completed, healthScore = null) {
     const btn = document.querySelector('.btn-start');
     if (btn) {
-        // Remove all color classes
         btn.classList.remove('btn-completed', 'btn-health-green', 'btn-health-yellow', 'btn-health-orange', 'btn-health-red', 'btn-health-gray');
         
         if (completed) {
@@ -1883,7 +2042,6 @@ function updateStartButton(completed, healthScore = null) {
             }
         }
         
-        // Add Dev skip button if Dev mode
         updateDevSkipButton(completed);
     }
 }
@@ -1959,7 +2117,38 @@ function updateDevSkipButton(completed) {
             completed_at: new Date().toISOString()
         };
         
-        if (isGuestMode) {
+        if (isTestUser()) {
+            // Save to test user data
+            const testData = getTestUserData() || {};
+            if (!testData.weekly_checks) testData.weekly_checks = [];
+            if (!testData.mood_entries) testData.mood_entries = [];
+            
+            // Remove existing entry for this week if any
+            testData.weekly_checks = testData.weekly_checks.filter(check => check.week_key !== weekKey);
+            testData.weekly_checks.push(weeklyCheckData);
+            testData.health_score = healthScore;
+            
+            // Also save to mood_entries for calendar
+            const weekStart = getWeekStart();
+            const dateKey = `${weekStart.getFullYear()}-${String(weekStart.getMonth() + 1).padStart(2, '0')}-${String(weekStart.getDate()).padStart(2, '0')}`;
+            
+            let mood, moodName;
+            if (healthScore >= 80) { mood = 'blue'; moodName = 'สุขมาก'; }
+            else if (healthScore >= 60) { mood = 'green'; moodName = 'ดี'; }
+            else if (healthScore >= 40) { mood = 'yellow'; moodName = 'ปกติ'; }
+            else if (healthScore >= 20) { mood = 'orange'; moodName = 'เหนื่อย'; }
+            else { mood = 'red'; moodName = 'เครียด'; }
+            
+            testData.mood_entries = testData.mood_entries.filter(entry => entry.date !== dateKey);
+            testData.mood_entries.push({
+                date: dateKey,
+                mood: mood,
+                mood_name: moodName,
+                note: `คะแนนสุขภาพประจำสัปดาห์: ${healthScore}`
+            });
+            
+            saveTestUserData(testData);
+        } else if (isGuestMode) {
             const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
             if (!guestData.weekly_checks) guestData.weekly_checks = [];
             
@@ -2379,7 +2568,21 @@ async function completeWeeklyCheck() {
         completed_at: new Date().toISOString()
     };
     
-    if (isGuestMode) {
+    if (isTestUser()) {
+        // Save to test user data
+        console.log('Saving to test user data...');
+        const testData = getTestUserData() || {};
+        if (!testData.weekly_checks) testData.weekly_checks = [];
+        
+        // Remove existing entry for this week if any
+        testData.weekly_checks = testData.weekly_checks.filter(check => check.week_key !== weekKey);
+        testData.weekly_checks.push(weeklyCheckData);
+        testData.health_score = healthScore;
+        
+        saveTestUserData(testData);
+        console.log('Saved to test user data successfully');
+    } else if (isGuestMode) {
+        console.log('Saving to guest data...');
         const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
         if (!guestData.weekly_checks) guestData.weekly_checks = [];
         
@@ -2389,7 +2592,9 @@ async function completeWeeklyCheck() {
         guestData.health_score = healthScore;
         
         localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestData));
+        console.log('Saved to guest data successfully');
     } else {
+        console.log('Saving to Supabase...');
         // Save to weekly_checks table
         const supabase = getSupabase();
         await supabase.from('weekly_checks').upsert(weeklyCheckData, { onConflict: 'user_id,week_key' });
@@ -2408,6 +2613,7 @@ async function completeWeeklyCheck() {
             mood_name: moodName,
             note: `เช็คสุขภาพประจำสัปดาห์: ${healthScore}%`
         }, { onConflict: 'user_id,date' });
+        console.log('Saved to Supabase successfully');
     }
     
     // Update UI immediately
@@ -2451,7 +2657,7 @@ async function generateAISummary(answers, healthScore) {
     if (!container) return;
     
     // Hardcode API key
-    const apiKey = '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';
+    const apiKey = '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';
     
     // console.log('Summary API Key check:', apiKey ? `Key found (${apiKey.substring(0, 10)}...)` : 'No key');
     

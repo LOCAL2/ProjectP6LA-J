@@ -13,7 +13,6 @@
 </head>
 <body>
     <script>
-        // Supabase Configuration - Inline for deployment
         const SUPABASE_URL = 'https://ekbmxftmujfzkobyiyvk.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrYm14ZnRtdWpmemtvYnlpeXZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNDY4MjQsImV4cCI6MjA4MTgyMjgyNH0.NZaOQQCo270sDkatM8sY_BZQOnUrIan6gAsnRVQog6I';
 
@@ -35,6 +34,13 @@
         } else {
             initSupabase();
         }
+    </script>
+    <script>
+        // Apply saved font size on page load
+        (function() {
+            const savedSize = localStorage.getItem('fontSize') || 'large';
+            document.body.classList.add('font-' + savedSize);
+        })();
     </script>
     <div class="login-page">
         <header class="landing-header">

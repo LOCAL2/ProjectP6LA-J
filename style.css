@@ -17,6 +17,70 @@ body {
     padding: 0;
 }
 
+/* Font Size Classes - Apply to entire website */
+body.font-normal {
+    font-size: 12px;
+}
+
+body.font-large {
+    font-size: 16px;
+}
+
+/* Scale all text elements proportionally */
+body.font-normal h1 { font-size: 24px; }
+body.font-large h1 { font-size: 32px; }
+
+body.font-normal h2 { font-size: 20px; }
+body.font-large h2 { font-size: 28px; }
+
+body.font-normal h3 { font-size: 18px; }
+body.font-large h3 { font-size: 24px; }
+
+body.font-normal p,
+body.font-normal label,
+body.font-normal span,
+body.font-normal button,
+body.font-normal input,
+body.font-normal textarea,
+body.font-normal select { font-size: 14px; }
+
+body.font-large p,
+body.font-large label,
+body.font-large span,
+body.font-large button,
+body.font-large input,
+body.font-large textarea,
+body.font-large select { font-size: 18px; }
+
+/* Specific adjustments for larger elements */
+body.font-normal .choice-text { font-size: 24px; }
+body.font-large .choice-text { font-size: 32px; }
+
+body.font-normal .btn-next,
+body.font-normal .btn-primary,
+body.font-normal .btn-secondary { font-size: 18px; }
+
+body.font-large .btn-next,
+body.font-large .btn-primary,
+body.font-large .btn-secondary { font-size: 25px; }
+
+body.font-normal .header-title h1 { font-size: 20px; }
+body.font-large .header-title h1 { font-size: 28px; }
+
+/* Question page font sizes */
+body.font-normal .question-title { font-size: 24px; }
+body.font-large .question-title { font-size: 32px; }
+
+/* Notice page font sizes */
+body.font-normal .notice-title { font-size: 22px; }
+body.font-large .notice-title { font-size: 28px; }
+
+body.font-normal .notice-text { font-size: 24px; }
+body.font-large .notice-text { font-size: 32px; }
+
+body.font-normal .btn-understand { font-size: 16px; }
+body.font-large .btn-understand { font-size: 18px; }
+
 /* ==================== Tab System - Simple Show/Hide ==================== */
 .tab-wrapper {
     width: 100%;
@@ -399,7 +463,7 @@ body {
 /* Guest Badge */
 .guest-badge {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    color: #2572a2;
+    color: #fff;
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 12px;
@@ -490,13 +554,24 @@ body {
     position: absolute;
     top: 15px;
     right: 20px;
-    font-size: 28px;
+    font-size: 48px;
+    font-weight: 300;
     cursor: pointer;
     color: #2572a2;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+    line-height: 1;
 }
 
 .close-btn:hover {
     color: #2572a2;
+    background: #f3f4f6;
+    transform: scale(1.1);
 }
 
 .modal-switch {
@@ -1198,6 +1273,14 @@ transform: scale(1) rotate(45deg);
     color: #2572a2;
 }
 
+#healthLevelText {
+    color: #fff !important;
+}
+
+#healthLevelCard p {
+    color: #fff !important;
+}
+
 .stat-card p {
     font-size: 14px;
     color: #2572a2;
@@ -1567,31 +1650,70 @@ transform: scale(1) rotate(45deg);
     padding: 30px 0;
 }
 
-.register-form .form-group label {
+/* Register form - responsive to font size */
+body.font-normal .register-form .form-group label {
+    font-size: 18px !important;
+}
+
+body.font-large .register-form .form-group label {
     font-size: 24px !important;
 }
 
-.register-form .form-group input[type="text"],
-.register-form .form-group input[type="email"],
-.register-form .form-group input[type="password"],
-.register-form .form-group input[type="number"],
-.register-form .form-group input[type="date"] {
+body.font-normal .register-form .form-group input[type="text"],
+body.font-normal .register-form .form-group input[type="email"],
+body.font-normal .register-form .form-group input[type="password"],
+body.font-normal .register-form .form-group input[type="number"],
+body.font-normal .register-form .form-group input[type="date"] {
+    padding: 14px !important;
+    font-size: 16px !important;
+}
+
+body.font-large .register-form .form-group input[type="text"],
+body.font-large .register-form .form-group input[type="email"],
+body.font-large .register-form .form-group input[type="password"],
+body.font-large .register-form .form-group input[type="number"],
+body.font-large .register-form .form-group input[type="date"] {
     padding: 19px !important;
     font-size: 24px !important;
 }
 
-.register-form .radio-wrapper input[type="radio"] {
+body.font-normal .register-form .radio-wrapper,
+body.font-normal .register-form .checkbox-item {
+    font-size: 16px;
+}
+
+body.font-large .register-form .radio-wrapper,
+body.font-large .register-form .checkbox-item {
+    font-size: 23px;
+}
+
+body.font-normal .register-form .radio-wrapper input[type="radio"] {
+    width: 20px;
+    height: 20px;
+}
+
+body.font-large .register-form .radio-wrapper input[type="radio"] {
     width: 26px;
     height: 26px;
 }
 
-.register-form .checkbox-item input[type="checkbox"] {
+body.font-normal .register-form .checkbox-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+body.font-large .register-form .checkbox-item input[type="checkbox"] {
     width: 24px;
     height: 24px;
 }
 
-.register-form .radio-wrapper,
-.register-form .checkbox-item {
+body.font-normal .register-form .radio-wrapper,
+body.font-normal .register-form .checkbox-item {
+    font-size: 16px;
+}
+
+body.font-large .register-form .radio-wrapper,
+body.font-large .register-form .checkbox-item {
     font-size: 23px;
 }
 
@@ -1607,19 +1729,42 @@ transform: scale(1) rotate(45deg);
     margin-bottom: 20px;
 }
 
-.form-group label {
+body.font-normal .form-group label {
     display: block;
     font-weight: 600;
     color: #2572a2;
     margin-bottom: 8px;
+    font-size: 18px;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"],
-.form-group input[type="number"],
-.form-group input[type="date"] {
-    max-width: 50%;
+body.font-large .form-group label {
+    display: block;
+    font-weight: 600;
+    color: #2572a2;
+    margin-bottom: 8px;
+    font-size: 24px;
+}
+
+body.font-normal .form-group input[type="text"],
+body.font-normal .form-group input[type="email"],
+body.font-normal .form-group input[type="password"],
+body.font-normal .form-group input[type="number"],
+body.font-normal .form-group input[type="date"] {
+    max-width: 100%;
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #CBDDE9;
+    border-radius: 25px;
+    font-size: 16px;
+    font-family: 'Mitr', sans-serif;
+}
+
+body.font-large .form-group input[type="text"],
+body.font-large .form-group input[type="email"],
+body.font-large .form-group input[type="password"],
+body.font-large .form-group input[type="number"],
+body.font-large .form-group input[type="date"] {
+    max-width: 100%;
     width: 100%;
     padding: 18px;
     border: 2px solid #CBDDE9;
@@ -1678,8 +1823,67 @@ transform: scale(1) rotate(45deg);
 
 .form-actions {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
     margin-top: 60px;
+    position: relative;
+}
+
+.font-size-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.font-size-selector label {
+    font-size: 18px;
+    color: #2572a2;
+    font-weight: 500;
+}
+
+.size-options {
+    display: flex;
+    gap: 15px;
+}
+
+.size-btn {
+    background: white;
+    color: #2572a2;
+    border: 2px solid #CBDDE9;
+    padding: 10px 50px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Mitr', sans-serif;
+    transition: all 0.3s;
+    min-width: 180px;
+}
+
+.size-btn:hover {
+    background: #CBDDE9;
+    border-color: #2572a2;
+}
+
+.size-btn.active {
+    background: #2572a2;
+    color: white;
+    border-color: #2572a2;
+}
+
+.btn-next {
+    background: #CBDDE9;
+    color: #2572a2;
+    border: none;
+    padding: 22px 63px;
+    font-size: 25px;
+    font-weight: 500;
+    border-radius: 11px;
+    cursor: pointer;
+    font-family: 'Mitr', sans-serif;
+    transition: all 0.3s;
 }
 
 .btn-next {
@@ -1885,7 +2089,15 @@ transform: scale(1) rotate(45deg);
 
 .choice-btn.selected .choice-circle::after {
     content: '';
-    display: none;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: #10b981;
+    border-radius: 50%;
 }
 
 .choice-btn.selected .choice-text {
@@ -1951,6 +2163,17 @@ transform: scale(1) rotate(45deg);
     transition: all 0.3s;
 }
 
+/* Custom placeholder for date input */
+.pro-form .form-group input[type="date"]:not(:focus):invalid {
+    color: transparent;
+}
+
+.pro-form .form-group input[type="date"]:not(:focus):invalid:before {
+    content: 'วว/ดด/ปปปป';
+    color: #9ca3af;
+    position: absolute;
+}
+
 .pro-form .form-group input:focus {
     border-color: #2572a2;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
@@ -1995,10 +2218,61 @@ transform: scale(1) rotate(45deg);
     border-color: #2572a2;
 }
 
+/* Responsive styles for register page */
 @media (max-width: 768px) {
     .form-grid {
         grid-template-columns: 1fr;
         gap: 20px;
+    }
+    
+    .register-content {
+        padding: 20px;
+    }
+    
+    .size-options {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .size-btn {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .btn-next {
+        width: 100%;
+        padding: 18px 40px;
+    }
+    
+    .font-size-description {
+        font-size: 14px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    body.font-normal .register-form .form-group label,
+    body.font-large .register-form .form-group label {
+        font-size: 18px !important;
+    }
+    
+    body.font-normal .register-form .form-group input,
+    body.font-large .register-form .form-group input {
+        font-size: 16px !important;
+        padding: 12px !important;
+    }
+    
+    .btn-next {
+        font-size: 18px;
+        padding: 15px 30px;
+    }
+    
+    .progress-section-top {
+        padding: 15px;
+    }
+    
+    .landing-header {
+        padding: 15px 20px;
     }
 }
 
@@ -3653,7 +3927,7 @@ transform: scale(1) rotate(45deg);
 }
 
 .color-green {
-    background-color: #2572a2;
+    background-color: #22c55e;
 }
 
 .color-yellow {

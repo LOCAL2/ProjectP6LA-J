@@ -36,16 +36,20 @@
         <main class="register-content">
             <div class="notice-card">
                 <h2 class="notice-title">โปรดอ่าน</h2>
-                <p class="notice-text">กรุณาอ่านคำถามให้ละเอียดและตอบตามความเป็นจริง<br>เพื่อผลการประมวลผลที่แม่นยำ</p>
+                <p class="notice-text">ให้ตอบคำถามรายสัปดาห์ตามความเป็นจริง<br>เพื่อการแสดงผลอย่างแม่นยำ</p>
                 <a href="questions.html" class="btn-understand">เข้าใจแล้ว</a>
             </div>
         </main>
-
         <div class="chatbot-btn">
             <img src="images/iconchat.png" alt="Chat" class="chatbot-icon">
         </div>
     </div>
-
     <script src="chatbot.js"></script>
+    <script>
+        (function() {
+            const savedSize = localStorage.getItem('fontSize') || 'large';
+            document.body.classList.add('font-' + savedSize);
+        })();
+    </script>
 </body>
 </html>

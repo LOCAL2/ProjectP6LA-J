@@ -366,6 +366,12 @@ body.font-large .btn-understand { font-size: 18px; }
     line-height: 1.2;
 }
 
+.landing-nav {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
 .landing-nav .nav-link {
     color: #2572a2;
     text-decoration: none;
@@ -381,6 +387,38 @@ body.font-large .btn-understand { font-size: 18px; }
     background: #CBDDE9;
     color: #2572a2;
     text-decoration: none;
+}
+
+/* Hamburger Menu Button */
+.hamburger-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
+}
+
+.hamburger-btn span {
+    width: 25px;
+    height: 3px;
+    background: #2572a2;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
 }
 
 .landing-content {
@@ -2021,6 +2059,68 @@ body.font-large .form-group input[type="date"] {
     color: #2572a2;
 }
 
+/* Question Navigation Bar */
+.question-navigation {
+    background: white;
+    padding: 15px 20px;
+    margin: 0 20px 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    justify-content: center;
+}
+
+.question-nav-scroll {
+    display: flex;
+    gap: 8px;
+    padding: 5px 0;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+.question-nav-item {
+    min-width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.question-nav-item:hover {
+    background: #e5e7eb;
+    border-color: #d1d5db;
+    transform: translateY(-2px);
+}
+
+.question-nav-item.active {
+    background: #CBDDE9;
+    border-color: #2572a2;
+    color: #2572a2;
+    box-shadow: 0 4px 12px rgba(37, 114, 162, 0.3);
+}
+
+.question-nav-item.completed {
+    background: #22c55e;
+    border-color: #16a34a;
+    color: white;
+}
+
+.question-nav-item.completed:hover {
+    background: #16a34a;
+}
+
 .question-single {
     text-align: center;
     padding: 20px;
@@ -3300,9 +3400,275 @@ body.font-large .form-group input[type="date"] {
         font-size: 14px;
     }
     
+    /* Main App Responsive */
+    #mainApp {
+        padding: 15px;
+    }
+    
+    .container {
+        padding: 0;
+        max-width: 100%;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        margin-bottom: 15px;
+    }
+    
+    .header > div:first-child {
+        width: 100%;
+    }
+    
+    .header-title {
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .header-title h1 {
+        font-size: 22px;
+    }
+    
+    .header-logo {
+        width: 50px;
+    }
+    
+    .greeting-text {
+        text-align: center;
+        font-size: 14px;
+    }
+    
+    .user-info {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+    }
+    
+    #guestActions {
+        display: flex !important;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px !important;
+    }
+    
+    #guestActions button,
+    #logoutBtn {
+        flex: 1;
+        min-width: 120px;
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+    
+    .tabs {
+        gap: 6px;
+        padding: 6px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        margin-bottom: 15px;
+    }
+    
+    .tabs::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .tab {
+        padding: 12px 20px;
+        font-size: 14px;
+        min-width: 110px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    .card {
+        padding: 24px 20px;
+        margin: 10px 0;
+        border-radius: 12px;
+    }
+    
+    .card h2 {
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+    
+    .record-card {
+        padding: 32px 24px;
+    }
+    
+    .record-header h2 {
+        font-size: 30px;
+        margin-bottom: 12px;
+    }
+    
+    .record-date {
+        font-size: 20px;
+    }
+    
+    .btn-start {
+        padding: 18px 70px;
+        font-size: 26px;
+        margin-top: 24px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .stat-card {
+        padding: 20px;
+    }
+    
+    .stat-card h3 {
+        font-size: 32px;
+    }
+    
+    .stat-card p {
+        font-size: 14px;
+    }
+    
+    .calendar-header {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .calendar-header h3 {
+        width: 100%;
+        text-align: center;
+        order: -1;
+    }
+    
+    .calendar-header button {
+        flex: 1;
+        min-width: 120px;
+    }
+    
+    .calendar-grid {
+        gap: 8px;
+    }
+    
+    .calendar-day {
+        font-size: 14px;
+        padding: 8px;
+    }
+    
+    .week-labels {
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    
+    .about-you-card {
+        padding: 24px 20px;
+    }
+    
+    .about-you-score {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+    
+    .about-you-content h2 {
+        font-size: 24px;
+    }
+    
+    .about-you-content p {
+        font-size: 14px;
+    }
+    
+    .about-you-stats {
+        font-size: 16px;
+    }
+    
+    .bmi-section p {
+        font-size: 14px;
+    }
+    
+    /* Radar Chart Responsive */
+    .radar-chart-wrapper {
+        flex-direction: column;
+    }
+    
+    .radar-chart-container {
+        max-width: 100%;
+        margin: 0 auto 20px;
+    }
+    
+    .health-color-legend {
+        width: 100%;
+    }
+    
+    /* Question navigation responsive */
+    .question-navigation {
+        padding: 12px 15px;
+        margin: 0 10px 15px;
+    }
+    
+    .question-nav-item {
+        min-width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+    
+    .question-title {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+    
+    .question-choices {
+        gap: 20px;
+    }
+    
+    /* Show hamburger menu on mobile */
+    .hamburger-btn {
+        display: flex;
+    }
+    
+    /* Hide nav by default on mobile */
+    .landing-nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 250px;
+        height: 100vh;
+        background: white;
+        flex-direction: column;
+        padding: 80px 20px 20px;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease;
+        z-index: 100;
+        gap: 15px;
+    }
+    
+    .landing-nav.active {
+        right: 0;
+    }
+    
     .landing-nav .nav-link {
-        padding: 8px 15px;
-        font-size: 13px;
+        padding: 12px 20px;
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+        border: 2px solid #CBDDE9;
+    }
+    
+    /* Overlay when menu is open */
+    .nav-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99;
+    }
+    
+    .nav-overlay.active {
+        display: block;
     }
     
     .logo-text span {
@@ -3394,6 +3760,7 @@ body.font-large .form-group input[type="date"] {
         background: #f3f4f6;
         border-radius: 12px;
         border-bottom: none;
+        flex-wrap: wrap;
     }
     
     .tab {
@@ -3403,10 +3770,10 @@ body.font-large .form-group input[type="date"] {
         border-bottom: none;
         flex: 1;
         text-align: center;
-        min-width: 0;
-        overflow: visible;
+        min-width: 70px;
+        overflow: hidden;
         white-space: nowrap;
-        max-width: none;
+        text-overflow: ellipsis;
     }
     
     .tab.active {
@@ -3453,6 +3820,182 @@ body.font-large .form-group input[type="date"] {
         margin: 0 8px;
         border-radius: 0 0 12px 12px;
         gap: 8px;
+    }
+    
+    .logo-img {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .logo-text span {
+        font-size: 12px;
+    }
+    
+    /* Main App Responsive - Small Screens */
+    #mainApp {
+        padding: 12px;
+    }
+    
+    .header {
+        padding: 14px;
+        margin-bottom: 12px;
+    }
+    
+    .header-title h1 {
+        font-size: 20px;
+    }
+    
+    .header-logo {
+        width: 45px;
+    }
+    
+    .greeting-text {
+        font-size: 13px;
+    }
+    
+    #guestActions button,
+    #logoutBtn {
+        min-width: 100px;
+        padding: 9px 14px;
+        font-size: 13px;
+    }
+    
+    .tabs {
+        gap: 5px;
+        padding: 5px;
+        margin-bottom: 12px;
+    }
+    
+    .tab {
+        padding: 10px 16px;
+        font-size: 13px;
+        min-width: 95px;
+    }
+    
+    .card {
+        padding: 20px 16px;
+        margin: 8px 0;
+        border-radius: 10px;
+    }
+    
+    .card h2 {
+        font-size: 18px;
+        margin-bottom: 14px;
+    }
+    
+    .record-card {
+        padding: 28px 20px;
+    }
+    
+    .record-header h2 {
+        font-size: 26px;
+        margin-bottom: 10px;
+    }
+    
+    .record-date {
+        font-size: 18px;
+    }
+    
+    .btn-start {
+        padding: 16px 60px;
+        font-size: 22px;
+        margin-top: 20px;
+    }
+    
+    .stats-grid {
+        gap: 14px;
+    }
+    
+    .stat-card {
+        padding: 18px;
+    }
+    
+    .stat-card h3 {
+        font-size: 28px;
+    }
+    
+    .stat-card p {
+        font-size: 13px;
+    }
+    
+    .calendar-header button {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+    
+    .calendar-grid {
+        gap: 6px;
+    }
+    
+    .calendar-day {
+        font-size: 13px;
+        padding: 6px;
+    }
+    
+    .week-labels {
+        gap: 6px;
+        font-size: 13px;
+    }
+    
+    .about-you-card {
+        padding: 20px 16px;
+    }
+    
+    .about-you-score {
+        font-size: 16px;
+    }
+    
+    .about-you-content h2 {
+        font-size: 22px;
+    }
+    
+    .about-you-content p {
+        font-size: 13px;
+    }
+    
+    .about-you-stats {
+        font-size: 15px;
+    }
+    
+    /* Question navigation for small screens */
+    .question-navigation {
+        padding: 10px 12px;
+        margin: 0 8px 12px;
+    }
+    
+    .question-nav-scroll {
+        gap: 6px;
+    }
+    
+    .question-nav-item {
+        min-width: 36px;
+        height: 36px;
+        font-size: 13px;
+    }
+    
+    .question-title {
+        font-size: 20px;
+        margin-bottom: 25px;
+    }
+    
+    .question-choices {
+        gap: 15px;
+    }
+    
+    /* Mobile menu adjustments for smaller screens */
+    .landing-nav {
+        width: 220px;
+        padding: 70px 15px 15px;
+    }
+    
+    .landing-nav .nav-link {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+    
+    .hamburger-btn span {
+        width: 22px;
+        height: 2.5px;
     }
     
     .tabs {
@@ -3797,9 +4340,128 @@ body.font-large .form-group input[type="date"] {
         font-size: 11px;
     }
     
-    .landing-nav .nav-link {
-        padding: 5px 10px;
+    /* Main App - Very Small Screens */
+    .container {
+        padding: 0 8px;
+    }
+    
+    .header {
+        padding: 10px;
+    }
+    
+    .header-title h1 {
+        font-size: 16px;
+    }
+    
+    .header-logo {
+        width: 40px;
+    }
+    
+    .greeting-text {
+        font-size: 12px;
+    }
+    
+    .tabs {
+        gap: 2px;
+        padding: 3px;
+    }
+    
+    .tab {
+        padding: 8px 10px;
         font-size: 11px;
+        min-width: 70px;
+    }
+    
+    .card {
+        padding: 14px;
+        margin: 6px 0;
+    }
+    
+    .card h2 {
+        font-size: 15px;
+    }
+    
+    .record-card {
+        padding: 20px 14px;
+    }
+    
+    .record-header h2 {
+        font-size: 20px;
+    }
+    
+    .record-date {
+        font-size: 16px;
+    }
+    
+    .btn-start {
+        padding: 12px 40px;
+        font-size: 18px;
+    }
+    
+    .stat-card {
+        padding: 14px;
+    }
+    
+    .stat-card h3 {
+        font-size: 22px;
+    }
+    
+    .stat-card p {
+        font-size: 12px;
+    }
+    
+    .calendar-day {
+        font-size: 11px;
+    }
+    
+    .about-you-card {
+        padding: 14px;
+    }
+    
+    .about-you-score {
+        font-size: 13px;
+    }
+    
+    .about-you-content h2 {
+        font-size: 18px;
+    }
+    
+    /* Question navigation for very small screens */
+    .question-navigation {
+        padding: 8px 10px;
+        margin: 0 5px 10px;
+    }
+    
+    .question-nav-scroll {
+        gap: 5px;
+    }
+    
+    .question-nav-item {
+        min-width: 32px;
+        height: 32px;
+        font-size: 12px;
+        border-width: 1.5px;
+    }
+    
+    .question-title {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    
+    /* Mobile menu for very small screens */
+    .landing-nav {
+        width: 200px;
+        padding: 60px 12px 12px;
+    }
+    
+    .landing-nav .nav-link {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .hamburger-btn span {
+        width: 20px;
+        height: 2px;
     }
     
     .btn-register {

@@ -36,20 +36,25 @@
         }
     </script>
     <script>
-        // Apply saved font size on page load
         (function() {
             const savedSize = localStorage.getItem('fontSize') || 'large';
             document.body.classList.add('font-' + savedSize);
         })();
     </script>
     <div class="login-page">
+        <div class="nav-overlay" onclick="toggleMobileMenu()"></div>
         <header class="landing-header">
             <a href="index.html" class="landing-logo">
                 <img src="images/logo.png" alt="Logo" class="logo-img">
                 <div class="logo-text">
-                    <span>Healthy By Myself</span>
+                    <span>Healthy Care By Myself</span>
                 </div>
             </a>
+            <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <nav class="landing-nav">
                 <a href="about.html" class="nav-link">About us</a>
             </nav>

@@ -39,6 +39,7 @@
         }
     </script>
     <div id="landingPage" class="landing-page" style="display: none;">
+        <div class="nav-overlay" onclick="toggleMobileMenu()"></div>
         <header class="landing-header">
             <div class="landing-logo">
                 <img src="images/logo.png" alt="Logo" class="logo-img">
@@ -46,6 +47,11 @@
                     <span>Healthy By Myself</span>
                 </div>
             </div>
+            <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <nav class="landing-nav">
                 <a href="about.html" class="nav-link">About us</a>
                 <a href="login.html" class="nav-link">เข้าสู่ระบบ</a>
@@ -102,7 +108,6 @@
                     <div id="guestActions" style="display: none; gap: 10px;">
                         <button class="btn btn-primary" onclick="window.location.href='signup.html'">ลงทะเบียน</button>
                         <button class="btn btn-secondary" onclick="window.location.href='login.html'">เข้าสู่ระบบ</button>
-                        <button class="btn btn-secondary" onclick="logout()">ออกจากระบบ</button>
                     </div>
                     <button class="btn btn-secondary" id="logoutBtn" onclick="logout()">ออกจากระบบ</button>
                 </div>
@@ -367,7 +372,7 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=3"></script>
     <script src="chatbot.js"></script>
 </body>
 

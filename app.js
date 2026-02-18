@@ -18,6 +18,22 @@ function getSupabase() {
     return window.supabaseClient;
 }
 
+// Mobile menu toggle function
+function toggleMobileMenu() {
+    const nav = document.querySelector('.landing-nav');
+    const hamburger = document.querySelector('.hamburger-btn');
+    const overlay = document.querySelector('.nav-overlay');
+    
+    if (nav && hamburger && overlay) {
+        nav.classList.toggle('active');
+        hamburger.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+}
+
+// Make function globally accessible
+window.toggleMobileMenu = toggleMobileMenu;
+
 // Global function declarations to ensure they're available everywhere
 // These will be assigned the actual function values later
 window.startWeeklyCheck = null;
@@ -411,6 +427,9 @@ async function checkAuth() {
                 return;
             }
             currentUser = user;
+            isGuestMode = false;
+            localStorage.removeItem('guestMode');
+            localStorage.removeItem(GUEST_STORAGE_KEY);
             showMainApp();
         } else {
             document.getElementById('landingPage').style.display = 'flex';
@@ -608,15 +627,30 @@ function showMainApp() {
     document.getElementById('landingPage').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
     
+    console.log('showMainApp called - isGuestMode:', isGuestMode);
+    console.log('currentUser:', currentUser);
+    
     // Show/hide guest mode UI elements
+    const guestBadge = document.getElementById('guestBadge');
+    const guestActions = document.getElementById('guestActions');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    console.log('Elements found:', {
+        guestBadge: !!guestBadge,
+        guestActions: !!guestActions,
+        logoutBtn: !!logoutBtn
+    });
+    
     if (isGuestMode) {
-        document.getElementById('guestBadge').style.display = 'inline-flex';
-        document.getElementById('guestActions').style.display = 'flex';
-        document.getElementById('logoutBtn').style.display = 'none';
+        if (guestBadge) guestBadge.style.cssText = 'display: inline-flex !important';
+        if (guestActions) guestActions.style.cssText = 'display: flex !important; gap: 10px';
+        if (logoutBtn) logoutBtn.style.cssText = 'display: none !important';
+        console.log('Guest mode UI shown');
     } else {
-        document.getElementById('guestBadge').style.display = 'none';
-        document.getElementById('guestActions').style.display = 'none';
-        document.getElementById('logoutBtn').style.display = 'inline-block';
+        if (guestBadge) guestBadge.style.cssText = 'display: none !important';
+        if (guestActions) guestActions.style.cssText = 'display: none !important';
+        if (logoutBtn) logoutBtn.style.cssText = 'display: inline-block !important';
+        console.log('Logged-in user UI shown');
     }
     
     // Check if user is Dev

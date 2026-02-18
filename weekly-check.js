@@ -127,6 +127,7 @@ let answers = {};
 let selectedValue = null;
 
 document.addEventListener('DOMContentLoaded', function() {
+    renderQuestionNavigation();
     renderQuestion();
     
     // Add keyboard event listener for Enter key
@@ -136,6 +137,48 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function renderQuestionNavigation() {
+    const navContainer = document.getElementById('questionNavScroll');
+    navContainer.innerHTML = '';
+    
+    weeklyHealthQuestions.forEach((question, index) => {
+        const navItem = document.createElement('button');
+        navItem.className = 'question-nav-item';
+        navItem.textContent = index + 1;
+        navItem.onclick = () => goToQuestion(index);
+        
+        // Mark as active if current question
+        if (index === currentQuestion) {
+            navItem.classList.add('active');
+        }
+        
+        // Mark as completed if answered
+        if (answers[`q${question.id}`] !== undefined) {
+            navItem.classList.add('completed');
+        }
+        
+        navContainer.appendChild(navItem);
+    });
+    
+    // Scroll to active question
+    scrollToActiveQuestion();
+}
+
+function scrollToActiveQuestion() {
+    const activeItem = document.querySelector('.question-nav-item.active');
+    if (activeItem) {
+        activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+}
+
+function goToQuestion(index) {
+    if (index >= 0 && index < weeklyHealthQuestions.length) {
+        currentQuestion = index;
+        renderQuestionNavigation();
+        renderQuestion();
+    }
+}
 
 function renderQuestion() {
     const question = weeklyHealthQuestions[currentQuestion];
@@ -164,9 +207,27 @@ function renderQuestion() {
         choicesContainer.appendChild(choiceBtn);
     });
 
+    // Check if this question was already answered
+    const savedAnswer = answers[`q${question.id}`];
+    if (savedAnswer !== undefined) {
+        const choiceBtns = document.querySelectorAll('.choice-btn');
+        const answerIndex = question.scores.indexOf(savedAnswer);
+        if (answerIndex !== -1 && choiceBtns[answerIndex]) {
+            choiceBtns[answerIndex].classList.add('selected');
+            selectedValue = savedAnswer;
+            document.getElementById('nextBtn').disabled = false;
+        }
+    }
+
     const isLastQuestion = currentQuestion === weeklyHealthQuestions.length - 1;
     document.getElementById('nextBtn').textContent = isLastQuestion ? 'เสร็จสิ้น' : 'ข้อถัดไป';
-    document.getElementById('nextBtn').disabled = true;
+    
+    if (selectedValue === null) {
+        document.getElementById('nextBtn').disabled = true;
+    }
+    
+    // Update navigation bar
+    renderQuestionNavigation();
 }
 
 function selectAnswer(value, btn) {
@@ -188,6 +249,28 @@ function goToNext() {
     if (currentQuestion < weeklyHealthQuestions.length - 1) {
         currentQuestion++;
         renderQuestion();
+    } else {
+        // Check if all questions are answered before finishing
+        checkAndFinish();
+    }
+}
+
+function checkAndFinish() {
+    const unansweredQuestions = [];
+    
+    weeklyHealthQuestions.forEach((question, index) => {
+        if (answers[`q${question.id}`] === undefined) {
+            unansweredQuestions.push(index + 1);
+        }
+    });
+    
+    if (unansweredQuestions.length > 0) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'ยังตอบไม่ครบ',
+            html: `คุณยังไม่ได้ตอบคำถามข้อที่: <strong>${unansweredQuestions.join(', ')}</strong><br><br>กรุณาตอบให้ครบทุกข้อก่อนเสร็จสิ้น`,
+            confirmButtonText: 'ตกลง'
+        });
     } else {
         finishWeeklyCheck();
     }

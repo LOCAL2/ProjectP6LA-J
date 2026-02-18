@@ -3889,6 +3889,33 @@ body.font-large .form-group input[type="date"] {
         border-radius: 10px;
     }
     
+    /* Radar Chart Responsive for Mobile */
+    .radar-chart-wrapper {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .radar-chart-container {
+        height: 280px;
+        padding: 10px;
+    }
+    
+    .health-color-legend {
+        width: 100%;
+        gap: 12px;
+    }
+    
+    .color-legend-item {
+        font-size: 12px;
+        gap: 8px;
+    }
+    
+    .color-dot {
+        width: 12px;
+        height: 12px;
+        flex-shrink: 0;
+    }
+    
     .card h2 {
         font-size: 18px;
         margin-bottom: 14px;
@@ -4401,6 +4428,26 @@ body.font-large .form-group input[type="date"] {
     .card {
         padding: 14px;
         margin: 6px 0;
+    }
+    
+    /* Radar Chart for Very Small Screens */
+    .radar-chart-container {
+        height: 240px;
+        padding: 8px;
+    }
+    
+    .health-color-legend {
+        gap: 10px;
+    }
+    
+    .color-legend-item {
+        font-size: 11px;
+        gap: 6px;
+    }
+    
+    .color-dot {
+        width: 10px;
+        height: 10px;
     }
     
     .card h2 {

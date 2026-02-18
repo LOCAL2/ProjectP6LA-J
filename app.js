@@ -1095,6 +1095,10 @@ async function loadCalendar() {
                     justify-content: center;
                 `;
                 dayDiv.appendChild(badge);
+                
+                // Add click event to show AI recommendation
+                dayDiv.style.cursor = 'pointer';
+                dayDiv.onclick = () => showAIRecommendation(dayDate, weeklyChecks);
             }
             
             grid.appendChild(dayDiv);
@@ -3159,3 +3163,76 @@ function closeWeeklyCheckModal() {
 }
 
 // End of file
+
+
+// AI Recommendation Modal Functions
+async function showAIRecommendation(date, weeklyChecks) {
+    const modal = document.getElementById('aiRecommendationModal');
+    const dateElement = document.getElementById('aiRecommendationDate');
+    const contentElement = document.getElementById('aiRecommendationContent');
+    
+    // Format date
+    const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 
+                        'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+    const day = date.getDate();
+    const month = thaiMonths[date.getMonth()];
+    const year = date.getFullYear() + 543;
+    
+    dateElement.textContent = `วันที่ ${day} ${month} ${year}`;
+    contentElement.innerHTML = '<p style="text-align: center; color: #9ca3af;">กำลังโหลดคำแนะนำ...</p>';
+    modal.style.display = 'flex';
+    
+    try {
+        // Find the weekly check data for this date
+        const checkData = weeklyChecks.find(check => {
+            const checkDate = new Date(check.completed_at);
+            return checkDate.getDate() === date.getDate() && 
+                   checkDate.getMonth() === date.getMonth() && 
+                   checkDate.getFullYear() === date.getFullYear();
+        });
+        
+        if (!checkData) {
+            contentElement.innerHTML = '<p style="text-align: center; color: #9ca3af;">ไม่พบข้อมูลสำหรับวันนี้</p>';
+            return;
+        }
+        
+        // Get AI summary from localStorage or database
+        const weekKey = checkData.week_key;
+        let aiSummary = null;
+        
+        if (isGuestMode) {
+            const guestData = JSON.parse(localStorage.getItem(GUEST_STORAGE_KEY) || '{}');
+            const checks = guestData.weekly_checks || [];
+            const check = checks.find(c => c.week_key === weekKey);
+            aiSummary = check?.ai_summary;
+        } else {
+            const supabase = getSupabase();
+            const { data } = await supabase
+                .from('weekly_checks')
+                .select('ai_summary')
+                .eq('user_id', currentUser.id)
+                .eq('week_key', weekKey)
+                .single();
+            
+            aiSummary = data?.ai_summary;
+        }
+        
+        if (aiSummary) {
+            // Format AI summary with proper HTML
+            const formattedSummary = aiSummary
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+            contentElement.innerHTML = `<p>${formattedSummary}</p>`;
+        } else {
+            contentElement.innerHTML = '<p style="text-align: center; color: #9ca3af;">ไม่มีคำแนะนำสำหรับวันนี้</p>';
+        }
+        
+    } catch (error) {
+        console.error('Error loading AI recommendation:', error);
+        contentElement.innerHTML = '<p style="text-align: center; color: #ef4444;">เกิดข้อผิดพลาดในการโหลดข้อมูล</p>';
+    }
+}
+
+function closeAIRecommendationModal() {
+    document.getElementById('aiRecommendationModal').style.display = 'none';
+}
